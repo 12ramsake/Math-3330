@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Kelly Ramsay">
-<meta name="dcterms.date" content="2024-06-10">
 
-<title>Math 3330: Regression Notes</title>
+<title>Math 3330: Regression Notes - 1&nbsp; Introduction</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,7 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./Unit_0.html" rel="next">
+<link href="./Unit_1.html" rel="next">
+<link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -104,6 +103,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -116,7 +144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Preface</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Unit_0.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -143,13 +171,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Unit_0.html" class="sidebar-item-text sidebar-link">
+  <a href="./Unit_0.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
@@ -187,7 +215,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#what-is-the-course-about" id="toc-what-is-the-course-about" class="nav-link active" data-scroll-target="#what-is-the-course-about"><span class="header-section-number">1.1</span> What is the course about?</a>
+  <ul class="collapse">
+  <li><a href="#the-main-question" id="toc-the-main-question" class="nav-link" data-scroll-target="#the-main-question"><span class="header-section-number">1.1.1</span> The main question</a></li>
+  <li><a href="#using-our-data-how-can-we-determine-f" id="toc-using-our-data-how-can-we-determine-f" class="nav-link" data-scroll-target="#using-our-data-how-can-we-determine-f"><span class="header-section-number">1.1.2</span> Using our data, how can we determine <span class="math inline">\(f\)</span>?</a></li>
+  <li><a href="#comparison-with-means-example" id="toc-comparison-with-means-example" class="nav-link" data-scroll-target="#comparison-with-means-example"><span class="header-section-number">1.1.3</span> Comparison with means example</a></li>
+  </ul></li>
+  <li><a href="#important-course-information-and-preparation-tasks" id="toc-important-course-information-and-preparation-tasks" class="nav-link" data-scroll-target="#important-course-information-and-preparation-tasks"><span class="header-section-number">1.2</span> Important course information and preparation tasks</a>
+  <ul class="collapse">
+  <li><a href="#prerequisite-review" id="toc-prerequisite-review" class="nav-link" data-scroll-target="#prerequisite-review"><span class="header-section-number">1.2.1</span> Prerequisite review</a></li>
+  <li><a href="#software" id="toc-software" class="nav-link" data-scroll-target="#software"><span class="header-section-number">1.2.2</span> Software</a></li>
+  <li><a href="#outline" id="toc-outline" class="nav-link" data-scroll-target="#outline"><span class="header-section-number">1.2.3</span> Outline</a></li>
+  <li><a href="#homework-tasks" id="toc-homework-tasks" class="nav-link" data-scroll-target="#homework-tasks"><span class="header-section-number">1.2.4</span> Homework tasks:</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -196,26 +236,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Math 3330: Regression Notes</h1>
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kelly Ramsay </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">June 10, 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -225,18 +253,173 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="preface" class="level1 unnumbered">
-<h1 class="unnumbered">Preface</h1>
-<p>This is a Quarto book.</p>
-<p>To learn more about Quarto books visit <a href="https://quarto.org/docs/books" class="uri">https://quarto.org/docs/books</a>.</p>
+<section id="what-is-the-course-about" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="what-is-the-course-about"><span class="header-section-number">1.1</span> What is the course about?</h2>
+<section id="the-main-question" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="the-main-question"><span class="header-section-number">1.1.1</span> The main question</h3>
+<p>The whole course is concerned with the following problem: Suppose that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are some attributes of a population. What is the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. How can we use <span class="math inline">\(X\)</span> to predict <span class="math inline">\(Y\)</span>, or how can we use <span class="math inline">\(X\)</span> to explain <span class="math inline">\(Y\)</span>?</p>
+<p>For example, questions of this form include:</p>
+<ul>
+<li>How is location, square feet, parking available related to the price of an Airbnb?</li>
+<li>How is hours played and age related to win rate in League of Legends?</li>
+<li>How are creatine and protein consumption related to deadlift 1RM?</li>
+<li>How is treatment (A or B) related to pain levels of patients?</li>
+</ul>
+<p>All of these can be answered with regression!</p>
+<div id="exr-1" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 1.1</strong></span> What is <span class="math inline">\(X\)</span> and what is <span class="math inline">\(Y\)</span> here?</p>
+</div>
+<div id="sol-1" class="proof solution">
+<p><span class="proof-title"><em>Solution 1.1</em>. </span></p>
+<ul>
+<li><span class="math inline">\(X\)</span>: location, square feet, parking available <span class="math inline">\(Y\)</span>: price of an Airbnb</li>
+<li><span class="math inline">\(X\)</span>: hours played and age <span class="math inline">\(Y\)</span>: win rate in League of Legends</li>
+<li><span class="math inline">\(X\)</span>: creatine and protein consumption <span class="math inline">\(Y\)</span>: deadlift 1RM</li>
+<li><span class="math inline">\(X\)</span>: treatment (A or B) <span class="math inline">\(Y\)</span>: pain levels of patients</li>
+</ul>
+</div>
+<p>We suppose at the population level, <strong>on average</strong> that <span class="math inline">\(Y=f(X).\)</span> By on average, we mean that each person may not have exactly <span class="math inline">\(Y=f(X),\)</span>, but if we we average out <span class="math inline">\(Y\)</span> for many people, we will have that the average is approximately <span class="math inline">\(f(X)\)</span>. (This will be made more formal later).</p>
+<p>For instance, consider the pain level question in the above example. Suppose that <span class="math inline">\(f(A)=2\)</span> and <span class="math inline">\(f(B)=5\)</span>. Then, if we average the pain level of many patients who take treatment <span class="math inline">\(B\)</span>, it should be close to 5.</p>
+<p>Obviously, we cannot observe the whole population, and so we will assume that we have observed <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> for a set of <span class="math inline">\(n\)</span> individuals. Specifically, we observe some outcome <span class="math inline">\(Y_1,\ldots, Y_n\)</span>, which is a real number and some attributes (categorical or numeric) about the <span class="math inline">\(n\)</span> individuals, denoted by <span class="math inline">\(X_1,\ldots, X_n\)</span>. Note that here <span class="math inline">\(X_i\)</span> can be vectors or single numbers.</p>
+</section>
+<section id="using-our-data-how-can-we-determine-f" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="using-our-data-how-can-we-determine-f"><span class="header-section-number">1.1.2</span> Using our data, how can we determine <span class="math inline">\(f\)</span>?</h3>
+<p>Other, related questions:</p>
+<ul>
+<li>What is the form of <span class="math inline">\(f\)</span>? Is it linear?</li>
+<li>How can we estimate <span class="math inline">\(f\)</span>, say with <span class="math inline">\(\hat f\)</span>? What is the best <span class="math inline">\(\hat f\)</span>? What is the error of <span class="math inline">\(\hat f\)</span> on average?</li>
+<li>How can we tell if our model is good? i.e.&nbsp;how does <span class="math inline">\(\hat f\)</span> fit the data?</li>
+<li>How can we tell which <span class="math inline">\(X\)</span> values are important? How can we tell if <span class="math inline">\(X\)</span> is related to <span class="math inline">\(Y\)</span> at all?</li>
+<li>What is the effect of correlation of <span class="math inline">\(X\)</span> values?</li>
+</ul>
+<p>These are all questions we will answer in this course.</p>
+<p>Statistical modelling starts as follows:</p>
+<ol type="1">
+<li>Question about a population, e.g., “How are hours played and age related to win rate in League of Legends?”</li>
+<li>Data: <span class="math inline">\((Y_1,X_1),\ldots,(Y_n,X_n)\)</span></li>
+<li>Explore data with graphs and summary stats</li>
+<li>Use exploratory data analysis to posit a model for the population.</li>
+</ol>
+<p>Note that step 4 is necessary! Letting <span class="math inline">\(f\)</span> be anything is too general and won’t work well, so we need to use the data to give us a hint at the form of <span class="math inline">\(f\)</span>! For instance, we might suppose that <span class="math inline">\(f\)</span> is a linear function! That is, <span class="math inline">\(f\in \{g(X)=X\beta\colon \beta\in\mathbb{R}^d\}\)</span>.</p>
+<p>Next, we proceed with the following steps:</p>
+<ol start="5" type="1">
+<li>Estimation: How to get an estimate <span class="math inline">\(\hat\beta\)</span> of <span class="math inline">\(\beta\)</span>?</li>
+<li>Inference: What is the error of <span class="math inline">\(\hat\beta\)</span>? Is <span class="math inline">\(f\)</span> degenerate? I.e., is <span class="math inline">\(\beta=0\)</span>?</li>
+<li>Fit: Does our fitted line match up with the data? What about the normality assumption? Do the errors appear normal?</li>
+<li>Prediction: Predict any values if necessary.</li>
+</ol>
+</section>
+<section id="comparison-with-means-example" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="comparison-with-means-example"><span class="header-section-number">1.1.3</span> Comparison with means example</h3>
+<p>Let’s compare to what we learned in previous statistics courses about two sample testing with the above steps in mind. Below we have different hours of extra sleep for two different treatments. Let’s see if the sleep for groups 1 and 2 differ.</p>
+<ol type="1">
+<li>Do the counts for A and B differ?</li>
+</ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">'sleep'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sleep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<pre><code>  extra group ID
+1   0.7     1  1
+2  -1.6     1  2
+3  -0.2     1  3
+4  -1.2     1  4
+5  -0.1     1  5
+6   3.4     1  6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(extra <span class="sc">~</span> group, <span class="at">data =</span> sleep, <span class="at">FUN =</span> <span class="cf">function</span>(x){<span class="fu">hist</span>(x,<span class="at">main=</span><span class="fu">names</span>(x))})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_0_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_0_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in format.data.frame(if (omit) x[seq_len(n0), , drop = FALSE] else x, :
+corrupt data frame: columns will be truncated or padded with NAs</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  group                   extra
+1     1   -2, -1, 0, 1, 2, 3, 4
+2     2 -1, 0, 1, 2, 3, 4, 5, 6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="ot">=</span> <span class="fu">aggregate</span>(extra <span class="sc">~</span> group, <span class="at">data =</span> sleep,  <span class="at">FUN =</span> summary)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(extra <span class="sc">~</span> group, <span class="at">data =</span> sleep, <span class="at">FUN =</span> length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  group extra
+1     1    10
+2     2    10</code></pre>
+</div>
+</div>
+<p>We will assume that the extra hours are normal from the histograms.</p>
+<p>Recall then that the pooled standard deviation is <span class="math inline">\(\hat\sigma_p=\sqrt{((n_x-1)\hat \sigma_x^2+(n_y-1)\hat \sigma_y^2)\big/ (n_x+n_y-2)}\)</span> and the test statistic is: <span class="math display">\[T=\frac{\bar X-\bar Y}{\hat\sigma_p\times\sqrt{1/n_x+1/n_y}}.\]</span> In addition, we have that <span class="math inline">\(T\sim t_{n_x+n_y-2}\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 and 6 - here these steps are the same, since we are only doing inference</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(sleep<span class="sc">$</span>extra[sleep<span class="sc">$</span>group<span class="sc">==</span><span class="dv">1</span>],sleep<span class="sc">$</span>extra[sleep<span class="sc">$</span>group<span class="sc">==</span><span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  sleep$extra[sleep$group == 1] and sleep$extra[sleep$group == 2]
+t = -1.8608, df = 17.776, p-value = 0.07939
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -3.3654832  0.2054832
+sample estimates:
+mean of x mean of y 
+     0.75      2.33 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 7 - we checked normality earlier, 8 is not applicable</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here, we fail to reject the null hypothesis, and there is not enough evidence to suggest that there is a different between the groups. Notice that the p-value is 0.08, which is moderately low, so there is some evidence of a difference between the groups.</p>
+</section>
+</section>
+<section id="important-course-information-and-preparation-tasks" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="important-course-information-and-preparation-tasks"><span class="header-section-number">1.2</span> Important course information and preparation tasks</h2>
+<section id="prerequisite-review" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="prerequisite-review"><span class="header-section-number">1.2.1</span> Prerequisite review</h3>
+<p>If you have forgotten, you should review the following concepts:</p>
+<ul>
+<li>Sample vs.&nbsp;population, estimates vs.&nbsp;parameters, hypothesis testing and confidence intervals</li>
+<li>Normal theory, random variables, conditional variance and expectation.</li>
+<li>CLT, LLN</li>
+<li>Linear algebra: Matrix operations, inverse, transpose etc.</li>
+</ul>
+</section>
+<section id="software" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="software"><span class="header-section-number">1.2.2</span> Software</h3>
+<p>Download RStudio/R. You can use python, but I’ll use R in class. If you are not familiar with R, please follow this tutorial <a href="https://www.youtube.com/watch?v=FY8BISK5DpM">here</a>.</p>
+</section>
+<section id="outline" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="outline"><span class="header-section-number">1.2.3</span> Outline</h3>
+<p>The course will proceed as follows:</p>
+<ul>
+<li>Review</li>
+<li>Core linear regression concepts</li>
+<li>Special Cases</li>
+<li>Advanced</li>
+</ul>
+</section>
+<section id="homework-tasks" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="homework-tasks"><span class="header-section-number">1.2.4</span> Homework tasks:</h3>
+<ul>
+<li>Download and install RStudio and R Software</li>
+<li>Think of a relationship you would want to model, what is <span class="math inline">\(X\)</span>? what is <span class="math inline">\(Y\)</span>?</li>
+<li>Review prerequisites as stated above</li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -651,10 +834,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Preface">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Unit_0.html" class="pagination-link" aria-label="Introduction">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Unit_1.html" class="pagination-link" aria-label="Review material">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Review material</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
