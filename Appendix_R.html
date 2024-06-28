@@ -101,6 +101,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+</head><body class="nav-sidebar floating">\newcommand*{\emp}[1]{\textbf{#1}}
+\newcommand*{\cN}{\mathcal{N}}
+\newcommand*{\xbar}{\bar X}
+\newcommand*{\hvar}[1]{{\textrm{\widehat{Var}}}\left[#1\right]}
+\newcommand*{\ind}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand*{\rd}[1]{\mathbb{R}^{#1}}
+\newcommand*{\bbZ}{\mathbb{Z}}
+\newcommand*{\iid}{i.i.d.}
+\newcommand*{\rdd}{\mathbb{R}^{d}}
+\newcommand*{\re}{\mathbb{R}}
+\newcommand*{\limn}{\lim_{n\rightarrow\infty}}
+\newcommand*{\sam}[2]{\mathbb{#1}_{#2}}
+\newcommand*{\samplespace}{\mathcal{X}}
+\newcommand*{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand*{\eqd}{\stackrel{\text{d}}{=}}
+\newcommand*{\asc}{\stackrel{\text{a.s.}}{\longrightarrow}}
+\newcommand*{\sumn}{\sum_{i=1}^n}
+\newcommand*{\cond}{\stackrel{\text{d}}{\rightarrow}}
+\newcommand*{\Prr}[1]{\Pr\left(#1\right)}
+\newcommand*{\bfY}{\mathbf{Y}}
+\newcommand*{\bfX}{\mathbf{X}}
+\newcommand*{\bfep}{\mathbf{\epsilon}}
+\newcommand*{\D}{{\textrm{D}}}
+\newcommand*{\R}{{\textrm{R}}}
+\newcommand*{\Prb}{{\textrm{P}}}
+\newcommand*{\SSs}{\mathrm{SS}}
+\newcommand*{\conp}{\stackrel{\text{p}}{\rightarrow}}
+\newcommand*{\E}[1]{{\textrm{E}}\left[#1\right]}
+\newcommand*{\Ee}{{\textrm{E}}}
+\newcommand*{\var}[1]{{\textrm{Var}}\left[#1\right]}
+\newcommand*{\cov}[1]{{\textrm{cov}}\left[#1\right]}
+\newcommand*{\covv}{{\textrm{cov}}}
+\newcommand*{\corr}[1]{{\textrm{corr}}\left[#1\right]}
+\newcommand*{\corrr}{{\textrm{corr}}}
+\DeclareMathOperator{\argmax}{argmax}
+\DeclareMathOperator{\argmin}{argmin} 
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -132,9 +168,9 @@ window.Quarto = {
 };
 </script>
 
-</head>
 
-<body class="nav-sidebar floating">
+
+
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -580,7 +616,7 @@ window.Quarto = {
 <span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>s<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="at">size=</span><span class="dv">4</span>,<span class="at">replace=</span><span class="cn">TRUE</span>,<span class="at">prob=</span><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">10</span>,<span class="dv">10</span>))</span>
 <span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 6 4 1 2</code></pre>
+<pre><code>[1] 8 3 4 1</code></pre>
 </div>
 </div>
 <p>We have seen other people’s functions but we can also make our own! Let’s see an example first:</p>
@@ -626,8 +662,8 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co">#random sample of size 10</span></span>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>,<span class="at">mean=</span><span class="dv">0</span>,<span class="at">sd=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] -1.1405095  0.3981977 -0.3198770 -1.6584966  1.0532511  0.3591659
- [7]  1.2558750  1.1154764  0.1251737  0.4963750</code></pre>
+<pre><code> [1]  0.45988567  0.15759103 -0.04025855  1.57525010  0.61772467 -0.75219149
+ [7]  0.96660543  0.62298138 -1.12094100 -0.14622264</code></pre>
 </div>
 </div>
 </section>
@@ -660,19 +696,19 @@ Call:
 lm(formula = y ~ x)
 
 Residuals:
-    Min      1Q  Median      3Q     Max 
--2.8335 -0.5408  0.0076  0.5867  3.5809 
+     Min       1Q   Median       3Q      Max 
+-2.06491 -0.67098  0.07899  0.63322  2.18572 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)   8.8889     0.1506   59.03   &lt;2e-16 ***
-x             2.1415     0.1030   20.79   &lt;2e-16 ***
+(Intercept)  9.04136    0.13164   68.68   &lt;2e-16 ***
+x            1.96775    0.08956   21.97   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.9612 on 98 degrees of freedom
-Multiple R-squared:  0.8152,    Adjusted R-squared:  0.8133 
-F-statistic: 432.2 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 0.9135 on 98 degrees of freedom
+Multiple R-squared:  0.8312,    Adjusted R-squared:  0.8295 
+F-statistic: 482.7 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(lmm<span class="sc">$</span>coefficients[<span class="dv">1</span>],lmm<span class="sc">$</span>coefficients[<span class="dv">2</span>],<span class="at">col=</span><span class="st">"red"</span>,<span class="at">lty=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -776,7 +812,7 @@ When the computer runs through the code, it checks if the boolean value is <code
 <span id="cb117-11"><a href="#cb117-11" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb117-12"><a href="#cb117-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "nice"</code></pre>
+<pre><code>[1] "not nice"</code></pre>
 </div>
 </div>
 </section>
@@ -840,17 +876,17 @@ When the computer runs through the code, it checks if the boolean value is <code
 <div class="cell">
 <div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">replicate</span>(<span class="dv">5</span>,<span class="fu">rnorm</span>(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>              [,1]        [,2]       [,3]       [,4]       [,5]
- [1,] -0.005608419 -0.71461043  1.1052949 -1.1393009 -0.8112026
- [2,] -0.574821076  0.14600447  1.0649020  1.0564646  0.9909279
- [3,] -0.198882203 -0.47476545 -0.4669837 -1.2130065  0.9384460
- [4,] -0.415399986 -1.59511142 -1.1440061 -1.1889390 -0.7328127
- [5,]  0.762106213  0.44492450  0.5489522 -1.8919273  1.4902195
- [6,] -0.297730518 -0.01794860  1.6517723 -1.7610647  0.4052848
- [7,]  0.865155395  0.03461485  0.7836288  1.7826783 -2.2778810
- [8,] -0.092737006  1.50705507  0.2958353 -0.3558820  0.9172283
- [9,]  1.359713064 -0.35741299  0.1861061 -1.2900771  1.1241050
-[10,] -1.931224114 -0.80321638  0.3215178  0.4473033 -0.2310847</code></pre>
+<pre><code>            [,1]         [,2]       [,3]        [,4]        [,5]
+ [1,] -2.2436725  1.718047814  0.8252177 -0.94596729 -0.53374218
+ [2,]  0.4658647  0.551359568 -0.5605237 -0.60406384 -0.61629968
+ [3,] -0.8788074  0.243060067  1.1300257 -1.49899572 -1.07607258
+ [4,] -0.4711922 -0.006873015  0.1874294 -0.07655429  0.16120871
+ [5,]  1.3304511  0.041617812  1.5608116  0.55452365 -0.76620356
+ [6,] -0.2923399 -0.092774870 -1.0155708 -0.84051548  1.64841575
+ [7,] -0.4868921 -0.305702376  0.1153815 -0.48529992 -0.98363970
+ [8,] -1.1881823  1.278836499 -0.7917146 -2.13428706 -0.73090585
+ [9,]  1.4136703 -0.297371063  0.3670077 -0.08434033 -0.04286702
+[10,]  0.1746887  0.225476746  0.1135921  1.01924443 -0.10351739</code></pre>
 </div>
 </div>
 <p>Similar functions include <code>sapply()</code> and <code>apply()</code>. <code>sapply(X,FUN,...)</code> applies the function that the parameter <code>FUN</code> is set to to individual elements of a vector. <code>apply(X,MARGIN,FUN,...)</code> applies <code>FUN</code> to the rows or columns depending on what <code>MARGIN</code> is set to, 1 for rows and 2 for columns.</p>
@@ -887,7 +923,7 @@ When the computer runs through the code, it checks if the boolean value is <code
 <span id="cb131-6"><a href="#cb131-6" aria-hidden="true" tabindex="-1"></a>intervals[,<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    lower     upper 
-0.3467597 0.5835723 </code></pre>
+0.3834565 0.6833998 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co">#we now check each interval to see if it contains the mean</span></span>
 <span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>successes<span class="ot">&lt;-</span><span class="dv">0</span></span>
@@ -900,7 +936,7 @@ When the computer runs through the code, it checks if the boolean value is <code
 <span id="cb133-9"><a href="#cb133-9" aria-hidden="true" tabindex="-1"></a>coverage.prob<span class="ot">&lt;-</span>successes<span class="sc">/</span><span class="fu">ncol</span>(intervals)</span>
 <span id="cb133-10"><a href="#cb133-10" aria-hidden="true" tabindex="-1"></a>coverage.prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9841</code></pre>
+<pre><code>[1] 0.9845</code></pre>
 </div>
 </div>
 <p>Something more advanced…</p>

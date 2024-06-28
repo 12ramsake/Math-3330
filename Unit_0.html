@@ -102,6 +102,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+</head><body class="nav-sidebar floating">\newcommand*{\emp}[1]{\textbf{#1}}
+\newcommand*{\cN}{\mathcal{N}}
+\newcommand*{\xbar}{\bar X}
+\newcommand*{\hvar}[1]{{\textrm{\widehat{Var}}}\left[#1\right]}
+\newcommand*{\ind}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand*{\rd}[1]{\mathbb{R}^{#1}}
+\newcommand*{\bbZ}{\mathbb{Z}}
+\newcommand*{\iid}{i.i.d.}
+\newcommand*{\rdd}{\mathbb{R}^{d}}
+\newcommand*{\re}{\mathbb{R}}
+\newcommand*{\limn}{\lim_{n\rightarrow\infty}}
+\newcommand*{\sam}[2]{\mathbb{#1}_{#2}}
+\newcommand*{\samplespace}{\mathcal{X}}
+\newcommand*{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand*{\eqd}{\stackrel{\text{d}}{=}}
+\newcommand*{\asc}{\stackrel{\text{a.s.}}{\longrightarrow}}
+\newcommand*{\sumn}{\sum_{i=1}^n}
+\newcommand*{\cond}{\stackrel{\text{d}}{\rightarrow}}
+\newcommand*{\Prr}[1]{\Pr\left(#1\right)}
+\newcommand*{\bfY}{\mathbf{Y}}
+\newcommand*{\bfX}{\mathbf{X}}
+\newcommand*{\bfep}{\mathbf{\epsilon}}
+\newcommand*{\D}{{\textrm{D}}}
+\newcommand*{\R}{{\textrm{R}}}
+\newcommand*{\Prb}{{\textrm{P}}}
+\newcommand*{\SSs}{\mathrm{SS}}
+\newcommand*{\conp}{\stackrel{\text{p}}{\rightarrow}}
+\newcommand*{\E}[1]{{\textrm{E}}\left[#1\right]}
+\newcommand*{\Ee}{{\textrm{E}}}
+\newcommand*{\var}[1]{{\textrm{Var}}\left[#1\right]}
+\newcommand*{\cov}[1]{{\textrm{cov}}\left[#1\right]}
+\newcommand*{\covv}{{\textrm{cov}}}
+\newcommand*{\corr}[1]{{\textrm{corr}}\left[#1\right]}
+\newcommand*{\corrr}{{\textrm{corr}}}
+\DeclareMathOperator{\argmax}{argmax}
+\DeclareMathOperator{\argmin}{argmin} 
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -133,9 +169,9 @@ window.Quarto = {
 };
 </script>
 
-</head>
 
-<body class="nav-sidebar floating">
+
+
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
