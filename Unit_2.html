@@ -250,7 +250,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#additional-concepts-examples" id="toc-additional-concepts-examples" class="nav-link" data-scroll-target="#additional-concepts-examples"><span class="header-section-number">3.6</span> Additional concepts &amp; examples</a>
   <ul class="collapse">
-  <li><a href="#inadequacy-of-scatter-plots-in-multiple-regression" id="toc-inadequacy-of-scatter-plots-in-multiple-regression" class="nav-link" data-scroll-target="#inadequacy-of-scatter-plots-in-multiple-regression"><span class="header-section-number">3.6.1</span> Inadequacy of Scatter Plots in Multiple Regression</a></li>
+  <li><a href="#beware-scatter-plots-in-mlr" id="toc-beware-scatter-plots-in-mlr" class="nav-link" data-scroll-target="#beware-scatter-plots-in-mlr"><span class="header-section-number">3.6.1</span> Beware scatter plots in MLR</a></li>
   <li><a href="#homework-questions" id="toc-homework-questions" class="nav-link" data-scroll-target="#homework-questions"><span class="header-section-number">3.6.2</span> Homework questions</a></li>
   </ul></li>
   </ul>
@@ -2529,8 +2529,8 @@ X = \left( \begin{array}{cc} 1 &amp; x_1 \\ \vdots &amp; \vdots \\ 1 &amp; x_n \
 <section id="additional-concepts-examples" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="additional-concepts-examples"><span class="header-section-number">3.6</span> Additional concepts &amp; examples</h2>
 <p>Here we touch on a few important examples and notes about the MLR.</p>
-<section id="inadequacy-of-scatter-plots-in-multiple-regression" class="level3" data-number="3.6.1">
-<h3 data-number="3.6.1" class="anchored" data-anchor-id="inadequacy-of-scatter-plots-in-multiple-regression"><span class="header-section-number">3.6.1</span> Inadequacy of Scatter Plots in Multiple Regression</h3>
+<section id="beware-scatter-plots-in-mlr" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="beware-scatter-plots-in-mlr"><span class="header-section-number">3.6.1</span> Beware scatter plots in MLR</h3>
 <p>Sometimes, scatter plots are misleading for determining the relationship between <span class="math inline">\(Y\)</span> and a collection of <span class="math inline">\(p\)</span> covariates. In the following example, it appears that <span class="math inline">\(X1\)</span> and <span class="math inline">\(Y\)</span> do not have a relationship, when in fact they do. Generally, this phenomena goes away with higher sample sizes.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb162"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter diagram beware?</span></span>
