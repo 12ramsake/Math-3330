@@ -199,12 +199,6 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction to R software</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -270,9 +264,6 @@ window.Quarto = {
 </header>
 
 
-<div class="hidden">
-
-</div>
 <section id="review-of-random-variables" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="review-of-random-variables"><span class="header-section-number">2.1</span> Review of random variables</h2>
 <p>Recall that</p>
@@ -293,7 +284,7 @@ Note
 </div>
 </div>
 <p>Generally, we will just write <span class="math inline">\(X\)</span>, and ignore the fact that <span class="math inline">\(X\)</span> is a function.</p>
-<p>We can categorize a random variable <span class="math inline">\(X\)</span> as follows: - If <span class="math inline">\(X\colon \Omega\rightarrow S\)</span> where <span class="math inline">\(S\)</span> is countable, then <span class="math inline">\(X\)</span> is a <em>discrete random variable</em> - We say <span class="math inline">\(X\)</span> is a <em>continuous random variable</em> if <span class="math inline">\(\Pr(X=r)=0\)</span> for all <span class="math inline">\(r\in\mathbb{R}\)</span>. - Otherwise, <span class="math inline">\(X\)</span> is a <em>mixed random variable</em> (which we won’t worry about in this course)</p>
+<p>We can categorize a random variable <span class="math inline">\(X\)</span> as follows: - If <span class="math inline">\(X\colon \Omega\rightarrow S\)</span> where <span class="math inline">\(S\)</span> is countable, then <span class="math inline">\(X\)</span> is a <em>discrete random variable</em> - We say <span class="math inline">\(X\)</span> is a <em>continuous random variable</em> if <span class="math inline">\(\Pr(X=r)=0\)</span> for all <span class="math inline">\(r\in\re\)</span>. - Otherwise, <span class="math inline">\(X\)</span> is a <em>mixed random variable</em> (which we won’t worry about in this course)</p>
 <section id="discrete-random-variables" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="discrete-random-variables"><span class="header-section-number">2.1.1</span> Discrete Random Variables</h3>
 <p>If <span class="math inline">\(X\colon \Omega\rightarrow S\)</span> where <span class="math inline">\(S\)</span> is countable, then <span class="math inline">\(X\)</span> is a discrete random variable. <span class="math inline">\(S\)</span> can be finite, but can also be any infinite subset of the integers <span class="math inline">\(\mathbb{Z}\)</span>. The distribution of <span class="math inline">\(X\)</span> is given by its PMF, denoted by <span class="math inline">\(f(x)\)</span>. For any <span class="math inline">\(x\in S\)</span>, <span class="math inline">\(f(x)=\Pr(X=x)\)</span>. (Note that ‘<span class="math inline">\(\in\)</span>’ means the word “in”.) We must have that: - <span class="math inline">\(\sum_{x\in S}f(x)=1\)</span>, (This notation means summing over all the elements in <span class="math inline">\(S\)</span>.) - <span class="math inline">\(\forall x\in S\)</span>, <span class="math inline">\(0\leq f(x)\leq 1\)</span>. (This notation means for all <span class="math inline">\(x\)</span> in <span class="math inline">\(S\)</span>, <span class="math inline">\(0\leq f(x)\leq 1\)</span>.)</p>
@@ -302,12 +293,12 @@ Note
 <p><span class="theorem-title"><strong>Exercise 2.1</strong></span> What is the PMF of a Binomial random variable? Can two different random variables have the same PMF? Why or why not?</p>
 </div>
 <div id="sol-2" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.1</em>. </span>First: <span class="math inline">\(\Pr\left(X=x\right)\binom{n}{x}p^x(1-p)^{n-x}\)</span> Second: Yes. Two random variables can be different random variables, but have the same distribution.</p>
+<p><span class="proof-title"><em>Solution 2.1</em>. </span>First: <span class="math inline">\(\Prr{X=x}\binom{n}{x}p^x(1-p)^{n-x}\)</span> Second: Yes. Two random variables can be different random variables, but have the same distribution.</p>
 </div>
 </section>
 <section id="continuous-random-variables" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="continuous-random-variables"><span class="header-section-number">2.1.2</span> Continuous Random Variables</h3>
-<p>We say <span class="math inline">\(X\)</span> is a <em>continuous random variable</em> if <span class="math inline">\(\Pr(X=r)=0\)</span> for all <span class="math inline">\(r\in\mathbb{R}\)</span>. If <span class="math inline">\(X\colon \Omega\rightarrow S\)</span> and <span class="math inline">\(X\)</span> is a continuous random variable, then <span class="math inline">\(S\)</span> is typically the real numbers, denoted by <span class="math inline">\(\mathbb{R}\)</span>, but can be any uncountable subset of <span class="math inline">\(\mathbb{R}\)</span>. The distribution of <span class="math inline">\(X\)</span> is given by the PDF <span class="math inline">\(f(x)\)</span>. For any interval <span class="math inline">\((a,b)\subset\in S\)</span>, <span class="math inline">\(\Pr(X\in (a,b))=\int_a^b f(x)dx\)</span>. We must have that: - <span class="math inline">\(\int_{- \infty}^\infty f(x)dx=1\)</span>, - <span class="math inline">\(\forall x\in \mathbb{R}\)</span>, <span class="math inline">\(f(x)\geq 0\)</span>.</p>
+<p>We say <span class="math inline">\(X\)</span> is a <em>continuous random variable</em> if <span class="math inline">\(\Pr(X=r)=0\)</span> for all <span class="math inline">\(r\in\re\)</span>. If <span class="math inline">\(X\colon \Omega\rightarrow S\)</span> and <span class="math inline">\(X\)</span> is a continuous random variable, then <span class="math inline">\(S\)</span> is typically the real numbers, denoted by <span class="math inline">\(\mathbb{R}\)</span>, but can be any uncountable subset of <span class="math inline">\(\mathbb{R}\)</span>. The distribution of <span class="math inline">\(X\)</span> is given by the PDF <span class="math inline">\(f(x)\)</span>. For any interval <span class="math inline">\((a,b)\subset\in S\)</span>, <span class="math inline">\(\Pr(X\in (a,b))=\int_a^b f(x)dx\)</span>. We must have that: - <span class="math inline">\(\int_{- \infty}^\infty f(x)dx=1\)</span>, - <span class="math inline">\(\forall x\in \mathbb{R}\)</span>, <span class="math inline">\(f(x)\geq 0\)</span>.</p>
 <p>Examples: Normal random variables, Chi- squared random variables, <span class="math inline">\(t\)</span> random variables, Cauchy random variables, <span class="math inline">\(F\)</span> random variables are all continuous random variables. Generally, we will focus on continuous random variables.</p>
 <div id="exr-3" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 2.2</strong></span> What is the PMF of a Normal random variable?</p>
@@ -319,29 +310,29 @@ Note
 <section id="properties-of-random-variables" class="level3" data-number="2.1.3">
 <h3 data-number="2.1.3" class="anchored" data-anchor-id="properties-of-random-variables"><span class="header-section-number">2.1.3</span> Properties of Random Variables</h3>
 <p>Let <span class="math inline">\(X,X_1,X_2\)</span> be random variables.</p>
-<p>Recall the important quantities <span class="math inline">\(\mathrm{E}{X}\)</span>, <span class="math inline">\(\mathrm{var}{X}\)</span>, <span class="math inline">\(\mathrm{cov}(X_1,X_2)\)</span>, <span class="math inline">\(\mathrm{corr}(X_1,X_2)\)</span>. Recall expectation: ::: {#def-2} The expectation of a random variable <span class="math inline">\(X\)</span> is <span class="math display">\[\mathrm{E}{X}=\sum_{x\in S}x\Pr\left(X=x\right),\]</span> if <span class="math inline">\(X\)</span> is discrete and is <span class="math display">\[\mathrm{E}{X}=\int_{-\infty}^\infty f(x)dx,\]</span> if <span class="math inline">\(X\)</span> is continuous. ::: This is the ``average’’ value of the random variable. Note that it is possible for it to be impossible for <span class="math inline">\(X=\mathrm{E}{X}\)</span>. Try to come up with an example of this!</p>
+<p>Recall the important quantities <span class="math inline">\(\mathrm{E}{X}\)</span>, <span class="math inline">\(\mathrm{var}{X}\)</span>, <span class="math inline">\(\mathrm{cov}(X_1,X_2)\)</span>, <span class="math inline">\(\mathrm{corr}(X_1,X_2)\)</span>. Recall expectation: ::: {#def-2} The expectation of a random variable <span class="math inline">\(X\)</span> is <span class="math display">\[\mathrm{E}{X}=\sum_{x\in S}x\Prr{X=x},\]</span> if <span class="math inline">\(X\)</span> is discrete and is <span class="math display">\[\mathrm{E}{X}=\int_{-\infty}^\infty f(x)dx,\]</span> if <span class="math inline">\(X\)</span> is continuous. ::: This is the ``average’’ value of the random variable. Note that it is possible for it to be impossible for <span class="math inline">\(X=\mathrm{E}{X}\)</span>. Try to come up with an example of this!</p>
 <div id="def-3" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.2</strong></span> The variance of a random variable <span class="math inline">\(X\)</span> is <span class="math display">\[{\rm{Var}}\left[X\right]={\rm E}\left[|X-{\rm E}\left[X\right]|^2\right]=\sum_{x\in S}(x-{\rm E}\left[X\right])^2\Pr\left(X=x\right),\]</span> if <span class="math inline">\(X\)</span> is discrete and is <span class="math display">\[{\rm{Var}}\left[X\right]={\rm E}\left[|X-{\rm E}\left[X\right]|^2\right]=\int_{-\infty}^\infty (x-{\rm E}\left[X\right])^2f(x)dx,\]</span> if <span class="math inline">\(X\)</span> is continuous.</p>
+<p><span class="theorem-title"><strong>Definition 2.2</strong></span> The variance of a random variable <span class="math inline">\(X\)</span> is <span class="math display">\[\var{X}=\E{|X-\E{X}|^2}=\sum_{x\in S}(x-\E{X})^2\Prr{X=x},\]</span> if <span class="math inline">\(X\)</span> is discrete and is <span class="math display">\[\var{X}=\E{|X-\E{X}|^2}=\int_{-\infty}^\infty (x-\E{X})^2f(x)dx,\]</span> if <span class="math inline">\(X\)</span> is continuous.</p>
 </div>
 <p>The variance describes the variation of <span class="math inline">\(X\)</span> about its mean. In other words, it describes on ``average’’, how far is <span class="math inline">\(X\)</span> from its mean.</p>
 <div id="def-4" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.3</strong></span> The covariance between two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is <span class="math display">\[{\rm{cov}}\left[X,Y\right]={\rm E}\left[(X-{\rm E}\left[X\right])(Y-{\rm E}\left[Y\right])\right].\]</span></p>
+<p><span class="theorem-title"><strong>Definition 2.3</strong></span> The covariance between two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is <span class="math display">\[\cov{X,Y}=\E{(X-\E{X})(Y-\E{Y})}.\]</span></p>
 </div>
 <p>The covariance describes the unnormalised linear association between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
 <div id="def-5" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.4</strong></span> The correlation between two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is <span class="math display">\[{\rm{corr}}\left[X,Y\right]={\rm{cov}}\left[X,Y\right]/\sqrt{{\rm{Var}}\left[X\right]{\rm{Var}}\left[Y\right]}.\]</span></p>
+<p><span class="theorem-title"><strong>Definition 2.4</strong></span> The correlation between two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is <span class="math display">\[\corr{X,Y}=\cov{X,Y}/\sqrt{\var{X}\var{Y}}.\]</span></p>
 </div>
 <p>The correlation describes the normalized linear association between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
-<p>Next, recall that for a random variable <span class="math inline">\(X\)</span>, its cumulative distribution function (CDF) is given by <span class="math inline">\(F_X(x)=\Pr\left(X\leq x\right)\)</span>. The joint CDF of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is given by <span class="math inline">\(F_{XY}(x,y)=\Pr\left(X\leq x, Y\leq y\right)\)</span>.</p>
-<p>Lastly, for a vector of <span class="math inline">\(d\)</span> random variables <span class="math inline">\(\mathbf{X}=(X_1,\ldots,X_d)\)</span>, let its CDF by <span class="math inline">\(F_{\mathbf{X}}(\mathbf{x})=\Pr\left(X_1\leq x_1,\ldots X_d\leq x_d\right)\)</span>, where here <span class="math inline">\(\mathbf{x}\in\mathbb{R}^{d}\)</span> and <span class="math inline">\(\mathbf{x}=(x_1,\ldots,x_d)\)</span>.</p>
+<p>Next, recall that for a random variable <span class="math inline">\(X\)</span>, its cumulative distribution function (CDF) is given by <span class="math inline">\(F_X(x)=\Prr{X\leq x}\)</span>. The joint CDF of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is given by <span class="math inline">\(F_{XY}(x,y)=\Prr{X\leq x, Y\leq y}\)</span>.</p>
+<p>Lastly, for a vector of <span class="math inline">\(d\)</span> random variables <span class="math inline">\(\mathbf{X}=(X_1,\ldots,X_d)\)</span>, let its CDF by <span class="math inline">\(F_{\mathbf{X}}(\mathbf{x})=\Prr{X_1\leq x_1,\ldots X_d\leq x_d}\)</span>, where here <span class="math inline">\(\mathbf{x}\in\rdd\)</span> and <span class="math inline">\(\mathbf{x}=(x_1,\ldots,x_d)\)</span>.</p>
 <p>We next present the concept of independence of random variables. Let <span class="math inline">\(F_{XY}(x,y)\)</span> be the joint CDF of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> and let <span class="math inline">\(F_X\)</span> and <span class="math inline">\(F_Y\)</span> be the univariate CDFs of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, respectively. For two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, we say that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent if <span class="math inline">\(F_{XY}(x,y)=F_X(x)F_Y(y)\)</span>. More generally, two vectors of random variables <span class="math inline">\(\mathbf{X}\)</span> and <span class="math inline">\(\mathbf{Y}\)</span> are independent if <span class="math inline">\(F_{\mathbf{X},\mathbf{Y}}(\mathbf{x},\mathbf{y})=F_{\mathbf{X}}(\mathbf{x})F_{\mathbf{Y}}(\mathbf{y})\)</span>, where A set of random variables <span class="math inline">\(\{X_i\}_{i=1}^n\)</span> are mutually independent if for any two subsets mutually exclusive subsets of <span class="math inline">\(\{X_i\}_{i=1}^n\)</span> are also independent. Note that we write <span class="math inline">\(X \perp Y\)</span> if <span class="math inline">\(X\)</span> is independent of <span class="math inline">\(Y\)</span>.</p>
 <p>We have that:</p>
 <div id="thm-1" class="theorem">
 <p><span class="theorem-title"><strong>Theorem 2.1</strong></span> &nbsp;</p>
 <ul>
-<li><span class="math inline">\(X_1\perp X_2 \implies {\rm E}\left[X_1 X_2\right]={\rm E}\left[X_1\right]{\rm E}\left[X_2\right]\)</span></li>
-<li><span class="math inline">\(X_1\perp X_2 \implies {\rm{corr}}\left[X_1,X_2\right]=0\)</span></li>
-<li><span class="math inline">\({\rm{corr}}\left[X_1,X_2\right]=0  \centernot\implies X_1\perp X_2\)</span></li>
+<li><span class="math inline">\(X_1\perp X_2 \implies \E{X_1 X_2}=\E{X_1}\E{X_2}\)</span></li>
+<li><span class="math inline">\(X_1\perp X_2 \implies \corr{X_1,X_2}=0\)</span></li>
+<li><span class="math inline">\(\corr{X_1,X_2}=0\)</span> does not imply <span class="math inline">\(X_1\perp X_2\)</span></li>
 </ul>
 </div>
 <div id="exr-4" class="theorem exercise">
@@ -349,14 +340,14 @@ Note
 </div>
 <p>Let <span class="math inline">\(X,X_1,X_2,\ldots X_n\)</span> be random variables. Recall the linearity of expectation property:</p>
 <div id="thm-2" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 2.2</strong></span> For <span class="math inline">\(a,b\in\mathbb{R}\)</span>, it holds that <span class="math inline">\(\mathrm{E}{aX+b}=a\mathrm{E}{X}+b\)</span>.</p>
+<p><span class="theorem-title"><strong>Theorem 2.2</strong></span> For <span class="math inline">\(a,b\in\re\)</span>, it holds that <span class="math inline">\(\mathrm{E}{aX+b}=a\mathrm{E}{X}+b\)</span>.</p>
 </div>
 <div id="exr-4" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 2.4</strong></span> Prove <a href="#thm-2" class="quarto-xref">Theorem&nbsp;<span>2.2</span></a> .</p>
 </div>
-<p>As a corollary of <a href="#thm-2" class="quarto-xref">Theorem&nbsp;<span>2.2</span></a> , we have that - <span class="math inline">\({\rm E}\left[\sum_{i=1}^n a_i X_i\right]=\sum_{i=1}^n a_i{\rm E}\left[ X_i\right]\)</span> - <span class="math inline">\({\rm{Var}}\left[\sum_{i=1}^n a_i X_i\right]=\sum_{i=1}^n a_i^2{\rm{Var}}\left[ X_i\right]+\sum_{i\neq j}a_ia_j{\rm{cov}}\left[X_i,X_j\right]\)</span> - <span class="math inline">\({\rm{Var}}\left[aX_1+bX_2+c\right]=a^2\mathrm{var}{X_1}+b^2{\rm{Var}}\left[X_2\right]+2ab{\rm{cov}}\left[X_1,X_2\right]\)</span></p>
+<p>As a corollary of <a href="#thm-2" class="quarto-xref">Theorem&nbsp;<span>2.2</span></a> , we have that - <span class="math inline">\(\E{\sum_{i=1}^n a_i X_i}=\sum_{i=1}^n a_i\E{ X_i}\)</span> - <span class="math inline">\(\var{\sum_{i=1}^n a_i X_i}=\sum_{i=1}^n a_i^2\var{ X_i}+\sum_{i\neq j}a_ia_j\cov{X_i,X_j}\)</span> - <span class="math inline">\(\var{aX_1+bX_2+c}=a^2\mathrm{var}{X_1}+b^2\var{X_2}+2ab\cov{X_1,X_2}\)</span></p>
 <div id="exr-5" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 2.5</strong></span> What happens to <span class="math inline">\({\rm{Var}}\left[aX_1+bX_2+c\right]\)</span> when <span class="math inline">\(\{X_i\}_{i=1}^n\)</span> are mutually independent?</p>
+<p><span class="theorem-title"><strong>Exercise 2.5</strong></span> What happens to <span class="math inline">\(\var{aX_1+bX_2+c}\)</span> when <span class="math inline">\(\{X_i\}_{i=1}^n\)</span> are mutually independent?</p>
 </div>
 <div id="exr-6" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 2.6</strong></span> Let <span class="math inline">\(X_1,X_2,\ldots X_n\)</span> be iid random variables with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. What is the mean and variance of <span class="math display">\[\bar X=\sum_{i=1}^n X_i/n?.\]</span></p>
@@ -366,14 +357,14 @@ Note
 <h3 data-number="2.1.4" class="anchored" data-anchor-id="useful-properties-of-normal-and-related-random-variables"><span class="header-section-number">2.1.4</span> Useful properties of normal and related random variables</h3>
 <p>Let</p>
 <ul>
-<li><span class="math inline">\(\mathcal{N}(\mu,\sigma^2)\)</span> represent the normal distribution with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>.</li>
+<li><span class="math inline">\(\cN(\mu,\sigma^2)\)</span> represent the normal distribution with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>.</li>
 <li><span class="math inline">\(\chi^2_k\)</span> be the Chi-squared distribution with <span class="math inline">\(k\)</span> degrees of freedom</li>
 <li><span class="math inline">\(t_n\)</span> be the student-<span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n\)</span> degrees of freedom</li>
 <li><span class="math inline">\(F_{m,n}\)</span> be the <span class="math inline">\(F\)</span> distribution with <span class="math inline">\(m\)</span> numerator degrees of freedom and <span class="math inline">\(n\)</span> denominator degrees of freedom</li>
 </ul>
 <p>We have the following results:</p>
 <div id="thm-3" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 2.3</strong></span> Suppose that <span class="math inline">\(X\sim \mathcal{N}(\mu,\sigma^2)\)</span>, then - <span class="math inline">\(Z=\frac{X- \mu}{\sigma}\sim \mathcal{N}(0,1)\)</span> - <span class="math inline">\(Z^2\sim \chi^2_1\)</span>.</p>
+<p><span class="theorem-title"><strong>Theorem 2.3</strong></span> Suppose that <span class="math inline">\(X\sim \cN(\mu,\sigma^2)\)</span>, then - <span class="math inline">\(Z=\frac{X- \mu}{\sigma}\sim \cN(0,1)\)</span> - <span class="math inline">\(Z^2\sim \chi^2_1\)</span>.</p>
 </div>
 <p>Let <span class="math inline">\([n]=\{1,\ldots,n\}\)</span>. We also have that</p>
 <div id="thm-4" class="theorem">
@@ -386,12 +377,12 @@ Note
 </div>
 <p>Define <span class="math display">\[\hat\sigma^2=\frac{1}{n- 1}\sum_{i=1}^n (X_i- \bar X)^2.\]</span></p>
 <div id="thm-5" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 2.5</strong></span> Suppose that <span class="math inline">\(X_1,X_2,\ldots X_n\sim \mathcal{N}(\mu,\sigma^2)\)</span> and are independent, then <span class="math inline">\(\frac{\bar X- \mu}{\sigma/\sqrt{n}}\sim \mathcal{N}(0,1)\)</span>, <span class="math inline">\(\bar X\perp \hat\sigma^2\)</span>, <span class="math inline">\((n- 1)\hat\sigma^2/\sigma^2\sim \chi^2_{n- 1}\)</span> and <span class="math inline">\(\frac{\bar X- \mu}{\hat\sigma/\sqrt{n}}\sim t_{n- 1}\)</span>.</p>
+<p><span class="theorem-title"><strong>Theorem 2.5</strong></span> Suppose that <span class="math inline">\(X_1,X_2,\ldots X_n\sim \cN(\mu,\sigma^2)\)</span> and are independent, then <span class="math inline">\(\frac{\bar X- \mu}{\sigma/\sqrt{n}}\sim \cN(0,1)\)</span>, <span class="math inline">\(\bar X\perp \hat\sigma^2\)</span>, <span class="math inline">\((n- 1)\hat\sigma^2/\sigma^2\sim \chi^2_{n- 1}\)</span> and <span class="math inline">\(\frac{\bar X- \mu}{\hat\sigma/\sqrt{n}}\sim t_{n- 1}\)</span>.</p>
 </div>
 </section>
 <section id="central-limit-theorem" class="level3" data-number="2.1.5">
 <h3 data-number="2.1.5" class="anchored" data-anchor-id="central-limit-theorem"><span class="header-section-number">2.1.5</span> Central Limit Theorem</h3>
-<p> If <span class="math inline">\(X_1,X_2,\ldots X_n\)</span> are i.i.d. with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2&lt;\infty\)</span>, then <span class="math inline">\(\frac{\bar X- \mu}{\sigma/\sqrt{n}}\stackrel{\text{d}}{\rightarrow}\mathcal{N}(0,1)\)</span> as <span class="math inline">\(n\rightarrow\infty\)</span>.</p>
+<p> If <span class="math inline">\(X_1,X_2,\ldots X_n\)</span> are i.i.d. with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2&lt;\infty\)</span>, then <span class="math inline">\(\frac{\bar X- \mu}{\sigma/\sqrt{n}}\cond \cN(0,1)\)</span> as <span class="math inline">\(n\rightarrow\infty\)</span>.</p>
 <p>We have that in general, for large <span class="math inline">\(n\)</span>, regardless of the distribution of the random variables, the sample mean is approximately normally distributed.</p>
 </section>
 <section id="homework-stop-1" class="level3" data-number="2.1.6">
@@ -414,8 +405,8 @@ Note
 <section id="basic-premise-of-statistics" class="level3" data-number="2.2.1">
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="basic-premise-of-statistics"><span class="header-section-number">2.2.1</span> Basic premise of statistics</h3>
 <p>The whole purpose of statistics is to learn something about a population using only a sample of units from that population. A <strong>sample</strong> is a smaller, typically randomly selected, subset of a population. A <strong>population</strong> is a collection of units which we would like to know something about. For example, we may collect a sample of hamburgers from McDonald’s if we want to learn something about the population of McDonald’s hamburgers.</p>
-<p>In general, at least for this course, we assume that we have access to a sample of units from a given population. Furthermore, we assume that that sample is a <strong>random sample</strong>. Specifically, we assume that these units in the sample are realizations of random variables. In addition, we also assume that these random variables are mutually independent. For example, we could assume that our sample <span class="math inline">\(X_1,\ldots,X_n\)</span> is Normally distributed with some fixed mean <span class="math inline">\(\mu\)</span> and fixed variance <span class="math inline">\(\sigma^2\)</span>. In this case, <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> are unknown <strong>parameters</strong> of the population. A parameter of a population is some quantity that is a function of the distribution of our given sample. For instance, <span class="math inline">\({\rm E}\left[X_i\right]=\mu\)</span>. Generally, we are concerned with unknown population parameters, which are parts of the distribution that are unknown, and can only ever be estimated. For example, we may know our data is normal, but not know the mean parameter. In that case, we need to use an <strong>estimate</strong> of the parameter. We use a function of the data, typically called the estimator, say <span class="math inline">\(T\)</span>, which produces the estimate, given by <span class="math inline">\(T\)</span> computed at the sample we observed: <span class="math inline">\(T(X_1,\ldots,X_n)\)</span>.</p>
-<p>For example, to estimate <span class="math inline">\(\mu\)</span>, we typically use the sample mean. Here, the estimate is given by <span class="math inline">\(\bar X=\sum_{i=1}^nX_i/n\)</span>. To be specific, the estimate is the value of <span class="math inline">\(\bar X\)</span> and the estimator <span class="math inline">\(T\)</span> is the function that maps <span class="math inline">\(n\)</span> real numbers to their mean. In general, estimates are used to give our `best guess’ at population parameters.</p>
+<p>In general, at least for this course, we assume that we have access to a sample of units from a given population. Furthermore, we assume that that sample is a <strong>random sample</strong>. Specifically, we assume that these units in the sample are realizations of random variables. In addition, we also assume that these random variables are mutually independent. For example, we could assume that our sample <span class="math inline">\(X_1,\ldots,X_n\)</span> is Normally distributed with some fixed mean <span class="math inline">\(\mu\)</span> and fixed variance <span class="math inline">\(\sigma^2\)</span>. In this case, <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> are unknown <strong>parameters</strong> of the population. A parameter of a population is some quantity that is a function of the distribution of our given sample. For instance, <span class="math inline">\(\E{X_i}=\mu\)</span>. Generally, we are concerned with unknown population parameters, which are parts of the distribution that are unknown, and can only ever be estimated. For example, we may know our data is normal, but not know the mean parameter. In that case, we need to use an <strong>estimate</strong> of the parameter. We use a function of the data, typically called the estimator, say <span class="math inline">\(T\)</span>, which produces the estimate, given by <span class="math inline">\(T\)</span> computed at the sample we observed: <span class="math inline">\(T(X_1,\ldots,X_n)\)</span>.</p>
+<p>For example, to estimate <span class="math inline">\(\mu\)</span>, we typically use the sample mean. Here, the estimate is given by <span class="math inline">\(\bar X=\sumn X_i/n\)</span>. To be specific, the estimate is the value of <span class="math inline">\(\bar X\)</span> and the estimator <span class="math inline">\(T\)</span> is the function that maps <span class="math inline">\(n\)</span> real numbers to their mean. In general, estimates are used to give our `best guess’ at population parameters.</p>
 </section>
 <section id="confidence-intervals" class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="confidence-intervals"><span class="header-section-number">2.2.2</span> Confidence intervals:</h3>
@@ -460,8 +451,8 @@ Note
 </div>
 </div>
 </div>
-<p>Now, assume that <span class="math inline">\(X_1,\ldots, X_{40}\sim \mathcal{N}(\mu,\sigma^2)\)</span>, and independent. (We can justify normality with the histogram, or we could also invoke the CLT to get normality of the sample mean (not the data itself).) Therefore, we can do a one sample <span class="math inline">\(t\)</span>-test. Recall that, under the null hypothesis, we have <span class="math inline">\(\frac{\bar X-30}{\hat\sigma/\sqrt{n}}\sim t_{n-1}\)</span>. This means that if <span class="math inline">\(\left|\frac{\bar X-30}{\hat\sigma/\sqrt{n}}\right|\geq t_{n-1,1-\alpha/2}\)</span>, then we reject the null hypothesis! Here, <span class="math inline">\(t_{n-1,1-p}\)</span> is the <span class="math inline">\((1-p)\)</span>th quantile of the <span class="math inline">\(t_{n-1}\)</span> distribution. For large <span class="math inline">\(n\)</span> and <span class="math inline">\(p=0.025\)</span>, this is roughly equal to 2.</p>
-<p>Now, recall that <span class="math display">\[ H_0\colon \mu=30\qquad vs. \qquad H_1\colon \mu\neq 30 \]</span> We have that <span class="math inline">\(\left|\frac{\bar X-30}{\hat\sigma/\sqrt{n}}\right|=66.234\)</span>. Using R, we get that the p-value is <span class="math inline">\(&lt; 2.2\times 10^{-16}\)</span>.</p>
+<p>Now, assume that <span class="math inline">\(X_1,\ldots, X_{40}\sim \cN(\mu,\sigma^2)\)</span>, and independent. (We can justify normality with the histogram, or we could also invoke the CLT to get normality of the sample mean (not the data itself).) Therefore, we can do a one sample <span class="math inline">\(t\)</span>-test. Recall that, under the null hypothesis, we have <span class="math inline">\(\frac{\xbar-30}{\hat\sigma/\sqrt{n}}\sim t_{n-1}\)</span>. This means that if <span class="math inline">\(\left|\frac{\xbar-30}{\hat\sigma/\sqrt{n}}\right|\geq t_{n-1,1-\alpha/2}\)</span>, then we reject the null hypothesis! Here, <span class="math inline">\(t_{n-1,1-p}\)</span> is the <span class="math inline">\((1-p)\)</span>th quantile of the <span class="math inline">\(t_{n-1}\)</span> distribution. For large <span class="math inline">\(n\)</span> and <span class="math inline">\(p=0.025\)</span>, this is roughly equal to 2.</p>
+<p>Now, recall that <span class="math display">\[ H_0\colon \mu=30\qquad vs. \qquad H_1\colon \mu\neq 30 \]</span> We have that <span class="math inline">\(\left|\frac{\xbar-30}{\hat\sigma/\sqrt{n}}\right|=66.234\)</span>. Using R, we get that the p-value is <span class="math inline">\(&lt; 2.2\times 10^{-16}\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the mean of the 'ages' data and assign it to xbar</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>xbar <span class="ot">=</span> <span class="fu">mean</span>(ages)</span>
@@ -514,7 +505,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Note also that we can use the confidence interval method with <span class="math display">\[ \bar X\pm t_{n-1,1-\alpha/2}\sqrt{\hat\sigma^2/n}.\]</span></p>
+<p>Note also that we can use the confidence interval method with <span class="math display">\[ \xbar\pm t_{n-1,1-\alpha/2}\sqrt{\hat\sigma^2/n}.\]</span></p>
 </div>
 </div>
 <div class="cell">
@@ -536,26 +527,26 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Moving beyond the one-sample testing problem, we might be interested in other population parameters, say <span class="math inline">\(\theta\in \Theta\)</span>. Think Lecture 1: <span class="math inline">\({\rm E}\left[Y|X\right]=\beta_0+X\beta_1\)</span>, we might want to estimate <span class="math inline">\({\rm E}\left[Y|X\right]\)</span>, which amounts to <span class="math inline">\(\beta_0,\beta_1\in \mathbb{R}\)</span>! In general, we may estimate <span class="math inline">\(\theta\)</span> by <span class="math inline">\(\hat\theta\)</span>. Then we may compute the variance and distribution of <span class="math inline">\(\hat\theta\)</span>. From there, we can make confidence intervals and conduct hypothesis tests etc.</p>
+<p>Moving beyond the one-sample testing problem, we might be interested in other population parameters, say <span class="math inline">\(\theta\in \Theta\)</span>. Think Lecture 1: <span class="math inline">\(\E{Y|X}=\beta_0+X\beta_1\)</span>, we might want to estimate <span class="math inline">\(\E{Y|X}\)</span>, which amounts to <span class="math inline">\(\beta_0,\beta_1\in \re\)</span>! In general, we may estimate <span class="math inline">\(\theta\)</span> by <span class="math inline">\(\hat\theta\)</span>. Then we may compute the variance and distribution of <span class="math inline">\(\hat\theta\)</span>. From there, we can make confidence intervals and conduct hypothesis tests etc.</p>
 </div>
 </div>
 <p>Let’s do another example:</p>
 <div id="exr-8" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 2.8</strong></span> In a study about online dating, you are interested in determining if the average age of those who identify as men who use online dating platforms differs from those who identify as women. You have a dataset of 20 ages of each group using online dating platforms.</p>
 </div>
-<p>What is the population parameter of interest here? It is <span class="math inline">\(\Delta=\mu_{1}-\mu_2\)</span>, the difference in means between the two populations. Now, suppose that <span class="math inline">\(X_1,\ldots, X_{20}\sim \mathcal{N}(\mu_1,\sigma^2)\)</span> and <span class="math inline">\(Y_1,\ldots, Y_{20}\sim \mathcal{N}(\mu_2,\sigma^2)\)</span>, and are mutually independent. (We could also invoke the CLT instead of assuming normality.) We can estimate those parameters with <strong>estimates.</strong> For instance, <span class="math inline">\(\bar X,\ \bar Y\)</span>, <span class="math display">\[\hat\sigma^2=\frac{(n_1-1)\hat\sigma_1^2+(n_2-1)\hat\sigma_2^2}{n_1+n_2-2}.\]</span></p>
+<p>What is the population parameter of interest here? It is <span class="math inline">\(\Delta=\mu_{1}-\mu_2\)</span>, the difference in means between the two populations. Now, suppose that <span class="math inline">\(X_1,\ldots, X_{20}\sim \cN(\mu_1,\sigma^2)\)</span> and <span class="math inline">\(Y_1,\ldots, Y_{20}\sim \cN(\mu_2,\sigma^2)\)</span>, and are mutually independent. (We could also invoke the CLT instead of assuming normality.) We can estimate those parameters with <strong>estimates.</strong> For instance, <span class="math inline">\(\xbar,\ \bar Y\)</span>, <span class="math display">\[\hat\sigma^2=\frac{(n_1-1)\hat\sigma_1^2+(n_2-1)\hat\sigma_2^2}{n_1+n_2-2}.\]</span></p>
 <div id="exr-9" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 2.9</strong></span> Suppose that <span class="math inline">\(X_1,\ldots, X_{20}\sim \mathcal{N}(\mu_1,\sigma^2)\)</span> and <span class="math inline">\(Y_1,\ldots, Y_{20}\sim \mathcal{N}(\mu_2,\sigma^2)\)</span>, and are mutually independent. Compute <span class="math inline">\({\rm{Var}}\left[\bar X-\bar Y\right]\)</span>.</p>
+<p><span class="theorem-title"><strong>Exercise 2.9</strong></span> Suppose that <span class="math inline">\(X_1,\ldots, X_{20}\sim \cN(\mu_1,\sigma^2)\)</span> and <span class="math inline">\(Y_1,\ldots, Y_{20}\sim \cN(\mu_2,\sigma^2)\)</span>, and are mutually independent. Compute <span class="math inline">\(\var{\xbar-\bar Y}\)</span>.</p>
 </div>
 <div id="sol-9" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.3</em>. </span>Using independence of <span class="math inline">\(\bar X\)</span> and <span class="math inline">\(\bar Y\)</span> and the result of the <a href="#exr-6" class="quarto-xref">Exercise&nbsp;<span>2.6</span></a> , we have that <span class="math display">\[{\rm{Var}}\left[\bar X-\bar Y\right]={\rm{Var}}\left[\bar X\right]+{\rm{Var}}\left[\bar Y\right]=\sigma_1^2/n_1+\sigma_1^2/n_2.\]</span></p>
+<p><span class="proof-title"><em>Solution 2.3</em>. </span>Using independence of <span class="math inline">\(\xbar\)</span> and <span class="math inline">\(\bar Y\)</span> and the result of the <a href="#exr-6" class="quarto-xref">Exercise&nbsp;<span>2.6</span></a> , we have that <span class="math display">\[\var{\xbar-\bar Y}=\var{\xbar}+\var{\bar Y}=\sigma_1^2/n_1+\sigma_1^2/n_2.\]</span></p>
 </div>
 <p>First, we write down the null and alternative hypothesis: <span class="math display">\[H_0\colon \Delta=0\qquad vs.. \qquad H_1\colon \Delta\neq 0.\]</span> Here, we can do a two sample <span class="math inline">\(t\)</span>-test.</p>
 <p>Recall that the pooled variance is given by: <span class="math display">\[\hat\sigma_p^2=\frac{(n_1-1)\hat\sigma_1^2+(n_2-1)\hat\sigma_2}{(n_1+n_2-2)}\]</span> We previously said that a multiple of a one sample standard deviation follows a Chi-squared distribution. It follows that <span class="math inline">\((n_1-1)\hat\sigma_1^2/\sigma^2\sim \chi^2_{n_1-1}\)</span> and <span class="math inline">\((n_2-1)\hat\sigma_2^2/\sigma^2\sim \chi^2_{n_2-1}\)</span>. Using the theory from <a href="#Useful-properties-of%20normal-and-related-random-variables">here</a>, specifically, <span class="math inline">\((n_1-1)\hat\sigma_1^2/\sigma^2+(n_2-1)\hat\sigma_2^2/\sigma^2\)</span> is a sum of independent Chi-squared random variables, and so we have <span class="math inline">\((n_1-1)\hat\sigma_1^2/\sigma^2+(n_2-1)\hat\sigma_2^2/\sigma^2\sim \chi^2_{n_1+n_2-2}\)</span>.</p>
-<p>Again, using the theory from <a href="#Useful-properties-of%20normal-and-related-random-variables">here</a>, under the null hypothesis, we have that <span class="math display">\[\frac{\bar X-\bar Y}{\hat\sigma_p/\sqrt{1/n_1+1/n_2}}=\frac{(\bar X-\bar Y)/\sigma\sqrt{1/n_1+1/n_2}}{\hat\sigma_p/\sigma\sqrt{1/n_1+1/n_2}}\sim t_{n_1+n_2-2}.\]</span></p>
-<p>This follows from 3 facts, first, letting <span class="math inline">\(Z=(\bar X-\bar Y)/\sqrt{{\rm{Var}}\left[\bar X-\bar Y\right]}\)</span>, note that <span class="math inline">\(Z\sim \mathcal{N}(0,1)\)</span>. We have that <span class="math display">\[Z=(\bar X-\bar Y)/\sqrt{{\rm{Var}}\left[\bar X-\bar Y\right]}=(\bar X-\bar Y)/\sigma\sqrt{1/n_1+1/n_2}.\]</span></p>
-<p>Next, we said earlier that <span class="math inline">\(\bar X\)</span> is independent of <span class="math inline">\(\hat\sigma_1\)</span> and <span class="math inline">\(\bar Y\)</span> is independent of <span class="math inline">\(\hat\sigma_2\)</span>. Now, recall that if two random variables are independent, then any function of them is also independent. In other words, if <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, then for real functions <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span>, we have that <span class="math inline">\(g(X)\)</span> is independent of <span class="math inline">\(f(Y)\)</span>. It follows that <span class="math inline">\(\bar X\)</span> is independent of <span class="math inline">\(\hat\sigma_2\)</span> and <span class="math inline">\(\bar Y\)</span> is independent of <span class="math inline">\(\hat\sigma_1\)</span>. It follows that <span class="math inline">\(\bar X-\bar Y\)</span> is independent of <span class="math inline">\(\hat\sigma_p\)</span>. Then, <span class="math display">\[\frac{(\bar X-\bar Y)/\sigma\sqrt{1/n_1+1/n_2}}{\hat\sigma_p/\sigma\sqrt{1/n_1+1/n_2}}\]</span> is a ratio of a standard normal random variable and the square root of a Chi-squared random variable, divided by its degrees of freedom. Further, the numerator and denominator are independent. Therefore, the above quantity follows a <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n_1+n_2-2\)</span> degrees of freedom.</p>
-<p>This means that if <span class="math inline">\(\left|\frac{\bar X-\bar Y}{\hat\sigma_p/\sqrt{1/n_1+1/n_2}}\right|\geq t_{n_1+n_2-2,1-\alpha/2}\)</span>, then we reject the null hypothesis.</p>
+<p>Again, using the theory from <a href="#Useful-properties-of%20normal-and-related-random-variables">here</a>, under the null hypothesis, we have that <span class="math display">\[\frac{\xbar-\bar Y}{\hat\sigma_p/\sqrt{1/n_1+1/n_2}}=\frac{(\xbar-\bar Y)/\sigma\sqrt{1/n_1+1/n_2}}{\hat\sigma_p/\sigma\sqrt{1/n_1+1/n_2}}\sim t_{n_1+n_2-2}.\]</span></p>
+<p>This follows from 3 facts, first, letting <span class="math inline">\(Z=(\xbar-\bar Y)/\sqrt{\var{\xbar-\bar Y}}\)</span>, note that <span class="math inline">\(Z\sim \cN(0,1)\)</span>. We have that <span class="math display">\[Z=(\xbar-\bar Y)/\sqrt{\var{\xbar-\bar Y}}=(\xbar-\bar Y)/\sigma\sqrt{1/n_1+1/n_2}.\]</span></p>
+<p>Next, we said earlier that <span class="math inline">\(\xbar\)</span> is independent of <span class="math inline">\(\hat\sigma_1\)</span> and <span class="math inline">\(\bar Y\)</span> is independent of <span class="math inline">\(\hat\sigma_2\)</span>. Now, recall that if two random variables are independent, then any function of them is also independent. In other words, if <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, then for real functions <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span>, we have that <span class="math inline">\(g(X)\)</span> is independent of <span class="math inline">\(f(Y)\)</span>. It follows that <span class="math inline">\(\xbar\)</span> is independent of <span class="math inline">\(\hat\sigma_2\)</span> and <span class="math inline">\(\bar Y\)</span> is independent of <span class="math inline">\(\hat\sigma_1\)</span>. It follows that <span class="math inline">\(\xbar-\bar Y\)</span> is independent of <span class="math inline">\(\hat\sigma_p\)</span>. Then, <span class="math display">\[\frac{(\xbar-\bar Y)/\sigma\sqrt{1/n_1+1/n_2}}{\hat\sigma_p/\sigma\sqrt{1/n_1+1/n_2}}\]</span> is a ratio of a standard normal random variable and the square root of a Chi-squared random variable, divided by its degrees of freedom. Further, the numerator and denominator are independent. Therefore, the above quantity follows a <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n_1+n_2-2\)</span> degrees of freedom.</p>
+<p>This means that if <span class="math inline">\(\left|\frac{\xbar-\bar Y}{\hat\sigma_p/\sqrt{1/n_1+1/n_2}}\right|\geq t_{n_1+n_2-2,1-\alpha/2}\)</span>, then we reject the null hypothesis.</p>
 <p>Let;s execute the test in R:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Normally, I will give you a dataset. Here I generate the data</span></span>
@@ -744,8 +735,8 @@ Tip
 </div>
 </div>
 <ul>
-<li>For the one sample testing problem, i.e., you have a sample of <span class="math inline">\(n\)</span> normal random variables, with unknown mean and variance and you want to test whether <span class="math inline">\(H_0\colon \mu=0\)</span> vs.&nbsp;<span class="math inline">\(H_0\colon \mu\neq 0\)</span>, show that <span class="math inline">\(\frac{\bar X}{\hat\sigma/\sqrt{n}}\sim t_{n-1}\)</span> under the null hypothesis.</li>
-<li>What is the distribution of each of the following: <span class="math inline">\(\bar X,\bar Y,\hat\sigma\)</span> under the assumption of normal data with unknown mean and variance?</li>
+<li>For the one sample testing problem, i.e., you have a sample of <span class="math inline">\(n\)</span> normal random variables, with unknown mean and variance and you want to test whether <span class="math inline">\(H_0\colon \mu=0\)</span> vs.&nbsp;<span class="math inline">\(H_0\colon \mu\neq 0\)</span>, show that <span class="math inline">\(\frac{\xbar}{\hat\sigma/\sqrt{n}}\sim t_{n-1}\)</span> under the null hypothesis.</li>
+<li>What is the distribution of each of the following: <span class="math inline">\(\xbar,\bar Y,\hat\sigma\)</span> under the assumption of normal data with unknown mean and variance?</li>
 </ul>
 <p>Compare and contrast the following concepts. That is, define them and explain the difference between them.</p>
 <ul>
@@ -894,7 +885,7 @@ and \ \ \
 y = \left( \begin{array}{c} y_1 \\ \vdots \\ y_n \end{array} \right)
 \]</span> Then <span class="math display">\[
 X^\top X = \left( \begin{array}{cc} n &amp; \sum_{i=1}^n x_i \\
-\sum_{i=1}^n x_i &amp; \sum_{i=1}^n x_i^2 \end{array} \right), \ \ \ {\rm and} \ \ \
+\sum_{i=1}^n x_i &amp; \sum_{i=1}^n x_i^2 \end{array} \right), \ \ \ {\textrm{and}} \ \ \
 X^\top y = \left( \begin{array}{c} \sum_{i=1}^n y_i \\ \sum_{i=1}^n x_i y_i
 \end{array} \right).
 \]</span> Also <span class="math inline">\(\bar{y} = \frac{1}{n} 1^\top y\)</span> and <span class="math inline">\(\sum_{i=1}^n y_i = n \bar{y}\)</span> \ Finally <span class="math inline">\(\sum_{i=1}^n (y_i - \bar{y})^2 = \sum_{i=1}^n y_i^2 - n \bar{y}^2\)</span></p>
@@ -936,44 +927,44 @@ W =  \left( \begin{array}{cc} 3 &amp; 2 \\ -4 &amp; 6 \end{array} \right)
 Y = \left( \begin{array}{c} Y_1 \\ \vdots \\ Y_n \end{array} \right)
 \]</span> is an <span class="math inline">\(n\)</span>-dimensional random vector.</p>
 </div>
-<p>Similar to a random variable, a random vector also comes with a probability mass function (if all the <span class="math inline">\(Y_i\)</span> are discrete) or a probability density function (if all the <span class="math inline">\(Y_i\)</span> are continuous), or a ``mixture’’ distribution (if some <span class="math inline">\(Y_i\)</span> are discrete and others are continuous). In general, a random vector is drawn from a multivariate distribution, defined by the PMF or PDF. Just as before, the PMF and PDF range is non-negative, the PMF sums to 1 over all outcomes, and the PDF integrates to 1 over <span class="math inline">\(\mathbb{R}^n\)</span>. One discrete multivariate distribution you have learned in 1131 is the Multinomial distribution. We will learn about the multivariate normal distribution soon.</p>
+<p>Similar to a random variable, a random vector also comes with a probability mass function (if all the <span class="math inline">\(Y_i\)</span> are discrete) or a probability density function (if all the <span class="math inline">\(Y_i\)</span> are continuous), or a ``mixture’’ distribution (if some <span class="math inline">\(Y_i\)</span> are discrete and others are continuous). In general, a random vector is drawn from a multivariate distribution, defined by the PMF or PDF. Just as before, the PMF and PDF range is non-negative, the PMF sums to 1 over all outcomes, and the PDF integrates to 1 over <span class="math inline">\(\re^n\)</span>. One discrete multivariate distribution you have learned in 1131 is the Multinomial distribution. We will learn about the multivariate normal distribution soon.</p>
 </section>
 <section id="expected-value-and-covariance" class="level3" data-number="2.4.2">
 <h3 data-number="2.4.2" class="anchored" data-anchor-id="expected-value-and-covariance"><span class="header-section-number">2.4.2</span> Expected Value and Covariance</h3>
 <div id="def-2-4-2" class="theorem definition">
 <p><span class="theorem-title"><strong>Definition 2.12</strong></span> Let <span class="math inline">\(Y\)</span> be an <span class="math inline">\(n\)</span>-dimensional random vector, then the mean (expected value) of <span class="math inline">\(Y\)</span> is defined as <span class="math display">\[
-{\rm E}(Y) = \left( \begin{array}{c} {\rm E}(Y_1) \\ \vdots \\ {\rm E}(Y_n) \end{array} \right) =
+\Ee(Y) = \left( \begin{array}{c} \Ee(Y_1) \\ \vdots \\ \Ee(Y_n) \end{array} \right) =
 \mu
 \]</span> and the covariance of <span class="math inline">\(Y\)</span> is defined as <span class="math display">\[
-{\rm{cov}}\left[Y\right] = {\rm E}[ (Y - \mu) (Y - \mu)^\top ] =
-(( {\rm{cov}}\left[Y_i, Y_j\right] \ )) = \Sigma.
+\cov{Y} = \Ee[ (Y - \mu) (Y - \mu)^\top ] =
+(( \cov{Y_i, Y_j} \ )) = \Sigma.
 \]</span></p>
 </div>
-<p>Sometimes <span class="math inline">\({\rm{cov}}\left[Y\right]\)</span> is written as <span class="math inline">\({\rm{Var}}\left[Y\right]\)</span>.</p>
+<p>Sometimes <span class="math inline">\(\cov{Y}\)</span> is written as <span class="math inline">\(\var{Y}\)</span>.</p>
 <p>The following are some facts about <span class="math inline">\(\Sigma\)</span>:</p>
-<p><span class="math inline">\(\Sigma\)</span> is an <span class="math inline">\(n \times n\)</span> matrix with the diagonal elements being the variances, <span class="math inline">\({\rm{Var}}\left[Y_i\right]\)</span> for <span class="math inline">\(i=1, \ldots, n\)</span>, and the off-diagonal elements being the covariances, <span class="math inline">\({\rm{cov}}\left[(\right]Y_i, Y_j)\)</span> for <span class="math inline">\(i, j = 1, \ldots, n\)</span> and <span class="math inline">\(i \ne j\)</span>. <span class="math inline">\(\Sigma\)</span> is a symmetric, non-negative definite matrix. In this course, we further restrict it to be a positive definite matrix. <span class="math inline">\(\Sigma\)</span> is referred to as the <strong>covariance matrix</strong>.</p>
+<p><span class="math inline">\(\Sigma\)</span> is an <span class="math inline">\(n \times n\)</span> matrix with the diagonal elements being the variances, <span class="math inline">\(\var{Y_i}\)</span> for <span class="math inline">\(i=1, \ldots, n\)</span>, and the off-diagonal elements being the covariances, <span class="math inline">\(\cov(Y_i, Y_j)\)</span> for <span class="math inline">\(i, j = 1, \ldots, n\)</span> and <span class="math inline">\(i \ne j\)</span>. <span class="math inline">\(\Sigma\)</span> is a symmetric, non-negative definite matrix. In this course, we further restrict it to be a positive definite matrix. <span class="math inline">\(\Sigma\)</span> is referred to as the <strong>covariance matrix</strong>.</p>
 </section>
 <section id="properties-of-expected-value-and-covariance" class="level3" data-number="2.4.3">
 <h3 data-number="2.4.3" class="anchored" data-anchor-id="properties-of-expected-value-and-covariance"><span class="header-section-number">2.4.3</span> Properties of expected value and covariance</h3>
-<p>Let <span class="math inline">\(Y\in \mathbb{R}^{d}\)</span> be a random vector with <span class="math inline">\(A\in \mathbb{R}^d\)</span> and <span class="math inline">\(B\in \mathbb{R}^{n\times d}\)</span> be matrices. It holds that</p>
+<p>Let <span class="math inline">\(Y\in \re^{d}\)</span> be a random vector with <span class="math inline">\(A\in \re^d\)</span> and <span class="math inline">\(B\in \re^{n\times d}\)</span> be matrices. It holds that</p>
 <ul>
-<li><span class="math inline">\({\rm E}(A + B Y) = A + B {\rm E}(Y)\)</span></li>
-<li><span class="math inline">\({\rm{cov}}\left[A + B Y\right] = B {\rm{cov}}\left[Y\right] B^\top\)</span>.</li>
+<li><span class="math inline">\(\Ee(A + B Y) = A + B \Ee(Y)\)</span></li>
+<li><span class="math inline">\(\cov{A + B Y} = B \cov{Y} B^\top\)</span>.</li>
 </ul>
 <div id="exr-2-4-1" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 2.12</strong></span> Let $Y = (Y_1, , Y_n)^$ be a random vector, where <span class="math inline">\(Y_i\)</span> are i.i.d.<br>
 random variables with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. What are the mean and covariance of <span class="math inline">\(Y\)</span>? Use properties of random vectors to compute the mean and variance of the sample mean.</p>
 </div>
 <div id="sol-2-4-1" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.4</em>. </span>First, <span class="math inline">\({\rm E}(Y) = \mu 1\)</span> and <span class="math inline">\({\rm{cov}}\left[Y\right] = \sigma^2 I\)</span>.Note that <span class="math inline">\(\bar{Y} = (Y_1 + \cdots + Y_n)/n = \frac{1}{n}1^\top Y\)</span>. Now, we have <span class="math display">\[
-{\rm E}(\bar{Y}) = {\rm E}\left( \frac{1}{n}1^\top Y \right) =
-\frac{1}{n} \left( 1^\top {\rm E}(Y) \right) = \frac{1}{n} (n \mu) = \mu
+<p><span class="proof-title"><em>Solution 2.4</em>. </span>First, <span class="math inline">\(\Ee(Y) = \mu 1\)</span> and <span class="math inline">\(\cov{Y} = \sigma^2 I\)</span>.Note that <span class="math inline">\(\bar{Y} = (Y_1 + \cdots + Y_n)/n = \frac{1}{n}1^\top Y\)</span>. Now, we have <span class="math display">\[
+\Ee(\bar{Y}) = \Ee \left( \frac{1}{n}1^\top Y \right) =
+\frac{1}{n} \left( 1^\top \Ee(Y) \right) = \frac{1}{n} (n \mu) = \mu
 \]</span> and,</p>
 <p><span class="math display">\[\begin{align*}
-{\rm{cov}}\left[\bar{Y}\right] &amp;={\rm{cov}}\left[ \frac{1}{n}1^\top Y\right]\\
+\cov{\bar{Y}} &amp;=\cov{ \frac{1}{n}1^\top Y}\\
 &amp;=
 \left( \frac{1}{n} \right)^2
-\left( 1^\top {\rm{cov}}\left[Y\right]  1 \right) \\
+\left( 1^\top \cov{Y}  1 \right) \\
 &amp;=
 \left( \frac{1}{n} \right)^2 (n \sigma^2) = \frac{\sigma^2}{n}.
 \end{align*}\]</span></p>
@@ -981,13 +972,13 @@ random variables with mean <span class="math inline">\(\mu\)</span> and variance
 </section>
 <section id="multivariate-normal-distribution" class="level3" data-number="2.4.4">
 <h3 data-number="2.4.4" class="anchored" data-anchor-id="multivariate-normal-distribution"><span class="header-section-number">2.4.4</span> Multivariate normal distribution</h3>
-<p>We say that a random vector <span class="math inline">\(X\sim \mathcal{N}_d(\mu,\Sigma)\)</span> follows a multivariate normal distribution if <span class="math inline">\(X\)</span> has PDF: <span class="math display">\[
+<p>We say that a random vector <span class="math inline">\(X\sim \cN_d(\mu,\Sigma)\)</span> follows a multivariate normal distribution if <span class="math inline">\(X\)</span> has PDF: <span class="math display">\[
 \phi(\mathbf{x})=\left(\frac{1}{2 \pi}\right)^{d / 2}|\Sigma|^{-1 / 2} \exp \left\{-\frac{1}{2}(\mathbf{x}-\mu)^{\prime} \Sigma^{-1}(\mathbf{x}-\mu)\right\}.
 \]</span></p>
-<p>If <span class="math inline">\(X\sim \mathcal{N}_d(\mu,\Sigma)\)</span> and <span class="math inline">\(c\in \mathbb{R}^d\)</span>, <span class="math inline">\(A\in \mathbb{R}^{m\times d}\)</span> then:</p>
+<p>If <span class="math inline">\(X\sim \cN_d(\mu,\Sigma)\)</span> and <span class="math inline">\(c\in \re^d\)</span>, <span class="math inline">\(A\in \re^{m\times d}\)</span> then:</p>
 <ul>
-<li><span class="math inline">\(AX\sim \mathcal{N}(A\mu,A\Sigma A^\top)\)</span>.</li>
-<li><span class="math inline">\(c^\top X\sim \mathcal{N}(c^\top\mu,c^\top\Sigma c)\)</span>.</li>
+<li><span class="math inline">\(AX\sim \cN(A\mu,A\Sigma A^\top)\)</span>.</li>
+<li><span class="math inline">\(c^\top X\sim \cN(c^\top\mu,c^\top\Sigma c)\)</span>.</li>
 <li>Any conditional distribution for a subset of the variables conditional on another subset of variables is a multivariate distribution.</li>
 </ul>
 <p>Using random vectors is a simple way of deriving lots of equations for this course. Working with vectors also allows those who are “geometrically gifted” to view the whole regression concepts geometrically! If not, not to worry!</p>
@@ -995,7 +986,7 @@ random variables with mean <span class="math inline">\(\mu\)</span> and variance
 <section id="homework-stop-4" class="level3" data-number="2.4.5">
 <h3 data-number="2.4.5" class="anchored" data-anchor-id="homework-stop-4"><span class="header-section-number">2.4.5</span> Homework stop 4</h3>
 <div id="exr-2-4-2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 2.13</strong></span> For a (full-rank) matrix <span class="math inline">\(X\in \mathbb{R}^{n\times p}\)</span> with <span class="math inline">\(n&gt;p\)</span>, and random vector <span class="math inline">\(Y\in \mathbb{R}^{n\times 1}\)</span> with mean <span class="math inline">\(\mu\)</span> and covariance <span class="math inline">\(\Sigma\)</span>, compute the following:</p>
+<p><span class="theorem-title"><strong>Exercise 2.13</strong></span> For a (full-rank) matrix <span class="math inline">\(X\in \re^{n\times p}\)</span> with <span class="math inline">\(n&gt;p\)</span>, and random vector <span class="math inline">\(Y\in \re^{n\times 1}\)</span> with mean <span class="math inline">\(\mu\)</span> and covariance <span class="math inline">\(\Sigma\)</span>, compute the following:</p>
 <ul>
 <li>Expected value and covariance of <span class="math inline">\((X^\top X)^{-1}X^\top Y\)</span></li>
 <li>Expected value of <span class="math inline">\(Y^\top Y\)</span></li>

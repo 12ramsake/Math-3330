@@ -64,7 +64,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
 <link href="./Unit_2.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -197,12 +196,6 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="./Appendix_R.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction to R software</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
   </div>
 </li>
     </ul>
@@ -564,15 +557,15 @@ window.Quarto = {
 </section>
 <section id="functions" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="functions"><span class="header-section-number">4.5</span> Functions</h2>
-<p>Functions are objects that take an input and transform it into some output, just like in mathematics. We have already seen some, such as log().</p>
-<p>They are called with this format output&lt;-functionName(input).</p>
+<p>Functions are objects that take an input and transform it into some output, just like in mathematics. We have already seen some, such as <code>log()</code>.</p>
+<p>They are called with this format <code>output&lt;-functionName(input)</code>.</p>
 <ul>
 <li>The input is called <em>parameters</em>, and there can be many parameters</li>
 <li>parameters are usually described in the documentation</li>
 <li>the output is what the function <em>returns</em></li>
 <li>functions can only return 1 object, but this includes a list… so it could return many objects in the form of a list object</li>
 </ul>
-<p>R has many, many functions, to learn more about a function type ?functionName and the documentation will come up.</p>
+<p>R has many, many functions, to learn more about a function type <code>?functionName</code> and the documentation will come up.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co">#A simple function</span></span>
 <span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="co">#here the function log is called, with the parameter 2, and the output is stored in the variable x</span></span>
@@ -587,7 +580,7 @@ window.Quarto = {
 <span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>s<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="at">size=</span><span class="dv">4</span>,<span class="at">replace=</span><span class="cn">TRUE</span>,<span class="at">prob=</span><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">10</span>,<span class="dv">10</span>))</span>
 <span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 10  4 10  2</code></pre>
+<pre><code>[1] 6 4 1 2</code></pre>
 </div>
 </div>
 <p>We have seen other people’s functions but we can also make our own! Let’s see an example first:</p>
@@ -605,14 +598,14 @@ window.Quarto = {
 </div>
 <p>What exactly does this code say?</p>
 <ul>
-<li>We stored the function in the variable ‘dotProd’</li>
+<li>We stored the function in the variable <code>dotProd</code></li>
 <li>to tell the compiler we are creating a function, we use the keyword function</li>
 <li>we specify the parameters in round brackets ()</li>
 <li>we put the names of the parameters in the () only, not what data type we expect them to be</li>
 <li>inside curly brackets, we put the code that the function will run when it is called</li>
-<li>return() ends the function, and sends back the variable in the brackets</li>
+<li><code>return()</code> ends the function, and sends back the variable in the brackets</li>
 </ul>
-<p>Back to built in functions… R is a statistical software, what does that mean? It already includes many common statistical functions! For most common distributions there are functions for the pdf, cdf, inverse cdf as well as one to get a sample from that distribution. The syntax is in the format: dDistName(x,parameters), pDistName(x,parameters), qDistName(x,parameters) and rDistName(x,parameters) respectively. This will make more sense in the example below…</p>
+<p>Back to built in functions… <code>R</code> is a statistical software, what does that mean? It already includes many common statistical functions! For most common distributions there are functions for the pdf, cdf, inverse cdf as well as one to get a sample from that distribution. The syntax is in the format: <code>dDistName(x,parameters)</code>, <code>pDistName(x,parameters)</code>, <code>qDistName(x,parameters)</code> and <code>rDistName(x,parameters)</code> respectively. This will make more sense in the example below…</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="co">#The normal distribution, sd is the standard deviation</span></span>
 <span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="co">#pdf</span></span>
@@ -633,8 +626,8 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co">#random sample of size 10</span></span>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>,<span class="at">mean=</span><span class="dv">0</span>,<span class="at">sd=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  0.82713644 -0.37101237 -0.22553456 -0.21848059 -0.36162409  0.48754600
- [7] -0.50768989 -0.57237659 -0.08816426  0.36507882</code></pre>
+<pre><code> [1] -1.1405095  0.3981977 -0.3198770 -1.6584966  1.0532511  0.3591659
+ [7]  1.2558750  1.1154764  0.1251737  0.4963750</code></pre>
 </div>
 </div>
 </section>
@@ -642,12 +635,12 @@ window.Quarto = {
 <h2 data-number="4.6" class="anchored" data-anchor-id="plotting"><span class="header-section-number">4.6</span> Plotting</h2>
 <p>R is very good for plotting! There are many types of plots in R, here are some useful plotting functions, this list is not exhaustive…</p>
 <ul>
-<li>plot(x,y,…) produces a scatter plot.</li>
-<li>abline(a=intercept,b=slope,…)</li>
-<li>curve(expr,…) evaluates an expression along a grid to create a curve</li>
-<li>hist(data) creates a histogram</li>
+<li><code>plot(x,y,...)</code> produces a scatter plot.</li>
+<li><code>abline(a=intercept,b=slope,...)</code></li>
+<li><code>curve(expr,...)</code> evaluates an expression along a grid to create a curve</li>
+<li><code>hist(data)</code> creates a histogram</li>
 </ul>
-<p>Plot functions have many parameters, some include col which changes the color and add which should be set to TRUE if the plot should be added to the existing plot. The best way to learn plots is with examples, I have included a regression example below.</p>
+<p>Plot functions have many parameters, some include <code>col</code> which changes the color and add which should be set to <code>TRUE</code> if the plot should be added to the existing plot. The best way to learn plots is with examples, I have included a regression example below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co">#simulate errors</span></span>
 <span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>epsilon<span class="ot">&lt;-</span><span class="fu">rnorm</span>(<span class="dv">100</span>)</span>
@@ -668,18 +661,18 @@ lm(formula = y ~ x)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--2.1465 -0.5732 -0.0417  0.5391  3.1769 
+-2.8335 -0.5408  0.0076  0.5867  3.5809 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)   9.0513     0.1528   59.24   &lt;2e-16 ***
-x             1.9833     0.1032   19.22   &lt;2e-16 ***
+(Intercept)   8.8889     0.1506   59.03   &lt;2e-16 ***
+x             2.1415     0.1030   20.79   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 1.012 on 98 degrees of freedom
-Multiple R-squared:  0.7904,    Adjusted R-squared:  0.7883 
-F-statistic: 369.6 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 0.9612 on 98 degrees of freedom
+Multiple R-squared:  0.8152,    Adjusted R-squared:  0.8133 
+F-statistic: 432.2 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(lmm<span class="sc">$</span>coefficients[<span class="dv">1</span>],lmm<span class="sc">$</span>coefficients[<span class="dv">2</span>],<span class="at">col=</span><span class="st">"red"</span>,<span class="at">lty=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -704,8 +697,8 @@ F-statistic: 369.6 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="if-statements" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="if-statements"><span class="header-section-number">4.7</span> If Statements</h2>
-<p>If statements are essential in programming, and they are a form of ‘Control Structure’. They take the form if(boolean variable) {some task}<br>
-When the computer runs through the code, it checks if the boolean value is TRUE, and if it is, it executes the code in the curly brackets, code in curly brackets is called a <em>block</em>. A simple example…</p>
+<p>If statements are essential in programming, and they are a form of ‘Control Structure’. They take the form <code>if(boolean variable){some task}</code>.<br>
+When the computer runs through the code, it checks if the boolean value is <code>TRUE</code>, and if it is, it executes the code in the curly brackets, code in curly brackets is called a <em>block</em>. A simple example…</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>jim<span class="ot">&lt;-</span><span class="st">"nice"</span></span>
 <span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -713,7 +706,7 @@ When the computer runs through the code, it checks if the boolean value is TRUE,
 <span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>  alice<span class="ot">=</span><span class="st">"nice"</span></span>
 <span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Placing an else{some code} after the if statement will execute the code in it’s block if the code in the above if statement <em>was not</em> executed. The if and else must be in the same block so I have surrounded them in curly brackets.</p>
+<p>Placing an <code>else{some code}</code> after the if statement will execute the code in it’s block if the code in the above if statement <em>was not</em> executed. The if and else must be in the same block so I have surrounded them in curly brackets.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>jim<span class="ot">&lt;-</span><span class="st">"nice"</span></span>
 <span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a><span class="do">##same block</span></span>
@@ -744,7 +737,7 @@ When the computer runs through the code, it checks if the boolean value is TRUE,
 <pre><code>[1] "not nice"</code></pre>
 </div>
 </div>
-<p>You may also use ‘else if(boolean){block}’, which executes it’s block if the above (else) if statement(s) did not execute. See below:</p>
+<p>You may also use <code>else if(boolean){block}</code>, which executes it’s block if the above (else) if statement(s) did not execute. See below:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>jim<span class="ot">&lt;-</span><span class="st">"okay"</span></span>
 <span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a><span class="do">##same block</span></span>
@@ -783,7 +776,7 @@ When the computer runs through the code, it checks if the boolean value is TRUE,
 <span id="cb117-11"><a href="#cb117-11" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb117-12"><a href="#cb117-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "not nice"</code></pre>
+<pre><code>[1] "nice"</code></pre>
 </div>
 </div>
 </section>
@@ -847,24 +840,24 @@ When the computer runs through the code, it checks if the boolean value is TRUE,
 <div class="cell">
 <div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">replicate</span>(<span class="dv">5</span>,<span class="fu">rnorm</span>(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             [,1]        [,2]        [,3]        [,4]       [,5]
- [1,]  0.58024306  0.43589178  0.31055048  0.95133408  0.6590837
- [2,]  0.65317331  0.71470241 -0.87812011 -0.70791599  0.3887090
- [3,]  0.07068693 -2.04826413  0.49470308  0.06934989 -1.1584423
- [4,] -0.42459579  0.99541584 -1.79491220  1.65021500 -0.1160667
- [5,] -0.64378611  0.28032214 -0.07014801 -0.33944072  0.8191457
- [6,] -1.72177331  0.04285809 -1.44320058  0.87000332  1.6206994
- [7,] -0.89013412 -0.89214344  0.79917030 -1.39507875 -1.4829227
- [8,]  0.15076669  1.22950115  0.39493355 -1.88105720 -1.3201724
- [9,]  0.28892268 -1.73722469  0.24404504 -0.09848345 -0.2728791
-[10,]  0.13918475 -0.35081258 -2.35388360 -0.60689228 -1.5694900</code></pre>
+<pre><code>              [,1]        [,2]       [,3]       [,4]       [,5]
+ [1,] -0.005608419 -0.71461043  1.1052949 -1.1393009 -0.8112026
+ [2,] -0.574821076  0.14600447  1.0649020  1.0564646  0.9909279
+ [3,] -0.198882203 -0.47476545 -0.4669837 -1.2130065  0.9384460
+ [4,] -0.415399986 -1.59511142 -1.1440061 -1.1889390 -0.7328127
+ [5,]  0.762106213  0.44492450  0.5489522 -1.8919273  1.4902195
+ [6,] -0.297730518 -0.01794860  1.6517723 -1.7610647  0.4052848
+ [7,]  0.865155395  0.03461485  0.7836288  1.7826783 -2.2778810
+ [8,] -0.092737006  1.50705507  0.2958353 -0.3558820  0.9172283
+ [9,]  1.359713064 -0.35741299  0.1861061 -1.2900771  1.1241050
+[10,] -1.931224114 -0.80321638  0.3215178  0.4473033 -0.2310847</code></pre>
 </div>
 </div>
-<p>Similar functions include sapply() and apply(). sapply(X,FUN,…) applies the function that the paramter FUN is set to to individual elements of a vector. apply(X,MARGIN,FUN,…) applies FUN to the rows or columns depending on what MARGIN is set to, 1 for rows and 2 for columns.</p>
+<p>Similar functions include <code>sapply()</code> and <code>apply()</code>. <code>sapply(X,FUN,...)</code> applies the function that the parameter <code>FUN</code> is set to to individual elements of a vector. <code>apply(X,MARGIN,FUN,...)</code> applies <code>FUN</code> to the rows or columns depending on what <code>MARGIN</code> is set to, 1 for rows and 2 for columns.</p>
 </section>
 <section id="coverage-probability-example" class="level2" data-number="4.9">
 <h2 data-number="4.9" class="anchored" data-anchor-id="coverage-probability-example"><span class="header-section-number">4.9</span> Coverage Probability Example</h2>
-<p>Here we generate 10000 samples of size 100 from the exponential distribution, with <span class="math inline">\(\lambda=2\)</span>. We calculate 10000 confidence intervals for <span class="math inline">\(1/\lambda\)</span> with <span class="math inline">\(\alpha=1\%\)</span>, using the normal approximation: <span class="math display">\[\sqrt{n}(\bar{X}-1/\lambda)\sim N(0,1/\lambda^{2})\]</span> and interval: <span class="math display">\[(\bar{X}-t_{99}(0.005)*S/\sqrt{n},\bar{X}+t_{99}(0.005)*S/\sqrt{n})\]</span> We then check the proportion of intervals that contain the true value of <span class="math inline">\(1/\lambda\)</span>.</p>
+<p>Here we generate 10000 samples of size 100 from the exponential distribution, with <span class="math inline">\(\lambda=2\)</span>. We calculate 10000 confidence intervals for <span class="math inline">\(1/\lambda\)</span> with $=$1%, using the normal approximation: <span class="math display">\[\sqrt{n}(\bar{X}-1/\lambda)\sim N(0,1/\lambda^{2})\]</span> and interval: <span class="math display">\[(\bar{X}-t_{99}(0.005)*S/\sqrt{n},\bar{X}+t_{99}(0.005)*S/\sqrt{n})\]</span> We then check the proportion of intervals that contain the true value of <span class="math inline">\(1/\lambda\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="co">#10000 samples, each of size 100 from the exponential distribution</span></span>
 <span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a>x<span class="ot">&lt;-</span><span class="fu">replicate</span>(<span class="dv">10000</span>,<span class="fu">rexp</span>(<span class="dv">100</span>,<span class="at">rate=</span><span class="dv">2</span>))</span>
@@ -894,7 +887,7 @@ When the computer runs through the code, it checks if the boolean value is TRUE,
 <span id="cb131-6"><a href="#cb131-6" aria-hidden="true" tabindex="-1"></a>intervals[,<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    lower     upper 
-0.3362010 0.5848716 </code></pre>
+0.3467597 0.5835723 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co">#we now check each interval to see if it contains the mean</span></span>
 <span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>successes<span class="ot">&lt;-</span><span class="dv">0</span></span>
@@ -907,7 +900,7 @@ When the computer runs through the code, it checks if the boolean value is TRUE,
 <span id="cb133-9"><a href="#cb133-9" aria-hidden="true" tabindex="-1"></a>coverage.prob<span class="ot">&lt;-</span>successes<span class="sc">/</span><span class="fu">ncol</span>(intervals)</span>
 <span id="cb133-10"><a href="#cb133-10" aria-hidden="true" tabindex="-1"></a>coverage.prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9822</code></pre>
+<pre><code>[1] 0.9841</code></pre>
 </div>
 </div>
 <p>Something more advanced…</p>
@@ -958,8 +951,7 @@ When the computer runs through the code, it checks if the boolean value is TRUE,
 </div>
 </div>
 </div>
-<p>For more information you can visit https://cran.r-project.org/doc/manuals/r-patched/R-intro.pdf<br>
-It is also very easy to find tutorials on the web (youtube is good), you could also look at the book by Lafaye, Drouilhet and Liquet (2013).</p>
+<p>For more information you can visit <a href="https://cran.r-project.org/doc/manuals/r-patched/R-intro.pdf">here</a> . It is also very easy to find tutorials on the web (Youtube is good), you could also look at the book by Lafaye, Drouilhet and Liquet (2013).</p>
 
 
 </section>
@@ -1381,9 +1373,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
