@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; Introduction to R software – Math 3330: Regression Notes</title>
+<title>9&nbsp; Introduction to R software – Math 3330: Regression Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -143,7 +143,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Appendix_R.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction to R software</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Appendix_R.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduction to R software</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -218,6 +218,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./Unit_7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multicollinearity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -225,7 +231,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Appendix_R.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction to R software</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduction to R software</span></span></a>
   </div>
 </li>
     </ul>
@@ -238,15 +244,15 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#some-basics" id="toc-some-basics" class="nav-link active" data-scroll-target="#some-basics"><span class="header-section-number">8.1</span> Some Basics</a></li>
-  <li><a href="#booleans" id="toc-booleans" class="nav-link" data-scroll-target="#booleans"><span class="header-section-number">8.2</span> Booleans</a></li>
-  <li><a href="#vectors" id="toc-vectors" class="nav-link" data-scroll-target="#vectors"><span class="header-section-number">8.3</span> Vectors</a></li>
-  <li><a href="#matrices" id="toc-matrices" class="nav-link" data-scroll-target="#matrices"><span class="header-section-number">8.4</span> Matrices</a></li>
-  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions"><span class="header-section-number">8.5</span> Functions</a></li>
-  <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting"><span class="header-section-number">8.6</span> Plotting</a></li>
-  <li><a href="#if-statements" id="toc-if-statements" class="nav-link" data-scroll-target="#if-statements"><span class="header-section-number">8.7</span> If Statements</a></li>
-  <li><a href="#loops" id="toc-loops" class="nav-link" data-scroll-target="#loops"><span class="header-section-number">8.8</span> Loops</a></li>
-  <li><a href="#coverage-probability-example" id="toc-coverage-probability-example" class="nav-link" data-scroll-target="#coverage-probability-example"><span class="header-section-number">8.9</span> Coverage Probability Example</a></li>
+  <li><a href="#some-basics" id="toc-some-basics" class="nav-link active" data-scroll-target="#some-basics"><span class="header-section-number">9.1</span> Some Basics</a></li>
+  <li><a href="#booleans" id="toc-booleans" class="nav-link" data-scroll-target="#booleans"><span class="header-section-number">9.2</span> Booleans</a></li>
+  <li><a href="#vectors" id="toc-vectors" class="nav-link" data-scroll-target="#vectors"><span class="header-section-number">9.3</span> Vectors</a></li>
+  <li><a href="#matrices" id="toc-matrices" class="nav-link" data-scroll-target="#matrices"><span class="header-section-number">9.4</span> Matrices</a></li>
+  <li><a href="#functions" id="toc-functions" class="nav-link" data-scroll-target="#functions"><span class="header-section-number">9.5</span> Functions</a></li>
+  <li><a href="#plotting" id="toc-plotting" class="nav-link" data-scroll-target="#plotting"><span class="header-section-number">9.6</span> Plotting</a></li>
+  <li><a href="#if-statements" id="toc-if-statements" class="nav-link" data-scroll-target="#if-statements"><span class="header-section-number">9.7</span> If Statements</a></li>
+  <li><a href="#loops" id="toc-loops" class="nav-link" data-scroll-target="#loops"><span class="header-section-number">9.8</span> Loops</a></li>
+  <li><a href="#coverage-probability-example" id="toc-coverage-probability-example" class="nav-link" data-scroll-target="#coverage-probability-example"><span class="header-section-number">9.9</span> Coverage Probability Example</a></li>
   </ul>
 </nav>
     </div>
@@ -255,7 +261,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction to R software</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduction to R software</span></h1>
 </div>
 
 
@@ -272,8 +278,8 @@ window.Quarto = {
 </header>
 
 
-<section id="some-basics" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="some-basics"><span class="header-section-number">8.1</span> Some Basics</h2>
+<section id="some-basics" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="some-basics"><span class="header-section-number">9.1</span> Some Basics</h2>
 <p>R is a Statistical Programming language, it consists of 2 types of objects: data and functions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Data</span></span>
@@ -317,8 +323,8 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>word<span class="ot">=</span><span class="st">'hello'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="booleans" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="booleans"><span class="header-section-number">8.2</span> Booleans</h2>
+<section id="booleans" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="booleans"><span class="header-section-number">9.2</span> Booleans</h2>
 <p>Booleans take on either TRUE or FALSE values, and can be very useful in R. You can set booleans to the result of a comparison of two data types, some of the syntax is below:</p>
 <ul>
 <li>&lt;,&gt;,&lt;=,&gt;= corresponds to less than, greater than, less than or equal, greater than or equal</li>
@@ -365,8 +371,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="vectors" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="vectors"><span class="header-section-number">8.3</span> Vectors</h2>
+<section id="vectors" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="vectors"><span class="header-section-number">9.3</span> Vectors</h2>
 <p>Vectors in R are used frequently, they are “lists” or “arrays” of all the same data type.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="do">##vectors are created with c(data,data,data)</span></span>
@@ -484,8 +490,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="matrices" class="level2" data-number="8.4">
-<h2 data-number="8.4" class="anchored" data-anchor-id="matrices"><span class="header-section-number">8.4</span> Matrices</h2>
+<section id="matrices" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="matrices"><span class="header-section-number">9.4</span> Matrices</h2>
 <p>You can also use matrices in R.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co">#you can create a matrix with matrix(vector of data,nrow=number of rows,ncol=number of columns)</span></span>
@@ -585,8 +591,8 @@ window.Quarto = {
 <span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>newM<span class="ot">&lt;-</span><span class="fu">matrix</span>(myVector,<span class="at">ncol=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="functions" class="level2" data-number="8.5">
-<h2 data-number="8.5" class="anchored" data-anchor-id="functions"><span class="header-section-number">8.5</span> Functions</h2>
+<section id="functions" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="functions"><span class="header-section-number">9.5</span> Functions</h2>
 <p>Functions are objects that take an input and transform it into some output, just like in mathematics. We have already seen some, such as <code>log()</code>.</p>
 <p>They are called with this format <code>output&lt;-functionName(input)</code>.</p>
 <ul>
@@ -610,7 +616,7 @@ window.Quarto = {
 <span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>s<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="at">size=</span><span class="dv">4</span>,<span class="at">replace=</span><span class="cn">TRUE</span>,<span class="at">prob=</span><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">10</span>,<span class="dv">10</span>))</span>
 <span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 5 1 4 5</code></pre>
+<pre><code>[1] 10  6  2  8</code></pre>
 </div>
 </div>
 <p>We have seen other people’s functions but we can also make our own! Let’s see an example first:</p>
@@ -656,13 +662,13 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co">#random sample of size 10</span></span>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>,<span class="at">mean=</span><span class="dv">0</span>,<span class="at">sd=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] -0.5328842  1.0913438  1.7128803 -0.1973039 -0.7261273 -0.5939250
- [7] -0.2501990  1.8518169 -0.3499282 -0.7718090</code></pre>
+<pre><code> [1]  1.5109939  1.0363363  0.4626725  0.2681132  0.6809201  0.1532809
+ [7] -1.8398219  2.0140270  0.1702086 -1.1452971</code></pre>
 </div>
 </div>
 </section>
-<section id="plotting" class="level2" data-number="8.6">
-<h2 data-number="8.6" class="anchored" data-anchor-id="plotting"><span class="header-section-number">8.6</span> Plotting</h2>
+<section id="plotting" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="plotting"><span class="header-section-number">9.6</span> Plotting</h2>
 <p>R is very good for plotting! There are many types of plots in R, here are some useful plotting functions, this list is not exhaustive…</p>
 <ul>
 <li><code>plot(x,y,...)</code> produces a scatter plot.</li>
@@ -690,19 +696,19 @@ Call:
 lm(formula = y ~ x)
 
 Residuals:
-    Min      1Q  Median      3Q     Max 
--2.7681 -0.6525  0.0632  0.7255  2.6433 
+     Min       1Q   Median       3Q      Max 
+-2.68766 -0.62066 -0.02843  0.74392  2.16171 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)   9.3494     0.1541   60.67   &lt;2e-16 ***
-x             1.8754     0.1153   16.27   &lt;2e-16 ***
+(Intercept)   9.0684     0.1428   63.49   &lt;2e-16 ***
+x             1.9549     0.1208   16.18   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 1.03 on 98 degrees of freedom
-Multiple R-squared:  0.7297,    Adjusted R-squared:  0.7269 
-F-statistic: 264.6 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 0.9766 on 98 degrees of freedom
+Multiple R-squared:  0.7276,    Adjusted R-squared:  0.7248 
+F-statistic: 261.7 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(lmm<span class="sc">$</span>coefficients[<span class="dv">1</span>],lmm<span class="sc">$</span>coefficients[<span class="dv">2</span>],<span class="at">col=</span><span class="st">"red"</span>,<span class="at">lty=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -725,8 +731,8 @@ F-statistic: 264.6 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
-<section id="if-statements" class="level2" data-number="8.7">
-<h2 data-number="8.7" class="anchored" data-anchor-id="if-statements"><span class="header-section-number">8.7</span> If Statements</h2>
+<section id="if-statements" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="if-statements"><span class="header-section-number">9.7</span> If Statements</h2>
 <p>If statements are essential in programming, and they are a form of ‘Control Structure’. They take the form <code>if(boolean variable){some task}</code>.<br>
 When the computer runs through the code, it checks if the boolean value is <code>TRUE</code>, and if it is, it executes the code in the curly brackets, code in curly brackets is called a <em>block</em>. A simple example…</p>
 <div class="cell">
@@ -810,8 +816,8 @@ When the computer runs through the code, it checks if the boolean value is <code
 </div>
 </div>
 </section>
-<section id="loops" class="level2" data-number="8.8">
-<h2 data-number="8.8" class="anchored" data-anchor-id="loops"><span class="header-section-number">8.8</span> Loops</h2>
+<section id="loops" class="level2" data-number="9.8">
+<h2 data-number="9.8" class="anchored" data-anchor-id="loops"><span class="header-section-number">9.8</span> Loops</h2>
 <p>Loops execute operations within their blocks repeatedly. There are 2 types of loops you will generally use, for loops and while loops. For loops repeat the block a set number of times, while while loops repeat until a condition is satisfied. You can also nest loops, like if statements.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="co">#calculate 2 to the power of ten</span></span>
@@ -870,23 +876,23 @@ When the computer runs through the code, it checks if the boolean value is <code
 <div class="cell">
 <div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">replicate</span>(<span class="dv">5</span>,<span class="fu">rnorm</span>(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             [,1]        [,2]        [,3]       [,4]       [,5]
- [1,]  0.84855172 -0.63011029  0.20032149 -1.6439758 -1.2800056
- [2,]  0.66586838  1.32165162 -0.90930473  0.2091609  0.6041589
- [3,] -1.04137399  0.49142011 -0.35382099 -2.0477880  0.8662458
- [4,]  0.81348399  0.08509778 -0.05953071 -0.5324819  1.0788131
- [5,] -0.09803724 -0.32825198  0.25970522 -0.5080371 -0.5924158
- [6,] -0.02521771  0.96138670 -0.49828339 -1.1978010 -0.3133568
- [7,] -1.26730346  0.36613438 -1.15038410 -0.4688442 -1.0626752
- [8,]  0.29227202 -0.64899549  1.40696918 -0.8982029  0.1652640
- [9,] -0.39169673 -0.94072460  0.76804576 -0.3099369 -0.4070263
-[10,]  1.66735908  0.98850278 -1.67954106  0.3085545  0.5739739</code></pre>
+<pre><code>               [,1]        [,2]        [,3]       [,4]        [,5]
+ [1,] -0.6924587738 -0.79511255  1.16044342  0.1735657  0.07568448
+ [2,]  0.3909373289  1.69073664  2.69819584  0.2948551  0.50117616
+ [3,]  0.0004954064 -0.08537180  0.47236638 -0.1937425  0.09949477
+ [4,] -1.4622066296 -0.73581057 -0.23007677 -2.4121554 -1.30041350
+ [5,] -0.6728058855 -0.05231098 -0.24096833 -0.8462884 -0.54142132
+ [6,] -0.2780081421 -0.05653582  0.21097410 -0.8743327 -0.80683458
+ [7,] -0.9134797276 -1.63849438  1.20332043 -1.2638274  0.52525347
+ [8,]  1.2433671210 -0.60773502 -0.89945479 -0.2751154 -0.35157394
+ [9,]  1.2261609491  0.60127567 -1.79857493 -0.5512492  1.08306607
+[10,] -1.0161563098 -0.29258783 -0.05312025 -1.2723168  0.29208854</code></pre>
 </div>
 </div>
 <p>Similar functions include <code>sapply()</code> and <code>apply()</code>. <code>sapply(X,FUN,...)</code> applies the function that the parameter <code>FUN</code> is set to to individual elements of a vector. <code>apply(X,MARGIN,FUN,...)</code> applies <code>FUN</code> to the rows or columns depending on what <code>MARGIN</code> is set to, 1 for rows and 2 for columns.</p>
 </section>
-<section id="coverage-probability-example" class="level2" data-number="8.9">
-<h2 data-number="8.9" class="anchored" data-anchor-id="coverage-probability-example"><span class="header-section-number">8.9</span> Coverage Probability Example</h2>
+<section id="coverage-probability-example" class="level2" data-number="9.9">
+<h2 data-number="9.9" class="anchored" data-anchor-id="coverage-probability-example"><span class="header-section-number">9.9</span> Coverage Probability Example</h2>
 <p>Here we generate 10000 samples of size 100 from the exponential distribution, with <span class="math inline">\(\lambda=2\)</span>. We calculate 10000 confidence intervals for <span class="math inline">\(1/\lambda\)</span> with $=$1%, using the normal approximation: <span class="math display">\[\sqrt{n}(\bar{X}-1/\lambda)\sim N(0,1/\lambda^{2})\]</span> and interval: <span class="math display">\[(\bar{X}-t_{99}(0.005)*S/\sqrt{n},\bar{X}+t_{99}(0.005)*S/\sqrt{n})\]</span> We then check the proportion of intervals that contain the true value of <span class="math inline">\(1/\lambda\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="co">#10000 samples, each of size 100 from the exponential distribution</span></span>
@@ -917,7 +923,7 @@ When the computer runs through the code, it checks if the boolean value is <code
 <span id="cb131-6"><a href="#cb131-6" aria-hidden="true" tabindex="-1"></a>intervals[,<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    lower     upper 
-0.3563821 0.6121721 </code></pre>
+0.4342077 0.6977045 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co">#we now check each interval to see if it contains the mean</span></span>
 <span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>successes<span class="ot">&lt;-</span><span class="dv">0</span></span>
@@ -930,7 +936,7 @@ When the computer runs through the code, it checks if the boolean value is <code
 <span id="cb133-9"><a href="#cb133-9" aria-hidden="true" tabindex="-1"></a>coverage.prob<span class="ot">&lt;-</span>successes<span class="sc">/</span><span class="fu">ncol</span>(intervals)</span>
 <span id="cb133-10"><a href="#cb133-10" aria-hidden="true" tabindex="-1"></a>coverage.prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9836</code></pre>
+<pre><code>[1] 0.9841</code></pre>
 </div>
 </div>
 <p>Something more advanced…</p>
