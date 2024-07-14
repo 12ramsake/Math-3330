@@ -1,0 +1,2414 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.53">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>9&nbsp; Variable/Model Selection – Math 3330: Regression Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./Unit_7.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Unit_8.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Variable/Model Selection</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Math 3330: Regression Notes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_0.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Review material</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Residual analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transformations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Indicator Variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Leverage and Influence</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multicollinearity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_8.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Variable/Model Selection</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Appendix_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Introduction to R software</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#variable-selection" id="toc-variable-selection" class="nav-link active" data-scroll-target="#variable-selection"><span class="header-section-number">9.1</span> Variable Selection</a></li>
+  <li><a href="#deciding-if-one-subset-is-better-than-another" id="toc-deciding-if-one-subset-is-better-than-another" class="nav-link" data-scroll-target="#deciding-if-one-subset-is-better-than-another"><span class="header-section-number">9.2</span> Deciding if one subset is better than another</a>
+  <ul class="collapse">
+  <li><a href="#coefficients-of-determination" id="toc-coefficients-of-determination" class="nav-link" data-scroll-target="#coefficients-of-determination"><span class="header-section-number">9.2.1</span> Coefficients of determination</a></li>
+  <li><a href="#mallows-c_k-criterion" id="toc-mallows-c_k-criterion" class="nav-link" data-scroll-target="#mallows-c_k-criterion"><span class="header-section-number">9.2.2</span> Mallows <span class="math inline">\(C_k\)</span> criterion</a></li>
+  </ul></li>
+  <li><a href="#akaike-information-criterion" id="toc-akaike-information-criterion" class="nav-link" data-scroll-target="#akaike-information-criterion"><span class="header-section-number">9.3</span> Akaike information criterion</a></li>
+  <li><a href="#bayesian-information-criterionschwartz-information-criterion" id="toc-bayesian-information-criterionschwartz-information-criterion" class="nav-link" data-scroll-target="#bayesian-information-criterionschwartz-information-criterion"><span class="header-section-number">9.4</span> Bayesian information criterion/Schwartz information criterion</a></li>
+  <li><a href="#algorithms-for-model-selection" id="toc-algorithms-for-model-selection" class="nav-link" data-scroll-target="#algorithms-for-model-selection"><span class="header-section-number">9.5</span> Algorithms for model selection</a>
+  <ul class="collapse">
+  <li><a href="#all-subsets-regression" id="toc-all-subsets-regression" class="nav-link" data-scroll-target="#all-subsets-regression"><span class="header-section-number">9.5.1</span> All subsets regression</a></li>
+  <li><a href="#forward-selection" id="toc-forward-selection" class="nav-link" data-scroll-target="#forward-selection"><span class="header-section-number">9.5.2</span> Forward selection</a></li>
+  <li><a href="#backward-elimination" id="toc-backward-elimination" class="nav-link" data-scroll-target="#backward-elimination"><span class="header-section-number">9.5.3</span> Backward elimination</a></li>
+  <li><a href="#stepwise-regression" id="toc-stepwise-regression" class="nav-link" data-scroll-target="#stepwise-regression"><span class="header-section-number">9.5.4</span> Stepwise regression</a></li>
+  </ul></li>
+  <li><a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation"><span class="header-section-number">9.6</span> Cross Validation</a></li>
+  <li><a href="#homework-questions" id="toc-homework-questions" class="nav-link" data-scroll-target="#homework-questions"><span class="header-section-number">9.7</span> Homework questions</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Variable/Model Selection</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="variable-selection" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="variable-selection"><span class="header-section-number">9.1</span> Variable Selection</h2>
+<p>In the preceding lessons we have assumed that the regressor variables included in the model are known to be important. Our focus was on techniques to ensure that the functional form of the model was correct and that the underlying assumptions were not violated. In previous lessons, we have employed the classical approach to regression model selection, which assumes that we have a very good idea of the basic form of the model and that we know all (or nearly all) of the regressors that should be used.</p>
+<p>Our approach so far can be summarized as follows:</p>
+<ul>
+<li>Fit the full model.</li>
+<li>Perform a thorough analysis of this model, including a full residual analysis and investigation of multicollinearity.</li>
+<li>Determine if transformations of the response or of some of the regressors are necessary.</li>
+<li>Use the <span class="math inline">\(t\)</span>-tests/<span class="math inline">\(F\)</span>-tests on the individual regressors to edit the model.</li>
+<li>Perform a thorough analysis of the edited model, especially a residual analysis, to determine the model’s adequacy.</li>
+</ul>
+<p>In many problems the analyst has a rather large pool of possible candidate regressors, of which only a few are likely to be important. Finding an appropriate subset of regressors for the model is often called the <strong>variable selection</strong> problem .</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Variable selection can address multicollinearity, through the removal of unnecessary variables.</p>
+</div>
+</div>
+<p>Building a regression model that includes only a subset of the available regressors involves two conflicting objectives:</p>
+<ol type="1">
+<li>We would like the model to include as many regressors as possible so that the information about <span class="math inline">\(Y\)</span> contained in these factors can influence the predicted value of <span class="math inline">\(Y\)</span>.</li>
+<li>We want the model to include as few regressors as possible because the variance of <span class="math inline">\(\hat Y\)</span> increases as the number of regressors increases. Also the more regressors there are in a model, the greater the costs of data collection and model maintenance.</li>
+</ol>
+<p>Therefore, we seek a model that is a compromise between these two objectives. There are several algorithms that can be used for variable selection, and these procedures frequently specify different subsets of the candidate regressors as best.</p>
+<p>Variable selection is often developed in an idealized setting: Assumed that the correct functional specification of the regressors is known, and no outliers are present. In practice – it’s messy. Residual analysis is useful in revealing functional forms of regressors that might be investigated, in pointing out new candidate regressors, and for identifying defects in the data such as outliers. The effect of influential observations should also be determined. Although ideally these problems should be solved simultaneously, an iterative approach is often employed, in which (1) a particular variable selection strategy is employed and then (2) the resulting subset model is checked for correct functional specification, outliers, and influential observations. This may indicate that step 1 must be repeated. Several iterations may be required to produce an adequate model.</p>
+<p>None of the variable selection procedures described are guaranteed to produce the best model for a given data set. In fact, there is usually not a single best model but rather several equally good ones. Variable selection algorithms are heavily algorithmic so it is tempting to place a lot of confidence in the results of a particular procedure. Beware of this - experience, professional judgment and subjective considerations are also critical to the variable selection problem. Variable selection procedures should be used in conjunction with these.</p>
+<p>Two key aspects of the variable selection problem are:</p>
+<ol type="1">
+<li>Generating the subset models.</li>
+<li>Deciding if one subset is better than another.</li>
+</ol>
+</section>
+<section id="deciding-if-one-subset-is-better-than-another" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="deciding-if-one-subset-is-better-than-another"><span class="header-section-number">9.2</span> Deciding if one subset is better than another</h2>
+<section id="coefficients-of-determination" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="coefficients-of-determination"><span class="header-section-number">9.2.1</span> Coefficients of determination</h3>
+<p>Recall that <span class="math display">\[R^2=\frac{SSModel}{SST}=1-\frac{SSE}{SST}.\]</span> We know that <span class="math inline">\(R^2\)</span> increases as <span class="math inline">\(p\)</span> increases, so we cannot choose the model with the largest <span class="math inline">\(R^2\)</span>. However, we could add variables one at a time until the marginal increase in <span class="math inline">\(R^2\)</span> is small.</p>
+<div id="exm-8-1-1" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.1</strong></span> Recall example <a href="Unit_5.html#exm-6-4-1" class="quarto-xref">Example&nbsp;<span>6.6</span></a>. Investigate the <span class="math inline">\(R^2\)</span> curve through adding the variables one at a time.</p>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lubridate'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "PropType"
+[1] Commercial
+Levels:  Commercial Condominium Lg Apartment Residential Vacant Land
+[1] "District"
+[1] 6
+[1] "Extwall"
+[1] 
+10 Levels:  Aluminum / Vinyl Block Brick Fiber-Cement Frame ... Stucco
+[1] "Stories"
+[1] 2
+[1] "Year_Built"
+[1] 1880
+[1] "Nr_of_rms"
+[1] 0
+[1] "Fin_sqft"
+[1] 1840
+[1] "Units"
+[1] 1
+[1] "Bdrms"
+[1] 0
+[1] "Fbath"
+[1] 0
+[1] "Lotsize"
+[1] 12750
+[1] "Sale_date"
+[1] 11688
+[1] "Sale_price"
+[1] 15900
+[1] "PropType"
+[1] Residential
+Levels:  Commercial Condominium Lg Apartment Residential Vacant Land
+[1] "factor"
+[1] "District"
+[1] 7
+[1] "integer"
+[1] "Extwall"
+[1] Frame
+10 Levels:  Aluminum / Vinyl Block Brick Fiber-Cement Frame ... Stucco
+[1] "factor"
+[1] "Stories"
+[1] 2
+[1] "double"
+[1] "Year_Built"
+[1] 1913
+[1] "integer"
+[1] "Nr_of_rms"
+[1] 0
+[1] "integer"
+[1] "Fin_sqft"
+[1] 3476
+[1] "integer"
+[1] "Units"
+[1] 4
+[1] "integer"
+[1] "Bdrms"
+[1] 9
+[1] "integer"
+[1] "Fbath"
+[1] 1
+[1] "integer"
+[1] "Lotsize"
+[1] 5040
+[1] "integer"
+[1] "Sale_date"
+[1] 11719
+[1] "integer"
+[1] "Sale_price"
+[1] 42000
+[1] "integer"
+[1] "PropType"
+[1] Residential
+Levels:  Commercial Condominium Lg Apartment Residential Vacant Land
+[1] "factor"
+[1] "District"
+[1] 7
+Levels: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+[1] "factor"
+[1] "Extwall"
+[1] Frame
+10 Levels:  Aluminum / Vinyl Block Brick Fiber-Cement Frame ... Stucco
+[1] "factor"
+[1] "Stories"
+[1] 2
+Levels: 1 1.5 2 2.5 3 3.5
+[1] "factor"
+[1] "Year_Built"
+[1] 1913
+[1] "integer"
+[1] "Nr_of_rms"
+[1] 0
+Levels: 0
+[1] "factor"
+[1] "Fin_sqft"
+[1] 3476
+[1] "integer"
+[1] "Units"
+[1] 4
+Levels: 0 1 2 3 4 6 7 8 13
+[1] "factor"
+[1] "Bdrms"
+[1] 9
+Levels: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 2031
+[1] "factor"
+[1] "Fbath"
+[1] 1
+Levels: 0 1 2 3 4 5 6 10
+[1] "factor"
+[1] "Lotsize"
+[1] 5040
+[1] "integer"
+[1] "Sale_date"
+[1] 11719
+[1] "integer"
+[1] "Sale_price"
+[1] 42000
+[1] "integer"
+[1] "PropType"
+[1] Residential
+Levels:  Commercial Condominium Lg Apartment Residential Vacant Land
+[1] "factor"
+[1] "District"
+[1] 7
+Levels: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+[1] "factor"
+[1] "Extwall"
+[1] Frame
+10 Levels:  Aluminum / Vinyl Block Brick Fiber-Cement Frame ... Stucco
+[1] "factor"
+[1] "Stories"
+[1] 2
+Levels: 1 1.5 2 2.5 3 3.5
+[1] "factor"
+[1] "Year_Built"
+[1] 1913
+[1] "integer"
+[1] "Nr_of_rms"
+[1] 0
+Levels: 0
+[1] "factor"
+[1] "Fin_sqft"
+[1] 3476
+[1] "integer"
+[1] "Units"
+[1] 4
+Levels: 0 1 2 3 4 6 7 8 13
+[1] "factor"
+[1] "Bdrms"
+[1] 9
+Levels: 0 1 2 3 4 5 6 7 8 9 10 11 12 13
+[1] "factor"
+[1] "Fbath"
+[1] 1
+Levels: 0 1 2 3 4 5 6 10
+[1] "factor"
+[1] "Lotsize"
+[1] 5040
+[1] "integer"
+[1] "Sale_date"
+[1] 11719
+[1] "integer"
+[1] "Sale_price"
+[1] 42000
+[1] "integer"
+[1] "PropType"
+
+               Commercial  Condominium Lg Apartment  Residential  Vacant Land 
+           0            0            0            0        24623            0 
+[1] "District"
+
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
+1009 1410 1585  166 3762  703 1033  838 1146 2740 3658  470 2754 2813  536 
+[1] "Extwall"
+
+                 Aluminum / Vinyl            Block            Brick 
+               0            13931              147             5684 
+    Fiber-Cement            Frame  Masonry / Frame        Prem Wood 
+             149             2527              760               63 
+           Stone           Stucco 
+             915              447 
+[1] "Stories"
+
+    1   1.5     2   2.5     3   3.5 
+15647  3441  5516     9     9     1 
+[1] "Nr_of_rms"
+
+    0 
+24623 
+[1] "Units"
+
+    0     1     2     3     4     6     7     8    13 
+    1 20048  4304   230    31     3     3     2     1 
+[1] "Bdrms"
+
+    0     1     2     3     4     5     6     7     8     9    10    11    12 
+    8   111  3280 12646  5770  1356  1228   123    74    20     3     1     1 
+   13 
+    2 
+[1] "Fbath"
+
+    0     1     2     3     4     5     6    10 
+   25 14543  9006   916   108    21     3     1 
+[1] "District"
+
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
+1009 1410 1585  166 3762  703 1033  838 1146 2740 3658  470 2754 2813  536 
+[1] "Extwall"
+
+                 Aluminum / Vinyl            Block            Brick 
+               0            13931              147             5684 
+    Fiber-Cement            Frame  Masonry / Frame        Prem Wood 
+             149             2527              760               63 
+           Stone           Stucco 
+             915              447 
+[1] "Stories"
+
+    1   1.5     2   2.5     3   3.5 
+15647  3441  5516     9     9     1 
+[1] "Units"
+
+    0     1     2     3     4     6     7     8    13 
+    1 20048  4304   230    31     3     3     2     1 
+[1] "Bdrms"
+
+    0     1     2     3     4     5     6     7     8     9    10    11    12 
+    8   111  3280 12646  5770  1356  1228   123    74    20     3     1     1 
+   13 
+    2 
+[1] "Fbath"
+
+    0     1     2     3     4     5     6    10 
+   25 14543  9006   916   108    21     3     1 
+[1] "District"
+
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
+1009 1410 1585  166 3762  703 1033  838 1146 2740 3658  470 2754 2813  535 
+[1] "Extwall"
+
+Aluminum / Vinyl            Block            Brick     Fiber-Cement 
+           13930              147             5684              149 
+           Frame  Masonry / Frame        Prem Wood            Stone 
+            2527              760               63              915 
+          Stucco 
+             447 
+[1] "Stories"
+
+    1   1.5     2    &gt;2 
+15647  3441  5515    19 
+[1] "Units"
+
+    0     1     2     3    &gt;3 
+    0 20048  4304   230    40 
+[1] "Bdrms"
+
+    0     1     2     3     4     5     6     7     8    &gt;8 
+    8   111  3280 12645  5770  1356  1228   123    74    27 
+[1] "Fbath"
+
+    0     1     2     3     4    &gt;4 
+   25 14543  9005   916   108    25 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>custom_palette <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#1f77b4"</span>, <span class="st">"#ff7f0e"</span>, <span class="st">"#2ca02c"</span>, <span class="st">"#d62728"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#9467bd"</span>, <span class="st">"#8c564b"</span>, <span class="st">"#e377c2"</span>, <span class="st">"#7f7f7f"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#bcbd22"</span>, <span class="st">"#17becf"</span>, <span class="st">"#393b79"</span>, </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#8c6d31"</span>, <span class="st">"#9c9ede"</span>, <span class="st">"#637939"</span>, <span class="st">"#eb348f"</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>df_clean4<span class="sc">$</span>d_3<span class="ot">=</span>df_clean4<span class="sc">$</span>District<span class="sc">==</span><span class="dv">3</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>var_list<span class="ot">=</span><span class="fu">names</span>(df_clean4)[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">11</span>,<span class="dv">12</span>)]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>df2<span class="ot">=</span>df_clean4[<span class="sc">-</span><span class="dv">11142</span>,]</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#previous... </span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>full_model<span class="ot">=</span><span class="fu">lm</span>(Sale_price<span class="sc">~</span> District <span class="sc">+</span>  Extwall <span class="sc">+</span>     </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>            Stories  <span class="sc">+</span>    Year_Built  <span class="sc">+</span> Fin_sqft  <span class="sc">+</span>   </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>            Units   <span class="sc">+</span>     Bdrms   <span class="sc">+</span>    </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            Fbath  <span class="sc">+</span>    Lotsize   <span class="sc">+</span> Sale_date <span class="sc">+</span>District<span class="sc">*</span>Lotsize,df2)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="do">###########</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># R2</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>r2<span class="ot">=</span><span class="fu">c</span>()</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(var_list)){</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  vars<span class="ot">=</span><span class="fu">c</span>(var_list[<span class="dv">1</span><span class="sc">:</span>i],<span class="st">"Sale_price"</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  model2<span class="ot">=</span><span class="fu">lm</span>(Sale_price<span class="sc">~</span>.,df2[,vars])</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  sm<span class="ot">=</span><span class="fu">summary</span>(model2)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  r2<span class="ot">=</span><span class="fu">c</span>(r2,sm<span class="sc">$</span>r.squared)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(r2,<span class="at">type=</span><span class="st">'l'</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">ylab=</span><span class="st">"R2"</span>,<span class="at">xlab=</span><span class="st">"# variables"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>var_list[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "District"   "Extwall"    "Stories"    "Year_Built" "Fin_sqft"  
+[6] "Units"     </code></pre>
+</div>
+</div>
+<p>Notice how the curve levels off at 6 variables. This would indicate that we are not gaining much explained variation beyond the first 6 variables. These variables are printed above.</p>
+<p>Recall that <span class="math display">\[\bar R^2=1-\frac{n-1}{n-p}(1-\bar R^2).\]</span> The <span class="math inline">\(\bar R^2\)</span> statistic does not necessarily increase as additional regressors are introduced into the model. In fact, it can be shown that if <span class="math inline">\(s\)</span> regressors are added to the model, the new <span class="math inline">\(\bar R^2\)</span> will exceed the original <span class="math inline">\(\bar R^2\)</span> if and only if the partial <span class="math inline">\(F\)</span> statistic for testing the significance of the <span class="math inline">\(s\)</span> additional regressors exceeds 1. Consequently, one criterion for selection of an optimum subset model is to choose the model that has a maximum <span class="math inline">\(\bar R^2\)</span>. In addition, note that maximizing <span class="math inline">\(\bar R^2\)</span> is equivalent to choosing the model with the minimum <span class="math inline">\(MSE\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># R2 adjusted </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>r2<span class="ot">=</span><span class="fu">c</span>()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(var_list)){</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  vars<span class="ot">=</span><span class="fu">c</span>(var_list[<span class="dv">1</span><span class="sc">:</span>i],<span class="st">"Sale_price"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  model2<span class="ot">=</span><span class="fu">lm</span>(Sale_price<span class="sc">~</span>.,df2[,vars])</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  sm<span class="ot">=</span><span class="fu">summary</span>(model2)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  r2<span class="ot">=</span><span class="fu">c</span>(r2,sm<span class="sc">$</span>adj.r.squared)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(r2,<span class="at">type=</span><span class="st">'l'</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">ylab=</span><span class="st">"R2"</span>,<span class="at">xlab=</span><span class="st">"# variables"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>var_list[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "District"   "Extwall"    "Stories"    "Year_Built" "Fin_sqft"  
+[6] "Units"     </code></pre>
+</div>
+</div>
+</section>
+<section id="mallows-c_k-criterion" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="mallows-c_k-criterion"><span class="header-section-number">9.2.2</span> Mallows <span class="math inline">\(C_k\)</span> criterion</h3>
+<p>Consider the complete model: <span class="math display">\[
+(C)\ Y = \beta_1 + \beta_2 X_1 + \cdots + \beta_p X_p + \epsilon
+\]</span> and a reduced model with <span class="math inline">\((k-1)\)</span> explanatory variables <span class="math display">\[
+Y = \beta_1 + \beta_1 X_1 + \cdots + \beta_{k} X_{k} + \epsilon.
+\]</span> Mallows (1973) defined the <span class="math inline">\(C_k\)</span> statistic as <span class="math display">\[
+C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
+\]</span> where <span class="math inline">\(k\)</span> is the number of columns in <span class="math inline">\(X\)</span> in the reduced model.</p>
+<p>Observe that if <span class="math inline">\(k = p\)</span> then <span class="math display">\[C_k = C_{p} = dfE_C - [n - 2p] = p = k.\]</span></p>
+<p>Let <span class="math inline">\(\operatorname{Bias}={\textrm{E}}\left[\hat Y_i\right]-{\textrm{E}}\left[Y_i\right]\)</span> where <span class="math inline">\(\hat Y_i\)</span> are generated from the reduced model. It can be shown that <span class="math display">\[E\left[C_k \mid \operatorname{Bias}=0\right]=k.\]</span> That is, if the regression model based on the subset of <span class="math inline">\(k-1\)</span> predictors is unbiased, then we expect <span class="math inline">\(C_k\)</span> to be roughly <span class="math inline">\(k\)</span>. In addition, if there is bias, then <span class="math inline">\(E[C_k ]&gt;k\)</span>. Therefore, it is suggested that from all possible models, we choose the model with <span class="math inline">\(C_k\)</span> close to <span class="math inline">\(k\)</span> <strong>and</strong> <span class="math inline">\(C_k \leq k\)</span>. This is a littble bit subjective: For example, the smallest <span class="math inline">\(C_k\)</span> is <span class="math inline">\(C_4 = 4.1\)</span> and the next smallest is <span class="math inline">\(C_5 = 4.7\)</span>. <span class="math inline">\(C_4\)</span> is smallest but <span class="math inline">\(C_4&gt;4\)</span> – the model may be biased. Now, <span class="math inline">\(C_5\)</span> is the second smallest, <span class="math inline">\(C_5&lt;5\)</span> implies the model is likely not biased.</p>
+<div id="exm-8-1-2" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.2</strong></span> Recall example <a href="Unit_5.html#exm-6-4-1" class="quarto-xref">Example&nbsp;<span>6.6</span></a>. Investigate the Mallows <span class="math inline">\(C_k\)</span> of the models considered in <a href="#exm-8-1-1" class="quarto-xref">Example&nbsp;<span>9.9</span></a>. In addition, compare the <code>model_1</code> and <code>model_2</code> below, using <code>full_model</code> as the complete model.</p>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mallows C</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages('olsrr')</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Recall the complete model</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>full_model<span class="ot">=</span><span class="fu">lm</span>(Sale_price<span class="sc">~</span> District <span class="sc">+</span>  Extwall <span class="sc">+</span>     </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>            Stories  <span class="sc">+</span>    Year_Built  <span class="sc">+</span> Fin_sqft  <span class="sc">+</span>   </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>            Units   <span class="sc">+</span>     Bdrms   <span class="sc">+</span>    </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>            Fbath  <span class="sc">+</span>    Lotsize   <span class="sc">+</span> Sale_date <span class="sc">+</span>District<span class="sc">*</span>Lotsize,df2)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Potential models</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>model_1<span class="ot">=</span><span class="fu">lm</span>(Sale_price<span class="sc">~</span> District <span class="sc">+</span>  Fin_sqft  <span class="sc">+</span>  Sale_date ,df2)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>model_2<span class="ot">=</span><span class="fu">lm</span>(Sale_price<span class="sc">~</span> District <span class="sc">+</span>  Extwall <span class="sc">+</span>     </span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>                Stories  <span class="sc">+</span>    Year_Built  <span class="sc">+</span> Fin_sqft  <span class="sc">+</span>   </span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>                Units   <span class="sc">+</span>     Bdrms   <span class="sc">+</span>    </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>                Fbath  <span class="sc">+</span>    Lotsize   <span class="sc">+</span> Sale_date ,df2)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_mallows_cp</span>(model_1,full_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 17157</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_mallows_cp</span>(model_2,full_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3577.586</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(var_list)){</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  vars<span class="ot">=</span><span class="fu">c</span>(var_list[<span class="dv">1</span><span class="sc">:</span>i],<span class="st">"Sale_price"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  model<span class="ot">=</span><span class="fu">lm</span>(Sale_price<span class="sc">~</span>.,df_clean4[,vars])</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"k"</span> ,i,<span class="st">" mallows C_k "</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    olsrr<span class="sc">::</span><span class="fu">ols_mallows_cp</span>(model,full_model),<span class="at">sep=</span><span class="st">""</span>))</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "k1 mallows C_k 40574.5008352943"
+[1] "k2 mallows C_k 35626.028670199"
+[1] "k3 mallows C_k 31187.8465791986"
+[1] "k4 mallows C_k 30272.8161115604"
+[1] "k5 mallows C_k 14817.9666340636"
+[1] "k6 mallows C_k 6239.00700048942"
+[1] "k7 mallows C_k 5688.03575517511"
+[1] "k8 mallows C_k 4370.06818957911"
+[1] "k9 mallows C_k 4111.89603591026"
+[1] "k10 mallows C_k 3694.28930435529"</code></pre>
+</div>
+</div>
+<p>If every potential model has a high value for Mallows <span class="math inline">\(C_k\)</span>, this is an indication that some important predictor variables are likely missing from each model. Therefore, we may wish to revaluate the real estate model.</p>
+<div id="exm-8-2-1" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.3</strong></span> Use the NFL data from the textbook - Consider the following models provided below. Select the best model from <code>model</code>, <code>model_1</code> and <code>model_2</code> given below, using each of the coefficient of determination criteria and Mallows <span class="math inline">\(C_k\)</span>.</p>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">=</span>MPV<span class="sc">::</span>table.b1</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Note</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df)<span class="ot">=</span><span class="fu">c</span>(<span class="st">"Wins"</span>,<span class="st">"RushY"</span>,<span class="st">"PassY"</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">"PuntA"</span>,<span class="st">"FGP"</span>,<span class="st">"TurnD"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">"PenY"</span>,<span class="st">"PerR"</span>,<span class="st">"ORY"</span>,<span class="st">"OPY"</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Wins            RushY          PassY          PuntA            FGP       
+ Min.   : 0.000   Min.   :1416   Min.   :1414   Min.   :35.10   Min.   :38.10  
+ 1st Qu.: 4.000   1st Qu.:1896   1st Qu.:1714   1st Qu.:37.38   1st Qu.:52.42  
+ Median : 6.500   Median :2111   Median :2106   Median :38.85   Median :57.70  
+ Mean   : 6.964   Mean   :2110   Mean   :2127   Mean   :38.64   Mean   :59.40  
+ 3rd Qu.:10.000   3rd Qu.:2303   3rd Qu.:2474   3rd Qu.:39.70   3rd Qu.:68.80  
+ Max.   :13.000   Max.   :2971   Max.   :2929   Max.   :42.30   Max.   :78.30  
+     TurnD             PenY             PerR            ORY      
+ Min.   :-22.00   Min.   : 576.0   Min.   :43.80   Min.   :1457  
+ 1st Qu.: -5.75   1st Qu.: 710.5   1st Qu.:54.77   1st Qu.:1848  
+ Median :  1.00   Median : 787.5   Median :58.65   Median :2050  
+ Mean   :  0.00   Mean   : 789.9   Mean   :58.16   Mean   :2110  
+ 3rd Qu.:  6.25   3rd Qu.: 869.8   3rd Qu.:61.10   3rd Qu.:2320  
+ Max.   : 19.00   Max.   :1037.0   Max.   :67.50   Max.   :2876  
+      OPY      
+ Min.   :1575  
+ 1st Qu.:1913  
+ Median :2101  
+ Mean   :2128  
+ 3rd Qu.:2328  
+ Max.   :2670  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Wins RushY PassY PuntA  FGP TurnD PenY PerR  ORY  OPY
+1   10  2113  1985  38.9 64.7     4  868 59.7 2205 1917
+2   11  2003  2855  38.8 61.3     3  615 55.0 2096 1575
+3   11  2957  1737  40.1 60.0    14  914 65.6 1847 2175
+4   13  2285  2905  41.6 45.3    -4  957 61.4 1903 2476
+5   10  2971  1666  39.2 53.8    15  836 66.1 1457 1866
+6   11  2309  2927  39.7 74.1     8  786 61.0 1848 2339</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>RushDiff<span class="ot">=</span>(df<span class="sc">$</span>RushY<span class="sc">-</span>df<span class="sc">$</span>ORY)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>model<span class="ot">=</span><span class="fu">lm</span>(Wins<span class="sc">~</span>PassY<span class="sc">+</span>PuntA<span class="sc">+</span>FGP<span class="sc">+</span>TurnD<span class="sc">+</span>PenY<span class="sc">+</span>OPY<span class="sc">+</span>RushDiff,<span class="at">data=</span>df)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>model_1<span class="ot">=</span><span class="fu">lm</span>(Wins<span class="sc">~</span> TurnD<span class="sc">+</span>PenY<span class="sc">+</span>PerR<span class="sc">+</span>ORY<span class="sc">+</span>OPY ,df)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>model_2<span class="ot">=</span><span class="fu">lm</span>(Wins<span class="sc">~</span> TurnD<span class="sc">+</span>PenY<span class="sc">+</span>ORY<span class="sc">+</span>OPY,df)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 ADJ R2</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_1)<span class="sc">$</span>r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5848535</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_2)<span class="sc">$</span>r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5843435</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)<span class="sc">$</span>r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7984089</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 ADJ R2</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_1)<span class="sc">$</span>adj.r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.490502</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_2)<span class="sc">$</span>adj.r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5120555</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)<span class="sc">$</span>adj.r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7278521</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="do">##### Mallows C</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_mallows_cp</span>(model_1,model) <span class="co"># k=6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 25.187</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_mallows_cp</span>(model_2,model) <span class="co"># k=5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 23.23759</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_mallows_cp</span>(model,model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8</code></pre>
+</div>
+</div>
+<p>We would select <code>model</code> as the final model, since it has the lowest values of the Mallows <span class="math inline">\(C_k\)</span> that is close to the number of variables. In addition, the <span class="math inline">\(R^2\)</span> jumps significantly when moving from either <code>model_1</code> or <code>model_2</code> to <code>model</code>, so again, we would select <code>model</code>. Lastly, the adjusted $R^2 is the highest for <code>model</code>.</p>
+</section>
+</section>
+<section id="akaike-information-criterion" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="akaike-information-criterion"><span class="header-section-number">9.3</span> Akaike information criterion</h2>
+<ul>
+<li>Akaike proposed an information criterion, AIC, based on maximizing the expected of the model.</li>
+<li>Entropy is simply a measure of the expected information, in this case the Kullback – Leibler divergence.</li>
+<li><span class="math display">\[AIC=n\log\frac{SSE}{n}+2p+constant\]</span></li>
+<li>The decrease in <span class="math inline">\(SSE\)</span> is balanced by the <span class="math inline">\(2p\)</span> penalty</li>
+<li><span class="math inline">\(AIC\)</span> can be computed for other models, but should only be compared within model classes</li>
+</ul>
+</section>
+<section id="bayesian-information-criterionschwartz-information-criterion" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="bayesian-information-criterionschwartz-information-criterion"><span class="header-section-number">9.4</span> Bayesian information criterion/Schwartz information criterion</h2>
+<ul>
+<li>Sawa and Schwartz extended AIC, both called BIC.</li>
+<li>This criterion places a greater penalty on adding regressors as the sample size increases.</li>
+<li><span class="math display">\[BIC=n\log\frac{SSE}{n}+p\log n+constant\]</span></li>
+<li><span class="math inline">\(BIC\)</span> can be computed for other models, but should only be compared within model classes</li>
+</ul>
+<div id="exm-8-2-2" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.4</strong></span> Recall example <a href="Unit_5.html#exm-6-4-1" class="quarto-xref">Example&nbsp;<span>6.6</span></a>. Investigate the AIC and BIC of the models considered in <a href="#exm-8-1-1" class="quarto-xref">Example&nbsp;<span>9.9</span></a>. In addition, compare the <code>model_1</code>, <code>model_2</code> and the <code>full_model</code> using AIC and BIC.</p>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mallows C</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages('olsrr')</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Recall the complete model</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>full_model<span class="ot">=</span><span class="fu">lm</span>(Sale_price<span class="sc">~</span> District <span class="sc">+</span>  Extwall <span class="sc">+</span>     </span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>            Stories  <span class="sc">+</span>    Year_Built  <span class="sc">+</span> Fin_sqft  <span class="sc">+</span>   </span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>            Units   <span class="sc">+</span>     Bdrms   <span class="sc">+</span>    </span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>            Fbath  <span class="sc">+</span>    Lotsize   <span class="sc">+</span> Sale_date <span class="sc">+</span>District<span class="sc">*</span>Lotsize,df_clean4)</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Potential models</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>model_1<span class="ot">=</span><span class="fu">lm</span>(Sale_price<span class="sc">~</span> District <span class="sc">+</span>  Fin_sqft  <span class="sc">+</span>  Sale_date ,df_clean4)</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>model_2<span class="ot">=</span><span class="fu">lm</span>(Sale_price<span class="sc">~</span> District <span class="sc">+</span>  Extwall <span class="sc">+</span>     </span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>                Stories  <span class="sc">+</span>    Year_Built  <span class="sc">+</span> Fin_sqft  <span class="sc">+</span>   </span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>                Units   <span class="sc">+</span>     Bdrms   <span class="sc">+</span>    </span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>                Fbath  <span class="sc">+</span>    Lotsize   <span class="sc">+</span> Sale_date ,df_clean4)</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Aic</span></span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(full_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 589136.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 602019.6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 592279.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(var_list)){</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  vars<span class="ot">=</span><span class="fu">c</span>(var_list[<span class="dv">1</span><span class="sc">:</span>i],<span class="st">"Sale_price"</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  model<span class="ot">=</span><span class="fu">lm</span>(Sale_price<span class="sc">~</span>.,df_clean4[,vars])</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"k"</span> ,i,<span class="st">" AIC "</span>,</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>               <span class="fu">AIC</span>(model),<span class="at">sep=</span><span class="st">""</span>))</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "k1 AIC 612758.302056695"
+[1] "k2 AIC 610831.898564347"
+[1] "k3 AIC 608957.605436705"
+[1] "k4 AIC 608552.940741353"
+[1] "k5 AIC 600431.017183595"
+[1] "k6 AIC 594395.93413908"
+[1] "k7 AIC 593955.469235904"
+[1] "k8 AIC 592860.729755852"
+[1] "k9 AIC 592640.317423882"
+[1] "k10 AIC 592279.290409805"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bic</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(full_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 589638.7</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(model_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 602165.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(model_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 592668.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(var_list)){</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  vars<span class="ot">=</span><span class="fu">c</span>(var_list[<span class="dv">1</span><span class="sc">:</span>i],<span class="st">"Sale_price"</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  model<span class="ot">=</span><span class="fu">lm</span>(Sale_price<span class="sc">~</span>.,df_clean4[,vars])</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"k"</span> ,i,<span class="st">" AIC "</span>,</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>               <span class="fu">BIC</span>(model),<span class="at">sep=</span><span class="st">""</span>))</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "k1 AIC 612887.96764318"
+[1] "k2 AIC 611026.396944075"
+[1] "k3 AIC 609176.416113899"
+[1] "k4 AIC 608779.855517702"
+[1] "k5 AIC 600666.0360591"
+[1] "k6 AIC 594655.265312051"
+[1] "k7 AIC 594287.737301273"
+[1] "k8 AIC 593233.518316998"
+[1] "k9 AIC 593021.210084183"
+[1] "k10 AIC 592668.287169261"</code></pre>
+</div>
+</div>
+<p>We would select <code>full_model</code> as the final model, since it has the lowest values of both AIC and BIC.</p>
+<div id="exm-8-3-2" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.5</strong></span> Use the NFL data from the textbook - Consider the following models provided below. Select the best model from <code>model</code>, <code>model_1</code> and <code>model_2</code> given below, using each of AIC and BIC.</p>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>model<span class="ot">=</span><span class="fu">lm</span>(Wins<span class="sc">~</span>PassY<span class="sc">+</span>PuntA<span class="sc">+</span>FGP<span class="sc">+</span>TurnD<span class="sc">+</span>PenY<span class="sc">+</span>OPY<span class="sc">+</span>RushDiff,<span class="at">data=</span>df)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>model_1<span class="ot">=</span><span class="fu">lm</span>(Wins<span class="sc">~</span> TurnD<span class="sc">+</span>PenY<span class="sc">+</span>PerR<span class="sc">+</span>ORY<span class="sc">+</span>OPY ,df)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>model_2<span class="ot">=</span><span class="fu">lm</span>(Wins<span class="sc">~</span> TurnD<span class="sc">+</span>PenY<span class="sc">+</span>ORY<span class="sc">+</span>OPY,df)</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Bic</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 133.4221</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(model_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 146.9846</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(model_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 143.6868</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Aic</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 121.4323</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model_1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 137.6592</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 135.6936</code></pre>
+</div>
+</div>
+<p>We would select <code>model</code> as the final model, since it has the lowest values of both AIC and BIC.</p>
+</section>
+<section id="algorithms-for-model-selection" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="algorithms-for-model-selection"><span class="header-section-number">9.5</span> Algorithms for model selection</h2>
+<p>We now discuss algorithms which auto select the ``best’’ model.</p>
+<section id="all-subsets-regression" class="level3" data-number="9.5.1">
+<h3 data-number="9.5.1" class="anchored" data-anchor-id="all-subsets-regression"><span class="header-section-number">9.5.1</span> All subsets regression</h3>
+<p>All subsets regression, also known as best subsets regression, is one way to select the best subset of regressors. This technique proceeds as the name implies - it involves evaluating all possible combinations of regressors to identify the model that best fits the data according to a chosen criterion. For instance, if the criterion is AIC, then we may compute the AIC for all possible <span class="math inline">\(2^p\)</span> models. All subsets regression would choose the model with the lowest AIC. Any of the four criterion (AIC, BIC, Mallows <span class="math inline">\(C_k\)</span> or adjusted <span class="math inline">\(R^2\)</span>) can be used for all subsets regression.</p>
+<p>All subsets regression considers all possible subsets of regressors, ensuring that the best model is not missed by the algorithm. However, this has some downsides. First, it can be very computationally intensive for data sets with a large number of regressors. Second, if not properly controlled, examining many models can lead to <strong>overfitting</strong>, especially with small data sets.</p>
+<p>Overfitting is when the model fits the data set so well, that it misses the underlying relationship between the independent and dependent variables. This results in a model that fits the data set well, but performs poorly at predicting new, unseen data due to its overly complex structure.</p>
+<p>We can observe this in the example below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4265</span>)</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate sample data</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">50</span></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">runif</span>(n, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">10</span>)</span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="dv">5</span>)</span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a data frame</span></span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># complexity of the model </span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>complexity<span class="ot">=</span><span class="dv">9</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a linear regression model</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>linear_model <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> data)</span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a polynomial regression model (degree = complexity) This model has more terms. </span></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>poly_model <span class="ot">=</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, complexity), <span class="at">data =</span> data)</span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Make predictions</span></span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>linear_predictions <span class="ot">=</span> <span class="fu">predict</span>(linear_model, data)</span>
+<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>poly_predictions <span class="ot">=</span> <span class="fu">predict</span>(poly_model, data)</span>
+<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate mean squared error (MSE)</span></span>
+<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a>linear_mse <span class="ot">=</span> <span class="fu">mean</span>((data<span class="sc">$</span>y <span class="sc">-</span> linear_predictions)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a>poly_mse <span class="ot">=</span> <span class="fu">mean</span>((data<span class="sc">$</span>y <span class="sc">-</span> poly_predictions)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Print MSE values</span></span>
+<span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Linear Model MSE:"</span>, linear_mse, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear Model MSE: 24.03022 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Polynomial Model MSE:"</span>, poly_mse, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Polynomial Model MSE: 19.69118 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice how the squared error is lower for the more complex model?</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the results - this is GG plot, another way to plot in R</span></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x) <span class="sc">+</span></span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x,complexity)) <span class="sc">+</span></span>
+<span id="cb72-9"><a href="#cb72-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Linear vs. Polynomial Regression (Degree 9)"</span>,</span>
+<span id="cb72-10"><a href="#cb72-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate new data from the same process</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">500</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>xx <span class="ot">=</span> <span class="fu">runif</span>(n, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">10</span>)</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>yy <span class="ot">=</span> <span class="dv">1</span> <span class="sc">+</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">sd =</span> <span class="dv">5</span>)</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>nd <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="st">'x'</span><span class="ot">=</span>xx,<span class="st">'y'</span><span class="ot">=</span>yy)</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>gen_linear_predictions <span class="ot">=</span> <span class="fu">predict</span>(linear_model, nd)</span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>gen_poly_predictions <span class="ot">=</span> <span class="fu">predict</span>(poly_model, nd)</span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate mean squared error (MSE)</span></span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>gen_linear_mse <span class="ot">=</span> <span class="fu">mean</span>((data<span class="sc">$</span>y <span class="sc">-</span> gen_linear_predictions)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a>gen_poly_mse <span class="ot">=</span> <span class="fu">mean</span>((data<span class="sc">$</span>y <span class="sc">-</span> gen_poly_predictions)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-14"><a href="#cb73-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Print MSE values</span></span>
+<span id="cb73-15"><a href="#cb73-15" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Linear Model MSE:"</span>, gen_linear_mse, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear Model MSE: 45.06416 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Polynomial Model MSE:"</span>, gen_poly_mse, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Polynomial Model MSE: 50.40172 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice how the generalized error is lower for the linear model?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Above, we fit two models to the data. One that allows for polynomial functions of degree at most 9 (not just linear functions), and one that only allows linear functions. It is clear that the polynomial model has a lower error on the data set at hand. However, when we generate new data from the same process, the polynomial model has a much higher error. This is an example of overfitting - the complex model does not generalize well beyond the current data set.</p>
+<div id="exm-8-3-3" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.6</strong></span> Use the NFL data from the textbook - Perform all subsets regression with each of the metrics described above.</p>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages('leaps')</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>all<span class="ot">=</span>leaps<span class="sc">::</span><span class="fu">regsubsets</span>(Wins<span class="sc">~</span>PassY<span class="sc">+</span>PuntA<span class="sc">+</span>FGP<span class="sc">+</span>TurnD<span class="sc">+</span>PenY<span class="sc">+</span>RushDiff<span class="sc">+</span>ORY<span class="sc">+</span>OPY,<span class="at">data=</span>df,<span class="at">nvmax=</span><span class="dv">10</span>,<span class="at">method=</span><span class="st">'exhaustive'</span>)</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2^8</span></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'r2'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'adjr2'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'Cp'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-9-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'bic'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-9-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The <code>leaps</code> package allows us to do all subsets regression. We see that (with the exception of the <span class="math inline">\(R\)</span>-squared) the best model under all criterion contains passing yards, rushing yard differential, and opponent passing yards.</p>
+<p>We can do the same thing on the real estate data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages('leaps')</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="co"># If you run this, you will get the following error: </span></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="co"># all=leaps::regsubsets(Sale_price~ District +  Extwall +     </span></span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="co">#             Stories  +    Year_Built  + Fin_sqft  +   </span></span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a><span class="co">#             Units   +     Bdrms   +    </span></span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a><span class="co">#             Fbath  +    Lotsize   + Sale_date +District*Lotsize,data=df2,nvmax=10,method='exhaustive')</span></span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a><span class="co"># "Error in leaps.exhaustive(a, really.big) : Exhaustive search will be S L O W, must specify really.big=T"</span></span>
+<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a><span class="co"># This shows how this can quickly become computationally intensive</span></span>
+<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a><span class="co"># You will see that running the following code takes very long!</span></span>
+<span id="cb82-11"><a href="#cb82-11" aria-hidden="true" tabindex="-1"></a>all<span class="ot">=</span>leaps<span class="sc">::</span><span class="fu">regsubsets</span>(Sale_price<span class="sc">~</span> District <span class="sc">+</span>  Extwall <span class="sc">+</span></span>
+<span id="cb82-12"><a href="#cb82-12" aria-hidden="true" tabindex="-1"></a>            Stories  <span class="sc">+</span>    Year_Built  <span class="sc">+</span> Fin_sqft  <span class="sc">+</span></span>
+<span id="cb82-13"><a href="#cb82-13" aria-hidden="true" tabindex="-1"></a>            Units   <span class="sc">+</span>     Bdrms   <span class="sc">+</span></span>
+<span id="cb82-14"><a href="#cb82-14" aria-hidden="true" tabindex="-1"></a>            Fbath  <span class="sc">+</span>    Lotsize   <span class="sc">+</span> Sale_date<span class="sc">+</span>District<span class="sc">*</span>Lotsize,<span class="at">data=</span>df2,<span class="at">nvmax=</span><span class="dv">10</span>,<span class="at">really.big=</span>T,<span class="at">method=</span><span class="st">'exhaustive'</span>)</span>
+<span id="cb82-15"><a href="#cb82-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-16"><a href="#cb82-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-17"><a href="#cb82-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-18"><a href="#cb82-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'r2'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'adjr2'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'Cp'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-10-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'bic'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-10-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The selected models appear fairly sparse!</p>
+</section>
+<section id="forward-selection" class="level3" data-number="9.5.2">
+<h3 data-number="9.5.2" class="anchored" data-anchor-id="forward-selection"><span class="header-section-number">9.5.2</span> Forward selection</h3>
+<p>Forward selection is another common algorithm used to select the best model. It involves adding regressors one by one until adding more regressors becomes unhelpful. Essentially, we find the most “significant” regressor to be added to the model, and add it if it is “significant enough”. We keep adding regressors, until none are significant enough. However, forward selection is “greedy”, in the sense that it does not consider all possible subsets of regressors. This means that it is possible that the “best” model is missed by the algorithm.</p>
+<p>The algorithm proceeds as follows:</p>
+<ol type="1">
+<li>Choose <span class="math inline">\(\alpha_{entry}\)</span>, which is the significance level for a regressor to enter the model. Set the current model to be <span class="math inline">\(Y = \beta_0 + \epsilon\)</span>.</li>
+<li>Among all regressors <span class="math inline">\(X_i\)</span> not in the current model, test <span class="math inline">\(H_0: X_i\)</span> not entered versus <span class="math inline">\(H_a: X_i\)</span> entered.</li>
+<li>Choose the covariate with smallest <span class="math inline">\(p\)</span>-value, i.e.&nbsp;the most likely <span class="math inline">\(X_i\)</span> to be entered. Say the <span class="math inline">\(p\)</span>-value for testing <span class="math inline">\(H_0: \beta_1 =0\)</span> is the smallest.</li>
+<li>If the chosen <span class="math inline">\(p\)</span>-value is <span class="math inline">\(\geq  \alpha_{entry}\)</span>, then <span class="math inline">\(X_1\)</span> is not entered, and the current model is chosen as the final model and the process terminates. Otherwise, <span class="math inline">\(X_1\)</span> is entered and the new current model is set to the current model, with the addition of <span class="math inline">\(X_1\)</span>.</li>
+<li>Return to step 2.</li>
+</ol>
+<!-- - Now $X_1$ is in the model, then among all the models with 2 explanatory -->
+<!-- variables ($X_1$ must be one of them)  -->
+<!-- i.e. $Y = \beta_0 + \beta_1 X_1 + \beta_i X_i + \epsilon \ i=2, \ldots, p$ -->
+<!-- - Test $H_0: X_i$ not entered versus $H_a: X_i$ entered  -->
+<!-- i.e. $H_0: \beta_i =0$ versus $H_a: \beta_i \ne 0$  -->
+<!-- - Choose the model with smallest $p$-value  -->
+<!-- i.e. the most likely $X_i$ to be entered   -->
+<!-- - Say $p$-value for testing $H_0: \beta_2 =0$ is smallest  -->
+<!-- - If the chosen $p$-value $\ge  \alpha_{entry}$, then $X_2$ is not entered, -->
+<!-- and the model is $Y = \beta_0 + \beta_1 X_1 + \epsilon$ -->
+<!-- and the process STOP  -->
+<!-- - Otherwise, $X_2$ is entered and the model is $Y = \beta_0 + \beta_1 X_1 +  -->
+<!-- \beta_2 X_2 + \epsilon$ and continue to the next step -->
+<p>Note that once an explanatory variable is entered, it will never leave the model.</p>
+<div id="exm-8-4-1" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.7</strong></span> Suppose that we have 3 explanatory variables and <span class="math inline">\(\alpha_{entry}\)</span> is chosen to be 0.05. The following is how we would proceed.</p>
+</div>
+<p>Iteration 1:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th><span class="math inline">\(H_a:\)</span></th>
+<th><span class="math inline">\(p\)</span>-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \epsilon\)</span></td>
+<td><span class="math inline">\(\beta_1 \ne 0\)</span></td>
+<td>0.00033</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Y = \beta_0 + \beta_2 X_2 + \epsilon\)</span></td>
+<td><span class="math inline">\(\beta_2 \ne 0\)</span></td>
+<td>0.00490</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(Y = \beta_0 + \beta_3 X_3 + \epsilon\)</span></td>
+<td><span class="math inline">\(\beta_3 \ne 0\)</span></td>
+<td>0.00101</td>
+</tr>
+</tbody>
+</table>
+<p>Since 0.00033 is the smallest <span class="math inline">\(p\)</span>-value and it is less than <span class="math inline">\(\alpha_{entry}\)</span>, the chosen model is <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \epsilon\)</span>, and we continue to the next iteration.</p>
+<p>Iteration 2:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 68%">
+<col style="width: 18%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th><span class="math inline">\(H_a:\)</span></th>
+<th><span class="math inline">\(p\)</span>-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon\)</span></td>
+<td><span class="math inline">\(\beta_2 \ne 0\)</span></td>
+<td>0.01330</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \beta_3 X_3 + \epsilon\)</span></td>
+<td><span class="math inline">\(\beta_3 \ne 0\)</span></td>
+<td>0.1125</td>
+</tr>
+</tbody>
+</table>
+<p>Since 0.01330 is the smallest <span class="math inline">\(p\)</span>-value and it is less than <span class="math inline">\(\alpha_{entry}\)</span>, the chosen model is <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon\)</span>, and we continue to the next iteration.</p>
+<p>Iteration 3:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 71%">
+<col style="width: 17%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th><span class="math inline">\(H_a:\)</span></th>
+<th><span class="math inline">\(p\)</span>-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \epsilon\)</span></td>
+<td><span class="math inline">\(\beta_3 \ne 0\)</span></td>
+<td>0.36145</td>
+</tr>
+</tbody>
+</table>
+<p>Since <span class="math inline">\(0.36145\)</span> is the smallest <span class="math inline">\(p\)</span>-value and it is greater than <span class="math inline">\(\alpha_{entry}\)</span>, the chosen model is <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon\)</span>, and STOP.</p>
+<p>If <span class="math inline">\(\alpha_{entry}\)</span> is chosen to be 0.01, observe that we will stop at Step 2 and the chosen model is <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \epsilon\)</span>. As you can see, the chosen model is easily affected by the chosen <span class="math inline">\(\alpha_{entry}\)</span> value.</p>
+</section>
+<section id="backward-elimination" class="level3" data-number="9.5.3">
+<h3 data-number="9.5.3" class="anchored" data-anchor-id="backward-elimination"><span class="header-section-number">9.5.3</span> Backward elimination</h3>
+<p>In Backward elimination, we start with the largest model, i.e., the one with all of the regressors, and eliminate regressors one by one until nothing can be eliminated. Like forward selection, backward selection is also greedy, and therefore, suffers from the same drawbacks.</p>
+<p>For <span class="math inline">\(p-1\)</span> regressors, the algorithm proceeds as follows:</p>
+<ol type="1">
+<li>Choose: <span class="math inline">\(\alpha_{stay}\)</span>, which is the significance level for an explanatory variable to <strong>stay</strong> in the model. Set the current model to be <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \ldots + \beta_{p-1} X_{p-1} + \epsilon\)</span>.</li>
+<li>Test <span class="math inline">\(H_0: X_i\)</span> eliminated versus <span class="math inline">\(H_a: X_i\)</span> not eliminated, i.e.&nbsp;<span class="math inline">\(H_0: \beta_i =0\)</span> versus <span class="math inline">\(H_a: \beta_i \ne 0\)</span> with respect to the current model.</li>
+<li>Choose the regressor with the largest <span class="math inline">\(p\)</span>-value – i.e., the most likely <span class="math inline">\(X_i\)</span> to be eliminated. Say <span class="math inline">\(p\)</span>-value for testing <span class="math inline">\(H_0: \beta_p =0\)</span> is the largest.</li>
+<li>If the chosen <span class="math inline">\(p\)</span>-value is <span class="math inline">\(&lt;  \alpha_{stay}\)</span>, then <span class="math inline">\(X_p\)</span> is not eliminated, and the chosen model is the current model and the process terminates. Otherwise, <span class="math inline">\(X_p\)</span> is eliminated and the current model is set to be the old current model, with <span class="math inline">\(X_p\)</span> removed.</li>
+<li>If there are no regressors in the current model, terminate. Otherwise, go back to step 2.</li>
+</ol>
+<div id="exm-8-4-2" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.8</strong></span> Suppose that we have 3 explanatory variables and <span class="math inline">\(\alpha_{stay}\)</span> is chosen to be 0.05. The following is how we would proceed.</p>
+</div>
+<p>The current model is <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \epsilon\)</span>.</p>
+<p>Iteration 1:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(H_a:\)</span></th>
+<th><span class="math inline">\(p\)</span>-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\beta_1 \ne 0\)</span></td>
+<td>0.0176</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta_2 \ne 0\)</span></td>
+<td>0.05627</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\beta_3 \ne 0\)</span></td>
+<td>0.36145</td>
+</tr>
+</tbody>
+</table>
+<p>Since 0.36145 is the largest <span class="math inline">\(p\)</span>-value and it is greater than <span class="math inline">\(\alpha_{stay}\)</span>, the current model is set to be <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon\)</span>, and we continue to the next iteration.</p>
+<p>Iteration 2:</p>
+<p>Model is <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon\)</span>.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(H_a:\)</span></th>
+<th><span class="math inline">\(p\)</span>-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\beta_1 \ne 0\)</span></td>
+<td>0.00139</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta_2 \ne 0\)</span></td>
+<td>0.01330</td>
+</tr>
+</tbody>
+</table>
+<p>Since 0.01330 is the smallest <span class="math inline">\(p\)</span>-value and it is less than <span class="math inline">\(\alpha_{stay}\)</span>, the final model is <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon\)</span>, and the process terminates.</p>
+<p>If <span class="math inline">\(\alpha_{stay}\)</span> is chosen to be 0.01, then we will continue the process and eventually, the chosen model is <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \epsilon\)</span>. Again, the chosen model is easily affected by the chosen <span class="math inline">\(\alpha_{stay}\)</span> value.</p>
+<p>In forward selection, once a regressor is entered, it will be in the final model. In backward elimination, once a regressor is eliminated, it will not be in the final model. A combination of these two processes, that allows for variables to enter and exit the model is called <strong>stepwise Regression</strong>.</p>
+</section>
+<section id="stepwise-regression" class="level3" data-number="9.5.4">
+<h3 data-number="9.5.4" class="anchored" data-anchor-id="stepwise-regression"><span class="header-section-number">9.5.4</span> Stepwise regression</h3>
+<p>In stepwise regression, we start the model from smallest model, <span class="math inline">\(Y=\beta_0+\epsilon\)</span>, and we keep adding and eliminating regressors one by one such that added regressors can be eliminated later and eliminated regressors can be added later. Like forward selection and backward selection, stepwise regression is also greedy, and therefore, suffers from the same drawbacks.</p>
+<p>For <span class="math inline">\(p-1\)</span> regressors, the algorithm proceeds as follows:</p>
+<ol type="1">
+<li>Choose: <span class="math inline">\(\alpha_{enter}\)</span> and <span class="math inline">\(\alpha_{stay}\)</span>. Set the current model to be <span class="math inline">\(Y = \beta_0 + \epsilon\)</span>.</li>
+<li>Set the old model to be the current model. Perform steps 2-4 of forward selection.</li>
+<li>Suppose in the previous step, <span class="math inline">\(X_1\)</span> was added to the current model. Next, with the current model, apply steps 2-5 of backward elimination.</li>
+<li>If <span class="math inline">\(X_1\)</span> is eliminated in backward elimination, then do not remove <span class="math inline">\(X_1\)</span> from the current model and set the current model to be the final model. The process then terminates. If the current model equals the old model, terminate. Otherwise, go back to step 2.</li>
+</ol>
+<p>The stopping rule for stepwise regression is when we run into infinite loop (the same variable being added and eliminated) OR when we have nothing to add <strong>and</strong> nothing to eliminate.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>One way to avoid the infinite loop is to choose <span class="math inline">\(\alpha_{stay} \neq  \alpha_{entry}\)</span>.</li>
+<li>Some books suggest “easy to enter” and “tough to eliminate” strategy for selecting <span class="math inline">\(\alpha_{stay},  \alpha_{entry}\)</span> but there is no strict rule.</li>
+<li><code>R</code> is using the AIC criterion for entering and eliminating, rather than the <span class="math inline">\(F\)</span> test. This is also acceptable.</li>
+</ol>
+</div>
+</div>
+<div id="exm-8-1-1" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.9</strong></span> Recall the real estate example - <a href="Unit_5.html#exm-6-4-1" class="quarto-xref">Example&nbsp;<span>6.6</span></a>. Run forward selection, backward selection and stepwise regression using AIC as the criterion, including all regressors. (AIC is done automatically in R.)</p>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ########### Automated methods ###########</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="do">############ Forward selection with AIC ###########</span></span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a><span class="co">#define intercept-only model</span></span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>intercept_only <span class="ot">=</span> <span class="fu">lm</span>(Sale_price<span class="sc">~</span> <span class="dv">1</span>, <span class="at">data=</span>df2)</span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a><span class="co"># define model with all predictors</span></span>
+<span id="cb86-9"><a href="#cb86-9" aria-hidden="true" tabindex="-1"></a>all <span class="ot">=</span> <span class="fu">lm</span>(Sale_price<span class="sc">~</span> ., <span class="at">data=</span>df2)</span>
+<span id="cb86-10"><a href="#cb86-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-11"><a href="#cb86-11" aria-hidden="true" tabindex="-1"></a><span class="co"># perform forward stepwise regression</span></span>
+<span id="cb86-12"><a href="#cb86-12" aria-hidden="true" tabindex="-1"></a>forward <span class="ot">=</span> <span class="fu">step</span>(intercept_only, <span class="at">direction=</span><span class="st">'forward'</span>, <span class="at">scope=</span><span class="fu">formula</span>(all), <span class="at">trace=</span><span class="dv">0</span>)</span>
+<span id="cb86-13"><a href="#cb86-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-14"><a href="#cb86-14" aria-hidden="true" tabindex="-1"></a><span class="co">#view results of forward stepwise regression</span></span>
+<span id="cb86-15"><a href="#cb86-15" aria-hidden="true" tabindex="-1"></a>forward<span class="sc">$</span>anova</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Step  Df     Deviance Resid. Df   Resid. Dev      AIC
+1                NA           NA     24441 1.710695e+14 554078.5
+2    + District -14 6.175224e+13     24427 1.093172e+14 543161.0
+3    + Fin_sqft  -1 3.824600e+13     24426 7.107123e+13 532639.0
+4       + Units  -3 1.789793e+13     24423 5.317331e+13 525553.7
+5       + Fbath  -5 2.331394e+12     24418 5.084191e+13 524467.8
+6       + Bdrms  -9 1.243638e+12     24409 4.959827e+13 523880.5
+7   + Sale_date  -1 7.291417e+11     24408 4.886913e+13 523520.5
+8  + Year_Built  -1 7.023471e+11     24407 4.816678e+13 523168.7
+9     + Lotsize  -1 3.364533e+11     24406 4.783033e+13 522999.4
+10    + Extwall  -8 2.479395e+11     24398 4.758239e+13 522888.3
+11    + Stories  -3 2.068265e+11     24395 4.737557e+13 522787.9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="co">#view final model</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(forward<span class="sc">$</span>coefficients)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "(Intercept)"            "District2"              "District3"             
+ [4] "District4"              "District5"              "District6"             
+ [7] "District7"              "District8"              "District9"             
+[10] "District10"             "District11"             "District12"            
+[13] "District13"             "District14"             "District15"            
+[16] "Fin_sqft"               "Units2"                 "Units3"                
+[19] "Units&gt;3"                "Fbath1"                 "Fbath2"                
+[22] "Fbath3"                 "Fbath4"                 "Fbath&gt;4"               
+[25] "Bdrms1"                 "Bdrms2"                 "Bdrms3"                
+[28] "Bdrms4"                 "Bdrms5"                 "Bdrms6"                
+[31] "Bdrms7"                 "Bdrms8"                 "Bdrms&gt;8"               
+[34] "Sale_date"              "Year_Built"             "Lotsize"               
+[37] "ExtwallBlock"           "ExtwallBrick"           "ExtwallFiber-Cement"   
+[40] "ExtwallFrame"           "ExtwallMasonry / Frame" "ExtwallPrem Wood"      
+[43] "ExtwallStone"           "ExtwallStucco"          "Stories1.5"            
+[46] "Stories2"               "Stories&gt;2"             </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ###################### Backward selection with AIC ######################</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="co">#define intercept-only model</span></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>intercept_only <span class="ot">=</span> <span class="fu">lm</span>(Sale_price<span class="sc">~</span> <span class="dv">1</span>, <span class="at">data=</span>df_clean4)</span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a><span class="co">#define model with all predictors</span></span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>all <span class="ot">=</span> <span class="fu">lm</span>(Sale_price<span class="sc">~</span> ., <span class="at">data=</span>df_clean4)</span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a><span class="co">#perform backward stepwise regression</span></span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a>backward <span class="ot">=</span> <span class="fu">step</span>(all, <span class="at">direction=</span><span class="st">'backward'</span>, <span class="at">scope=</span><span class="fu">formula</span>(all), <span class="at">trace=</span><span class="dv">0</span>)</span>
+<span id="cb90-10"><a href="#cb90-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-11"><a href="#cb90-11" aria-hidden="true" tabindex="-1"></a><span class="co">#view results of backward stepwise regression</span></span>
+<span id="cb90-12"><a href="#cb90-12" aria-hidden="true" tabindex="-1"></a>backward<span class="sc">$</span>anova</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Step Df Deviance Resid. Df   Resid. Dev      AIC
+1       NA       NA     24396 4.757525e+13 522911.1
+2 - d_3  0        0     24396 4.757525e+13 522911.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co">#view final model</span></span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(backward<span class="sc">$</span>coefficients)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "(Intercept)"            "District2"              "District3"             
+ [4] "District4"              "District5"              "District6"             
+ [7] "District7"              "District8"              "District9"             
+[10] "District10"             "District11"             "District12"            
+[13] "District13"             "District14"             "District15"            
+[16] "ExtwallBlock"           "ExtwallBrick"           "ExtwallFiber-Cement"   
+[19] "ExtwallFrame"           "ExtwallMasonry / Frame" "ExtwallPrem Wood"      
+[22] "ExtwallStone"           "ExtwallStucco"          "Stories1.5"            
+[25] "Stories2"               "Stories&gt;2"              "Year_Built"            
+[28] "Fin_sqft"               "Units2"                 "Units3"                
+[31] "Units&gt;3"                "Bdrms1"                 "Bdrms2"                
+[34] "Bdrms3"                 "Bdrms4"                 "Bdrms5"                
+[37] "Bdrms6"                 "Bdrms7"                 "Bdrms8"                
+[40] "Bdrms&gt;8"                "Fbath1"                 "Fbath2"                
+[43] "Fbath3"                 "Fbath4"                 "Fbath&gt;4"               
+[46] "Lotsize"                "Sale_date"             </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="do">########### Stepwise Regression with AIC ###########</span></span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Define intercept-only model</span></span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>intercept_only <span class="ot">=</span> <span class="fu">lm</span>(Sale_price<span class="sc">~</span> <span class="dv">1</span>, <span class="at">data=</span>df_clean4)</span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define model with all predictors</span></span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>all <span class="ot">=</span> <span class="fu">lm</span>(Sale_price<span class="sc">~</span> ., <span class="at">data=</span>df_clean4)</span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a><span class="co">#perform stepwise regression</span></span>
+<span id="cb94-9"><a href="#cb94-9" aria-hidden="true" tabindex="-1"></a>both <span class="ot">=</span> <span class="fu">step</span>(intercept_only, <span class="at">direction=</span><span class="st">'both'</span>, <span class="at">scope=</span><span class="fu">formula</span>(all), <span class="at">trace=</span><span class="dv">0</span>)</span>
+<span id="cb94-10"><a href="#cb94-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-11"><a href="#cb94-11" aria-hidden="true" tabindex="-1"></a><span class="co">#view results of Stepwise regression</span></span>
+<span id="cb94-12"><a href="#cb94-12" aria-hidden="true" tabindex="-1"></a>both<span class="sc">$</span>anova</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Step  Df     Deviance Resid. Df   Resid. Dev      AIC
+1                NA           NA     24442 1.723269e+14 554279.2
+2    + District -14 6.207601e+13     24428 1.102509e+14 543390.1
+3    + Fin_sqft  -1 3.865374e+13     24427 7.159711e+13 532839.9
+4       + Units  -3 1.806837e+13     24424 5.352874e+13 525737.0
+5       + Fbath  -5 2.390742e+12     24419 5.113800e+13 524630.2
+6       + Bdrms  -9 1.268332e+12     24410 4.986967e+13 524034.3
+7   + Sale_date  -1 7.299962e+11     24409 4.913967e+13 523675.9
+8  + Year_Built  -1 7.284709e+11     24408 4.841120e+13 523312.8
+9     + Lotsize  -1 3.850140e+11     24407 4.802619e+13 523119.7
+10    + Extwall  -8 2.445413e+11     24399 4.778164e+13 523010.9
+11    + Stories  -3 2.063959e+11     24396 4.757525e+13 522911.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co">#view final model</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(both<span class="sc">$</span>coefficients)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "(Intercept)"            "District2"              "District3"             
+ [4] "District4"              "District5"              "District6"             
+ [7] "District7"              "District8"              "District9"             
+[10] "District10"             "District11"             "District12"            
+[13] "District13"             "District14"             "District15"            
+[16] "Fin_sqft"               "Units2"                 "Units3"                
+[19] "Units&gt;3"                "Fbath1"                 "Fbath2"                
+[22] "Fbath3"                 "Fbath4"                 "Fbath&gt;4"               
+[25] "Bdrms1"                 "Bdrms2"                 "Bdrms3"                
+[28] "Bdrms4"                 "Bdrms5"                 "Bdrms6"                
+[31] "Bdrms7"                 "Bdrms8"                 "Bdrms&gt;8"               
+[34] "Sale_date"              "Year_Built"             "Lotsize"               
+[37] "ExtwallBlock"           "ExtwallBrick"           "ExtwallFiber-Cement"   
+[40] "ExtwallFrame"           "ExtwallMasonry / Frame" "ExtwallPrem Wood"      
+[43] "ExtwallStone"           "ExtwallStucco"          "Stories1.5"            
+[46] "Stories2"               "Stories&gt;2"             </code></pre>
+</div>
+</div>
+<p>These methods retain many more variables. It is interesting, considering all subsets contained very few.</p>
+<div id="exm-8-3-4" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.10</strong></span> Use the NFL data from the textbook - Run forward selection and backward selection including all regressors using the <span class="math inline">\(F\)</span> statistic criterion.</p>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="do">############ Forward selection by F value</span></span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Threshold for p-value to determine variable inclusion</span></span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>thresh <span class="ot">=</span> <span class="fl">0.05</span></span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize an empty vector to store currently selected variables</span></span>
+<span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a>curr_vars <span class="ot">=</span> <span class="fu">c</span>()</span>
+<span id="cb98-7"><a href="#cb98-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-8"><a href="#cb98-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a vector of variable names excluding the dependent variable 'Wins' and 'PerR'</span></span>
+<span id="cb98-9"><a href="#cb98-9" aria-hidden="true" tabindex="-1"></a>vars_left <span class="ot">=</span> <span class="fu">names</span>(df)[<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb98-10"><a href="#cb98-10" aria-hidden="true" tabindex="-1"></a>vars_left <span class="ot">=</span> vars_left[vars_left <span class="sc">!=</span> <span class="st">'PerR'</span>]</span>
+<span id="cb98-11"><a href="#cb98-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-12"><a href="#cb98-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the passed flag to TRUE</span></span>
+<span id="cb98-13"><a href="#cb98-13" aria-hidden="true" tabindex="-1"></a>passed <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb98-14"><a href="#cb98-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-15"><a href="#cb98-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop until no more variables can be added (passed is FALSE) or there are no more variables left</span></span>
+<span id="cb98-16"><a href="#cb98-16" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(passed <span class="sc">&amp;&amp;</span> <span class="fu">length</span>(vars_left) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb98-17"><a href="#cb98-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb98-18"><a href="#cb98-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Initialize an empty vector to store p-values of models</span></span>
+<span id="cb98-19"><a href="#cb98-19" aria-hidden="true" tabindex="-1"></a>  pvals <span class="ot">=</span> <span class="fu">c</span>()</span>
+<span id="cb98-20"><a href="#cb98-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb98-21"><a href="#cb98-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Loop through each remaining variable</span></span>
+<span id="cb98-22"><a href="#cb98-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(var <span class="cf">in</span> vars_left) {</span>
+<span id="cb98-23"><a href="#cb98-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a temporary dataframe with current variables and the new candidate variable</span></span>
+<span id="cb98-24"><a href="#cb98-24" aria-hidden="true" tabindex="-1"></a>    df_tmp <span class="ot">=</span> df[, <span class="fu">c</span>(curr_vars, var, <span class="st">'Wins'</span>)]</span>
+<span id="cb98-25"><a href="#cb98-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb98-26"><a href="#cb98-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fit a linear model with 'Wins' as the dependent variable</span></span>
+<span id="cb98-27"><a href="#cb98-27" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">=</span> <span class="fu">lm</span>(Wins <span class="sc">~</span> ., df_tmp)</span>
+<span id="cb98-28"><a href="#cb98-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb98-29"><a href="#cb98-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get the summary of the model</span></span>
+<span id="cb98-30"><a href="#cb98-30" aria-hidden="true" tabindex="-1"></a>    s <span class="ot">=</span> <span class="fu">summary</span>(model)</span>
+<span id="cb98-31"><a href="#cb98-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb98-32"><a href="#cb98-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the p-value of the F-statistic for the model</span></span>
+<span id="cb98-33"><a href="#cb98-33" aria-hidden="true" tabindex="-1"></a>    pval <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(s<span class="sc">$</span>fstatistic[<span class="dv">1</span>], s<span class="sc">$</span>fstatistic[<span class="dv">2</span>], s<span class="sc">$</span>fstatistic[<span class="dv">3</span>])</span>
+<span id="cb98-34"><a href="#cb98-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb98-35"><a href="#cb98-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Append the p-value to the pvals vector</span></span>
+<span id="cb98-36"><a href="#cb98-36" aria-hidden="true" tabindex="-1"></a>    pvals <span class="ot">=</span> <span class="fu">c</span>(pvals, pval)</span>
+<span id="cb98-37"><a href="#cb98-37" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb98-38"><a href="#cb98-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb98-39"><a href="#cb98-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Find the index of the minimum p-value</span></span>
+<span id="cb98-40"><a href="#cb98-40" aria-hidden="true" tabindex="-1"></a>  min_index <span class="ot">=</span> <span class="fu">which.min</span>(pvals)</span>
+<span id="cb98-41"><a href="#cb98-41" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb98-42"><a href="#cb98-42" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Get the minimum p-value</span></span>
+<span id="cb98-43"><a href="#cb98-43" aria-hidden="true" tabindex="-1"></a>  mp <span class="ot">=</span> pvals[min_index]</span>
+<span id="cb98-44"><a href="#cb98-44" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb98-45"><a href="#cb98-45" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Check if the minimum p-value is less than the threshold</span></span>
+<span id="cb98-46"><a href="#cb98-46" aria-hidden="true" tabindex="-1"></a>  passed <span class="ot">=</span> mp <span class="sc">&lt;</span> thresh</span>
+<span id="cb98-47"><a href="#cb98-47" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb98-48"><a href="#cb98-48" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(passed) {</span>
+<span id="cb98-49"><a href="#cb98-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If passed, get the corresponding variable name</span></span>
+<span id="cb98-50"><a href="#cb98-50" aria-hidden="true" tabindex="-1"></a>    new_var <span class="ot">=</span> vars_left[min_index]</span>
+<span id="cb98-51"><a href="#cb98-51" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb98-52"><a href="#cb98-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add the new variable to the current variables list</span></span>
+<span id="cb98-53"><a href="#cb98-53" aria-hidden="true" tabindex="-1"></a>    curr_vars <span class="ot">=</span> <span class="fu">c</span>(curr_vars, new_var)</span>
+<span id="cb98-54"><a href="#cb98-54" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb98-55"><a href="#cb98-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Remove the new variable from the remaining variables list</span></span>
+<span id="cb98-56"><a href="#cb98-56" aria-hidden="true" tabindex="-1"></a>    vars_left <span class="ot">=</span> vars_left[vars_left <span class="sc">!=</span> new_var]</span>
+<span id="cb98-57"><a href="#cb98-57" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb98-58"><a href="#cb98-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print the p-value and the variable being added</span></span>
+<span id="cb98-59"><a href="#cb98-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">'pvalue'</span>)</span>
+<span id="cb98-60"><a href="#cb98-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(mp)</span>
+<span id="cb98-61"><a href="#cb98-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">'adding'</span>)</span>
+<span id="cb98-62"><a href="#cb98-62" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(new_var)</span>
+<span id="cb98-63"><a href="#cb98-63" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb98-64"><a href="#cb98-64" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "pvalue"
+       value 
+7.380709e-06 
+[1] "adding"
+[1] "ORY"
+[1] "pvalue"
+       value 
+4.151848e-08 
+[1] "adding"
+[1] "PassY"
+[1] "pvalue"
+       value 
+5.286139e-08 
+[1] "adding"
+[1] "RushY"
+[1] "pvalue"
+       value 
+1.237473e-07 
+[1] "adding"
+[1] "OPY"
+[1] "pvalue"
+       value 
+5.151486e-07 
+[1] "adding"
+[1] "PenY"
+[1] "pvalue"
+       value 
+2.098536e-06 
+[1] "adding"
+[1] "TurnD"
+[1] "pvalue"
+       value 
+7.894081e-06 
+[1] "adding"
+[1] "PuntA"
+[1] "pvalue"
+      value 
+2.52811e-05 
+[1] "adding"
+[1] "FGP"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the final list of selected variables</span></span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(curr_vars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "ORY"   "PassY" "RushY" "OPY"   "PenY"  "TurnD" "PuntA" "FGP"  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Threshold for p-value to determine variable exclusion</span></span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>thresh <span class="ot">=</span> <span class="fl">0.05</span></span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a vector of variable names excluding the dependent variable 'Wins' and 'PerR'</span></span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>vars_left <span class="ot">=</span> <span class="fu">names</span>(df)[<span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a>vars_left <span class="ot">=</span> vars_left[vars_left <span class="sc">!=</span> <span class="st">'PerR'</span>]</span>
+<span id="cb102-7"><a href="#cb102-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-8"><a href="#cb102-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the passed flag to TRUE</span></span>
+<span id="cb102-9"><a href="#cb102-9" aria-hidden="true" tabindex="-1"></a>passed <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb102-10"><a href="#cb102-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-11"><a href="#cb102-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop until no more variables need to be removed (passed is FALSE) or there are no more variables left</span></span>
+<span id="cb102-12"><a href="#cb102-12" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span>(passed <span class="sc">&amp;&amp;</span> <span class="fu">length</span>(vars_left) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb102-13"><a href="#cb102-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a temporary dataframe with remaining variables and the dependent variable 'Wins'</span></span>
+<span id="cb102-14"><a href="#cb102-14" aria-hidden="true" tabindex="-1"></a>  df_tmp <span class="ot">=</span> df[, <span class="fu">c</span>(vars_left, <span class="st">'Wins'</span>)]</span>
+<span id="cb102-15"><a href="#cb102-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb102-16"><a href="#cb102-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Fit a linear model with 'Wins' as the dependent variable</span></span>
+<span id="cb102-17"><a href="#cb102-17" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">=</span> <span class="fu">lm</span>(Wins <span class="sc">~</span> ., df_tmp)</span>
+<span id="cb102-18"><a href="#cb102-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb102-19"><a href="#cb102-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Get the summary of the model</span></span>
+<span id="cb102-20"><a href="#cb102-20" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">=</span> <span class="fu">summary</span>(model)</span>
+<span id="cb102-21"><a href="#cb102-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb102-22"><a href="#cb102-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Extract the p-values of the t-statistics for the coefficients</span></span>
+<span id="cb102-23"><a href="#cb102-23" aria-hidden="true" tabindex="-1"></a>  tv <span class="ot">=</span> <span class="fu">coef</span>(s)[, <span class="st">"Pr(&gt;|t|)"</span>]</span>
+<span id="cb102-24"><a href="#cb102-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb102-25"><a href="#cb102-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Remove the intercept p-value</span></span>
+<span id="cb102-26"><a href="#cb102-26" aria-hidden="true" tabindex="-1"></a>  tv <span class="ot">=</span> tv[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb102-27"><a href="#cb102-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb102-28"><a href="#cb102-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Find the index of the maximum p-value</span></span>
+<span id="cb102-29"><a href="#cb102-29" aria-hidden="true" tabindex="-1"></a>  max_index <span class="ot">=</span> <span class="fu">which.max</span>(tv)</span>
+<span id="cb102-30"><a href="#cb102-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb102-31"><a href="#cb102-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Get the maximum p-value</span></span>
+<span id="cb102-32"><a href="#cb102-32" aria-hidden="true" tabindex="-1"></a>  mp <span class="ot">=</span> tv[max_index]</span>
+<span id="cb102-33"><a href="#cb102-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb102-34"><a href="#cb102-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Print the maximum p-value</span></span>
+<span id="cb102-35"><a href="#cb102-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(mp)</span>
+<span id="cb102-36"><a href="#cb102-36" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb102-37"><a href="#cb102-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Check if the maximum p-value is greater than the threshold</span></span>
+<span id="cb102-38"><a href="#cb102-38" aria-hidden="true" tabindex="-1"></a>  passed <span class="ot">=</span> mp <span class="sc">&gt;</span> thresh</span>
+<span id="cb102-39"><a href="#cb102-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb102-40"><a href="#cb102-40" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(passed) {</span>
+<span id="cb102-41"><a href="#cb102-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If passed, get the corresponding variable name to be removed</span></span>
+<span id="cb102-42"><a href="#cb102-42" aria-hidden="true" tabindex="-1"></a>    rem_var <span class="ot">=</span> <span class="fu">names</span>(max_index)</span>
+<span id="cb102-43"><a href="#cb102-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb102-44"><a href="#cb102-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Remove the variable from the remaining variables list</span></span>
+<span id="cb102-45"><a href="#cb102-45" aria-hidden="true" tabindex="-1"></a>    vars_left <span class="ot">=</span> vars_left[vars_left <span class="sc">!=</span> rem_var]</span>
+<span id="cb102-46"><a href="#cb102-46" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb102-47"><a href="#cb102-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print the p-value and the variable being removed</span></span>
+<span id="cb102-48"><a href="#cb102-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">'pvalue'</span>)</span>
+<span id="cb102-49"><a href="#cb102-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(mp)</span>
+<span id="cb102-50"><a href="#cb102-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">'removing'</span>)</span>
+<span id="cb102-51"><a href="#cb102-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(rem_var)</span>
+<span id="cb102-52"><a href="#cb102-52" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb102-53"><a href="#cb102-53" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    TurnD 
+0.7312364 
+[1] "pvalue"
+    TurnD 
+0.7312364 
+[1] "removing"
+[1] "TurnD"
+      FGP 
+0.5679556 
+[1] "pvalue"
+      FGP 
+0.5679556 
+[1] "removing"
+[1] "FGP"
+    PuntA 
+0.6919653 
+[1] "pvalue"
+    PuntA 
+0.6919653 
+[1] "removing"
+[1] "PuntA"
+     PenY 
+0.5147875 
+[1] "pvalue"
+     PenY 
+0.5147875 
+[1] "removing"
+[1] "PenY"
+      OPY 
+0.1752231 
+[1] "pvalue"
+      OPY 
+0.1752231 
+[1] "removing"
+[1] "OPY"
+     RushY 
+0.06663316 
+[1] "pvalue"
+     RushY 
+0.06663316 
+[1] "removing"
+[1] "RushY"
+       PassY 
+0.0001775241 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the final list of remaining variables</span></span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(vars_left)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "PassY" "ORY"  </code></pre>
+</div>
+</div>
+<div id="exr-8-3-4" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.1</strong></span> Use the NFL data from the textbook - modify the above code to perform stepwise regression, including all regressors using the <span class="math inline">\(F\)</span> statistic criterion.</p>
+</div>
+</section>
+</section>
+<section id="cross-validation" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="cross-validation"><span class="header-section-number">9.6</span> Cross Validation</h2>
+<p>We may be mainly interested in predictive performance of our model. To assess the performance of our model’s predictive ability, it would be ideal to test its ability to predict the response. We could test our model out on our dataset, but our model has already `seen’ this dataset. Previously, we saw that the model’s predictive ability on the dataset at hand does not neccessarily mean it will output good predictions for new data from the same population. This means that the predictive ability of the model on the current observations won’t reflect the model’s ability to predict observations it hasn’t seen. It would be ideal to have some new data in order to measure predictive performance, but it is also ideal to use all data in building the model. <strong>Cross validation</strong> allows us to obtain an estimate of a given model’s out of sample predictive performance.</p>
+<p>Cross-validation is a technique where we repeatedly fit our model using a subset of the dataset and then compute its predictive performance on the complementary subset of the dataset. We then average these predictive performances and use this to estimate our model’s overall predictive performance.</p>
+<p>Here is an overview of the algorithm:</p>
+<ol type="1">
+<li>Partition the data <span class="math inline">\(\mathbb{Z}\)</span> into <span class="math inline">\(k\)</span> groups of size about <span class="math inline">\(n/k\)</span> uniformly at random. Denoted <span class="math inline">\(\mathbb{Z}_1,\ldots, \mathbb{Z}_k\)</span>.</li>
+<li>For each; <span class="math inline">\(\mathbb{Z}_j\)</span>, fit the regression model on <span class="math inline">\(\mathbb{Z}\backslash \mathbb{Z}_j\)</span>.</li>
+<li>For each observation in the left out group <span class="math inline">\(\mathbb{Z}_j\)</span>, use the previously computed model to produce a prediction <span class="math inline">\(\hat Y_{j,1},\ldots, \hat Y_{j,n/k}\)</span>, resulting in <span class="math inline">\(n/k\)</span> predictions.</li>
+<li>For each prediction, compute the predictive error <span class="math inline">\((y_{j,i}- \hat y_{j,i})^2\)</span> (Can also use absolute error).</li>
+<li>Repeat steps 2-3 for each group <span class="math inline">\(1,\ldots,k\)</span>.</li>
+<li>Average the <span class="math inline">\(n\)</span> predictive errors.</li>
+<li>Repeat for all candidate models and choose the model with the lowest prediction error.</li>
+</ol>
+<p>To highlight the choice of <span class="math inline">\(k\)</span>, we say <span class="math inline">\(k\)</span>-fold Cross Validation – Each of the <span class="math inline">\(k\)</span> subsets are known as folds. What do we choose for <span class="math inline">\(k\)</span>? LOOCV (Leave One Out Cross Validation) is a popular technique. Here, <span class="math inline">\(k=n\)</span>. This is where each run, one observation is left out of the model. This gives a low bias, but high variation estimate of the prediction error. It also has a high run time. As a result, often, <span class="math inline">\(k\)</span> is taken to be 5 or 10. Taking lower values of <span class="math inline">\(k\)</span> gives a result similar to that of splitting the data into training and test sets, while higher values of <span class="math inline">\(k\)</span> gives a result similar to LOOCV. The choice of the number of folds in cross validation is a bias-variance tradeoff: too few folds may result in high bias, while too many folds may result in high variance. (This is why <span class="math inline">\(k\)</span> is taken between 1 and <span class="math inline">\(n\)</span>.)</p>
+<div id="exm-8-5-1" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.11</strong></span> Using the real estate data, run cross validation in a forward selection manner. That is, run the cross validation procedure for the model with the first variable, the first and the second variable, the first three variables etc. Which model has the lowest error?</p>
+</div>
+<p>The <code>caret</code> package can be used to perform 5-fold CV.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="do">########### Cross Validation Regression ###########</span></span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages('caret')</span></span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'caret' was built under R version 4.4.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: lattice</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="co">#specify the cross-validation method 5 fold in this case. </span></span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>ctrl <span class="ot">=</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>)</span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a><span class="co">#fit a regression model and use k-fold CV to evaluate performance</span></span>
+<span id="cb109-5"><a href="#cb109-5" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">train</span>(Sale_price<span class="sc">~</span>., <span class="at">data =</span> df2, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
+<span id="cb109-6"><a href="#cb109-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-7"><a href="#cb109-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-8"><a href="#cb109-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(var_list)){</span>
+<span id="cb109-9"><a href="#cb109-9" aria-hidden="true" tabindex="-1"></a>  vars<span class="ot">=</span><span class="fu">c</span>(var_list[<span class="dv">1</span><span class="sc">:</span>i],<span class="st">"Sale_price"</span>)</span>
+<span id="cb109-10"><a href="#cb109-10" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">=</span> <span class="fu">train</span>(Sale_price<span class="sc">~</span>., <span class="at">data =</span> df2[,vars], <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
+<span id="cb109-11"><a href="#cb109-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"k"</span> ,i,<span class="st">" CV Result "</span>, model<span class="sc">$</span>results<span class="sc">$</span>RMSE,<span class="at">sep=</span><span class="st">""</span>))</span>
+<span id="cb109-12"><a href="#cb109-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "k1 CV Result 66912.7355323835"
+[1] "k2 CV Result 64288.4426359391"
+[1] "k3 CV Result 61819.6176427862"
+[1] "k4 CV Result 61336.9593108534"
+[1] "k5 CV Result 52061.7475798043"
+[1] "k6 CV Result 46100.1776666704"
+[1] "k7 CV Result 45683.6103871801"
+[1] "k8 CV Result 44988.2437790467"
+[1] "k9 CV Result 44668.1058505921"
+[1] "k10 CV Result 44282.8184779539"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co">#view summary of k-fold CV               </span></span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear Regression 
+
+24442 samples
+   10 predictor
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 19554, 19554, 19555, 19552, 19553 
+Resampling results:
+
+  RMSE      Rsquared   MAE     
+  44282.82  0.7199015  29860.22
+
+Tuning parameter 'intercept' was held constant at a value of TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We see that all of the variables minimize the prediction error. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="exm-8-5-2" class="theorem example">
+<p><span class="theorem-title"><strong>Example 9.12</strong></span> Use the NFL data from the textbook. 1. Compare the model <code>Wins~.</code> to the model <code>Wins~PassY+PuntA+FGP+TurnD+PenY+OPY+RushDiff</code>. 2. Run cross validation in a forward selection manner. That is, run the cross validation procedure for the model with the first variable, the first and the second variable, the first three variables etc. Which model has the lowest error? 3. Run cross validation for all subsets. Which model has the lowest error? Does it match the result in step 2?</p>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="do">########### Cross Validation Regression ###########</span></span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1251</span>)</span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a><span class="co">#specify the cross-validation method</span></span>
+<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a>ctrl <span class="ot">=</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>)</span>
+<span id="cb114-7"><a href="#cb114-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-8"><a href="#cb114-8" aria-hidden="true" tabindex="-1"></a><span class="co">#fit a regression model and use k-fold CV to evaluate performance</span></span>
+<span id="cb114-9"><a href="#cb114-9" aria-hidden="true" tabindex="-1"></a>model_cv_1 <span class="ot">=</span> <span class="fu">train</span>(Wins<span class="sc">~</span>., <span class="at">data =</span> df, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
+<span id="cb114-10"><a href="#cb114-10" aria-hidden="true" tabindex="-1"></a>model_cv_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear Regression 
+
+28 samples
+10 predictors
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 21, 22, 22, 24, 23 
+Resampling results:
+
+  RMSE      Rsquared   MAE     
+  1.962945  0.5925805  1.686354
+
+Tuning parameter 'intercept' was held constant at a value of TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>model_cv_2 <span class="ot">=</span> <span class="fu">train</span>(Wins<span class="sc">~</span>PassY<span class="sc">+</span>PuntA<span class="sc">+</span>FGP<span class="sc">+</span>TurnD<span class="sc">+</span>PenY<span class="sc">+</span>OPY<span class="sc">+</span>RushDiff, <span class="at">data =</span> df, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>model_cv_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear Regression 
+
+28 samples
+ 7 predictor
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 23, 21, 23, 23, 22 
+Resampling results:
+
+  RMSE      Rsquared   MAE     
+  2.418524  0.6516294  1.887159
+
+Tuning parameter 'intercept' was held constant at a value of TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(df)){</span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># reg=sample(2:10,sample(1:9,1))</span></span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>  vars<span class="ot">=</span><span class="fu">c</span>(<span class="fu">names</span>(df)[<span class="dv">2</span><span class="sc">:</span>i],<span class="st">'Wins'</span>)</span>
+<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">=</span> <span class="fu">train</span>(Wins<span class="sc">~</span>., <span class="at">data =</span> df[,vars], <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
+<span id="cb118-5"><a href="#cb118-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"k="</span> ,i<span class="dv">-1</span>,<span class="st">" vars "</span>,<span class="fu">paste</span>(vars,<span class="at">collapse=</span><span class="st">' '</span>),<span class="st">" CV Result "</span>,</span>
+<span id="cb118-6"><a href="#cb118-6" aria-hidden="true" tabindex="-1"></a>               <span class="fu">round</span>(model<span class="sc">$</span>results<span class="sc">$</span>RMSE,<span class="dv">1</span>),<span class="at">sep=</span><span class="st">""</span>))</span>
+<span id="cb118-7"><a href="#cb118-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "k=1 vars RushY Wins CV Result 2.9"
+[1] "k=2 vars RushY PassY Wins CV Result 2.3"
+[1] "k=3 vars RushY PassY PuntA Wins CV Result 2.2"
+[1] "k=4 vars RushY PassY PuntA FGP Wins CV Result 2.4"
+[1] "k=5 vars RushY PassY PuntA FGP TurnD Wins CV Result 2.6"
+[1] "k=6 vars RushY PassY PuntA FGP TurnD PenY Wins CV Result 2.5"
+[1] "k=7 vars RushY PassY PuntA FGP TurnD PenY PerR Wins CV Result 2.5"
+[1] "k=8 vars RushY PassY PuntA FGP TurnD PenY PerR ORY Wins CV Result 2.5"
+[1] "k=9 vars RushY PassY PuntA FGP TurnD PenY PerR ORY OPY Wins CV Result 2"
+[1] "k=10 vars RushY PassY PuntA FGP TurnD PenY PerR ORY OPY RushDiff Wins CV Result 2.5"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select model k=9 vars</span></span>
+<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-3"><a href="#cb120-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb120-4"><a href="#cb120-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="fu">ncol</span>(df)<span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb120-5"><a href="#cb120-5" aria-hidden="true" tabindex="-1"></a>l <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">list</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>), p)</span>
+<span id="cb120-6"><a href="#cb120-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-7"><a href="#cb120-7" aria-hidden="true" tabindex="-1"></a>models<span class="ot">=</span><span class="fu">expand.grid</span>(l); <span class="fu">dim</span>(models)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1024   10</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>cv<span class="ot">=</span>RMSE<span class="ot">=</span><span class="fu">c</span>()</span>
+<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nrow</span>(models)){</span>
+<span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a>  reg<span class="ot">=</span>(<span class="dv">2</span><span class="sc">:</span>(p<span class="sc">+</span><span class="dv">1</span>))[models[i,]<span class="sc">==</span><span class="dv">1</span>]</span>
+<span id="cb122-4"><a href="#cb122-4" aria-hidden="true" tabindex="-1"></a>  vars<span class="ot">=</span><span class="fu">c</span>(<span class="fu">names</span>(df)[reg],<span class="st">'Wins'</span>)</span>
+<span id="cb122-5"><a href="#cb122-5" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">=</span> <span class="fu">train</span>(Wins<span class="sc">~</span>., <span class="at">data =</span> df[,vars], <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
+<span id="cb122-6"><a href="#cb122-6" aria-hidden="true" tabindex="-1"></a>  RMSE<span class="ot">=</span><span class="fu">c</span>(RMSE,model<span class="sc">$</span>results<span class="sc">$</span>RMSE)</span>
+<span id="cb122-7"><a href="#cb122-7" aria-hidden="true" tabindex="-1"></a>  cv<span class="ot">=</span><span class="fu">c</span>(cv,<span class="fu">list</span>(model))</span>
+<span id="cb122-8"><a href="#cb122-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># print(paste0("k=" ,k," vars ",paste(vars,collapse=' ')," CV Result ",</span></span>
+<span id="cb122-9"><a href="#cb122-9" aria-hidden="true" tabindex="-1"></a>               <span class="co"># round(model$results$RMSE,1),sep=""))</span></span>
+<span id="cb122-10"><a href="#cb122-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb122-11"><a href="#cb122-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-12"><a href="#cb122-12" aria-hidden="true" tabindex="-1"></a>bottom_10<span class="ot">=</span><span class="fu">order</span>(RMSE)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb122-13"><a href="#cb122-13" aria-hidden="true" tabindex="-1"></a>RMSE[bottom_10]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1.514831 1.553680 1.561540 1.565194 1.604034 1.629024 1.634625 1.647743
+ [9] 1.657872 1.658021</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sort</span>(RMSE))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>m<span class="ot">=</span><span class="fu">which.min</span>(RMSE)</span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>cv[<span class="fu">which.min</span>(RMSE)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+Linear Regression 
+
+28 samples
+ 5 predictor
+
+No pre-processing
+Resampling: Cross-Validated (5 fold) 
+Summary of sample sizes: 22, 22, 23, 23, 22 
+Resampling results:
+
+  RMSE      Rsquared   MAE     
+  1.514831  0.7945392  1.255977
+
+Tuning parameter 'intercept' was held constant at a value of TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>df[<span class="dv">1</span>,(<span class="dv">2</span><span class="sc">:</span>(p<span class="sc">+</span><span class="dv">1</span>))[<span class="fu">unlist</span>(models[m,])<span class="sc">==</span><span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  RushY PuntA PerR  OPY RushDiff
+1  2113  38.9 59.7 1917      -92</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">train</span>(Wins<span class="sc">~</span> PassY<span class="sc">+</span>PuntA<span class="sc">+</span>TurnD<span class="sc">+</span>PerR<span class="sc">++</span>OPY<span class="sc">+</span>RushDiff, <span class="at">data =</span> df, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
+<span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a>RMSE<span class="ot">=</span><span class="fu">c</span>(RMSE,model<span class="sc">$</span>results<span class="sc">$</span>RMSE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="homework-questions" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="homework-questions"><span class="header-section-number">9.7</span> Homework questions</h2>
+<p>Complete the Chapter 10 questions from the textbook.</p>
+<div id="exr-8-6-1" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 9.2</strong></span> Load car mileage data from <a href="Unit_2.html#exm-3-4-4" class="quarto-xref">Example&nbsp;<span>3.7</span></a> and run <span class="math inline">\(10\)</span>-fold cross validation on all subset models.</p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Unit_7.html" class="pagination-link" aria-label="Multicollinearity">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multicollinearity</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
