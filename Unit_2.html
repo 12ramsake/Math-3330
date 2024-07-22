@@ -2277,8 +2277,8 @@ F-statistic: 570.3 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </div>
-<p>Notice how the newspaper plot changes with the new axis limits. It appears that the variance of the error is changing with the value of the facebook and youtube budgets.</p>
-<p>Another plot is that of the fitted values against the residuals. This gives an idea of the overall fit of the model. We should observe the points scatters around the line <span class="math inline">\(y=x\)</span>.</p>
+<p>Notice how the newspaper plot changes with the new axis limits. It appears that the variance of the error is changing with the value of the Facebook and Youtube budgets.</p>
+<p>Another plot is that of the fitted values against the response. This gives an idea of the overall fit of the model. We should observe the points scatters around the line <span class="math inline">\(y=x\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(full_model<span class="sc">$</span>fitted.values,marketing<span class="sc">$</span>sales,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
 <span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2301,7 +2301,7 @@ F-statistic: 570.3 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </div>
-<p>In this case, Youtube and facebook spending seems to have a nonlinear relationship with sales. We will see how to remedy this in later chapters.</p>
+<p>In this case, Youtube and Facebook spending seems to have a nonlinear relationship with sales. We will see how to remedy this in later chapters.</p>
 <p>As a final note, observe that we can put the <code>model</code> object in the <code>plot()</code> function to obtain the diagnostic plots.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(full_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
