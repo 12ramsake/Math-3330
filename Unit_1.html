@@ -343,10 +343,20 @@ Note
 </div>
 </div>
 <p>Generally, we will just write <span class="math inline">\(X\)</span>, and ignore the fact that <span class="math inline">\(X\)</span> is a function.</p>
-<p>We can categorize a random variable <span class="math inline">\(X\)</span> as follows: - If <span class="math inline">\(X\colon \Omega\rightarrow S\)</span> where <span class="math inline">\(S\)</span> is countable, then <span class="math inline">\(X\)</span> is a <em>discrete random variable</em> - We say <span class="math inline">\(X\)</span> is a <em>continuous random variable</em> if <span class="math inline">\(\Pr(X=r)=0\)</span> for all <span class="math inline">\(r\in\mathbb{R}\)</span>. - Otherwise, <span class="math inline">\(X\)</span> is a <em>mixed random variable</em> (which we won’t worry about in this course)</p>
+<p>We can categorize a random variable <span class="math inline">\(X\)</span> as follows:</p>
+<ul>
+<li>If <span class="math inline">\(X\colon \Omega\rightarrow S\)</span> where <span class="math inline">\(S\)</span> is countable, then <span class="math inline">\(X\)</span> is a <em>discrete random variable</em></li>
+<li>We say <span class="math inline">\(X\)</span> is a <em>continuous random variable</em> if <span class="math inline">\(\Pr(X=r)=0\)</span> for all <span class="math inline">\(r\in\mathbb{R}\)</span>.</li>
+<li>Otherwise, <span class="math inline">\(X\)</span> is a <em>mixed random variable</em> (which we won’t worry about in this course)</li>
+</ul>
 <section id="discrete-random-variables" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="discrete-random-variables"><span class="header-section-number">2.1.1</span> Discrete Random Variables</h3>
-<p>If <span class="math inline">\(X\colon \Omega\rightarrow S\)</span> where <span class="math inline">\(S\)</span> is countable, then <span class="math inline">\(X\)</span> is a discrete random variable. <span class="math inline">\(S\)</span> can be finite, but can also be any infinite subset of the integers <span class="math inline">\(\mathbb{Z}\)</span>. The distribution of <span class="math inline">\(X\)</span> is given by its PMF, denoted by <span class="math inline">\(f(x)\)</span>. For any <span class="math inline">\(x\in S\)</span>, <span class="math inline">\(f(x)=\Pr(X=x)\)</span>. (Note that ‘<span class="math inline">\(\in\)</span>’ means the word “in”.) We must have that: - <span class="math inline">\(\sum_{x\in S}f(x)=1\)</span>, (This notation means summing over all the elements in <span class="math inline">\(S\)</span>.) - <span class="math inline">\(\forall x\in S\)</span>, <span class="math inline">\(0\leq f(x)\leq 1\)</span>. (This notation means for all <span class="math inline">\(x\)</span> in <span class="math inline">\(S\)</span>, <span class="math inline">\(0\leq f(x)\leq 1\)</span>.)</p>
+<p>If <span class="math inline">\(X\colon \Omega\rightarrow S\)</span> where <span class="math inline">\(S\)</span> is countable, then <span class="math inline">\(X\)</span> is a discrete random variable. <span class="math inline">\(S\)</span> can be finite, but can also be any infinite subset of the integers <span class="math inline">\(\mathbb{Z}\)</span>. The distribution of <span class="math inline">\(X\)</span> is given by its PMF, denoted by <span class="math inline">\(f(x)\)</span>. For any <span class="math inline">\(x\in S\)</span>, <span class="math inline">\(f(x)=\Pr(X=x)\)</span>. (Note that ‘<span class="math inline">\(\in\)</span>’ means the word “in”.)</p>
+<p>We must have that:</p>
+<ul>
+<li><span class="math inline">\(\sum_{x\in S}f(x)=1\)</span>, (This notation means summing over all the elements in <span class="math inline">\(S\)</span>.)</li>
+<li><span class="math inline">\(\forall x\in S\)</span>, <span class="math inline">\(0\leq f(x)\leq 1\)</span>. (This notation means for all <span class="math inline">\(x\)</span> in <span class="math inline">\(S\)</span>, <span class="math inline">\(0\leq f(x)\leq 1\)</span>.)</li>
+</ul>
 <p>Examples: Binomial random variables, Poisson random variables and Geometric random variables are all discrete random variables.</p>
 <div id="exr-2" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 2.1</strong></span> What is the PMF of a Binomial random variable? Can two different random variables have the same PMF? Why or why not?</p>
@@ -357,29 +367,38 @@ Note
 </section>
 <section id="continuous-random-variables" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="continuous-random-variables"><span class="header-section-number">2.1.2</span> Continuous Random Variables</h3>
-<p>We say <span class="math inline">\(X\)</span> is a <em>continuous random variable</em> if <span class="math inline">\(\Pr(X=r)=0\)</span> for all <span class="math inline">\(r\in\mathbb{R}\)</span>. If <span class="math inline">\(X\colon \Omega\rightarrow S\)</span> and <span class="math inline">\(X\)</span> is a continuous random variable, then <span class="math inline">\(S\)</span> is typically the real numbers, denoted by <span class="math inline">\(\mathbb{R}\)</span>, but can be any uncountable subset of <span class="math inline">\(\mathbb{R}\)</span>. The distribution of <span class="math inline">\(X\)</span> is given by the PDF <span class="math inline">\(f(x)\)</span>. For any interval <span class="math inline">\((a,b)\subset\in S\)</span>, <span class="math inline">\(\Pr(X\in (a,b))=\int_a^b f(x)dx\)</span>. We must have that: - <span class="math inline">\(\int_{- \infty}^\infty f(x)dx=1\)</span>, - <span class="math inline">\(\forall x\in \mathbb{R}\)</span>, <span class="math inline">\(f(x)\geq 0\)</span>.</p>
-<p>Examples: Normal random variables, Chi- squared random variables, <span class="math inline">\(t\)</span> random variables, Cauchy random variables, <span class="math inline">\(F\)</span> random variables are all continuous random variables. Generally, we will focus on continuous random variables.</p>
+<p>We say <span class="math inline">\(X\)</span> is a <em>continuous random variable</em> if <span class="math inline">\(\Pr(X=r)=0\)</span> for all <span class="math inline">\(r\in\mathbb{R}\)</span>. If <span class="math inline">\(X\colon \Omega\rightarrow S\)</span> and <span class="math inline">\(X\)</span> is a continuous random variable, then <span class="math inline">\(S\)</span> is typically the real numbers, denoted by <span class="math inline">\(\mathbb{R}\)</span>, but can be any uncountable subset of <span class="math inline">\(\mathbb{R}\)</span>. The distribution of <span class="math inline">\(X\)</span> is given by the PDF <span class="math inline">\(f(x)\)</span>. For any interval <span class="math inline">\((a,b)\subset\in S\)</span>, <span class="math inline">\(\Pr(X\in (a,b))=\int_a^b f(x)dx\)</span>.</p>
+<p>We must have that:</p>
+<ul>
+<li><span class="math inline">\(\int_{- \infty}^\infty f(x)dx=1\)</span>,</li>
+<li><span class="math inline">\(\forall x\in \mathbb{R}\)</span>, <span class="math inline">\(f(x)\geq 0\)</span>.</li>
+</ul>
+<p>Examples: Normal random variables, Chi-squared random variables, <span class="math inline">\(t\)</span> random variables, Cauchy random variables, <span class="math inline">\(F\)</span> random variables are all continuous random variables. Generally, we will focus on continuous random variables.</p>
 <div id="exr-3" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 2.2</strong></span> What is the PMF of a Normal random variable?</p>
 </div>
 <div id="sol-3" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.2</em>. </span><span class="math inline">\(f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-1(x-\mu)^2/2\sigma^2}\)</span></p>
+<p><span class="proof-title"><em>Solution 2.2</em>. </span><span class="math inline">\(f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-(x-\mu)^2/2\sigma^2}\)</span></p>
 </div>
 </section>
 <section id="properties-of-random-variables" class="level3" data-number="2.1.3">
 <h3 data-number="2.1.3" class="anchored" data-anchor-id="properties-of-random-variables"><span class="header-section-number">2.1.3</span> Properties of Random Variables</h3>
 <p>Let <span class="math inline">\(X,X_1,X_2\)</span> be random variables.</p>
-<p>Recall the important quantities <span class="math inline">\(\mathrm{E}{X}\)</span>, <span class="math inline">\(\mathrm{var}{X}\)</span>, <span class="math inline">\(\mathrm{cov}(X_1,X_2)\)</span>, <span class="math inline">\(\mathrm{corr}(X_1,X_2)\)</span>. Recall expectation: ::: {#def-2} The expectation of a random variable <span class="math inline">\(X\)</span> is <span class="math display">\[\mathrm{E}{X}=\sum_{x\in S}x\Pr\left(X=x\right),\]</span> if <span class="math inline">\(X\)</span> is discrete and is <span class="math display">\[\mathrm{E}{X}=\int_{-\infty}^\infty f(x)dx,\]</span> if <span class="math inline">\(X\)</span> is continuous. ::: This is the ``average’’ value of the random variable. Note that it is possible for it to be impossible for <span class="math inline">\(X=\mathrm{E}{X}\)</span>. Try to come up with an example of this!</p>
+<p>Recall the important quantities <span class="math inline">\(\mathrm{E}{X}\)</span>, <span class="math inline">\(\mathrm{var}{X}\)</span>, <span class="math inline">\(\mathrm{cov}(X_1,X_2)\)</span>, <span class="math inline">\(\mathrm{corr}(X_1,X_2)\)</span>. Recall expectation:</p>
+<div id="def-2" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 2.2</strong></span> The expectation of a random variable <span class="math inline">\(X\)</span> is <span class="math display">\[\mathrm{E}{X}=\sum_{x\in S}x\Pr\left(X=x\right),\]</span> if <span class="math inline">\(X\)</span> is discrete and is <span class="math display">\[\mathrm{E}{X}=\int_{-\infty}^\infty f(x)dx,\]</span> if <span class="math inline">\(X\)</span> is continuous.</p>
+</div>
+<p>This is the ``average’’ value of the random variable. Note that it is possible for it to be impossible for <span class="math inline">\(X=\mathrm{E}{X}\)</span>. Try to come up with an example of this!</p>
 <div id="def-3" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.2</strong></span> The variance of a random variable <span class="math inline">\(X\)</span> is <span class="math display">\[{\textrm{Var}}\left[X\right]={\textrm{E}}\left[|X-{\textrm{E}}\left[X\right]|^2\right]=\sum_{x\in S}(x-{\textrm{E}}\left[X\right])^2\Pr\left(X=x\right),\]</span> if <span class="math inline">\(X\)</span> is discrete and is <span class="math display">\[{\textrm{Var}}\left[X\right]={\textrm{E}}\left[|X-{\textrm{E}}\left[X\right]|^2\right]=\int_{-\infty}^\infty (x-{\textrm{E}}\left[X\right])^2f(x)dx,\]</span> if <span class="math inline">\(X\)</span> is continuous.</p>
+<p><span class="theorem-title"><strong>Definition 2.3</strong></span> The variance of a random variable <span class="math inline">\(X\)</span> is <span class="math display">\[{\textrm{Var}}\left[X\right]={\textrm{E}}\left[|X-{\textrm{E}}\left[X\right]|^2\right]=\sum_{x\in S}(x-{\textrm{E}}\left[X\right])^2\Pr\left(X=x\right),\]</span> if <span class="math inline">\(X\)</span> is discrete and is <span class="math display">\[{\textrm{Var}}\left[X\right]={\textrm{E}}\left[|X-{\textrm{E}}\left[X\right]|^2\right]=\int_{-\infty}^\infty (x-{\textrm{E}}\left[X\right])^2f(x)dx,\]</span> if <span class="math inline">\(X\)</span> is continuous.</p>
 </div>
 <p>The variance describes the variation of <span class="math inline">\(X\)</span> about its mean. In other words, it describes on ``average’’, how far is <span class="math inline">\(X\)</span> from its mean.</p>
 <div id="def-4" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.3</strong></span> The covariance between two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is <span class="math display">\[{\textrm{cov}}\left[X,Y\right]={\textrm{E}}\left[(X-{\textrm{E}}\left[X\right])(Y-{\textrm{E}}\left[Y\right])\right].\]</span></p>
+<p><span class="theorem-title"><strong>Definition 2.4</strong></span> The covariance between two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is <span class="math display">\[{\textrm{cov}}\left[X,Y\right]={\textrm{E}}\left[(X-{\textrm{E}}\left[X\right])(Y-{\textrm{E}}\left[Y\right])\right].\]</span></p>
 </div>
 <p>The covariance describes the unnormalised linear association between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
 <div id="def-5" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.4</strong></span> The correlation between two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is <span class="math display">\[{\textrm{corr}}\left[X,Y\right]={\textrm{cov}}\left[X,Y\right]/\sqrt{{\textrm{Var}}\left[X\right]{\textrm{Var}}\left[Y\right]}.\]</span></p>
+<p><span class="theorem-title"><strong>Definition 2.5</strong></span> The correlation between two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is <span class="math display">\[{\textrm{corr}}\left[X,Y\right]={\textrm{cov}}\left[X,Y\right]/\sqrt{{\textrm{Var}}\left[X\right]{\textrm{Var}}\left[Y\right]}.\]</span></p>
 </div>
 <p>The correlation describes the normalized linear association between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
 <p>Next, recall that for a random variable <span class="math inline">\(X\)</span>, its cumulative distribution function (CDF) is given by <span class="math inline">\(F_X(x)=\Pr\left(X\leq x\right)\)</span>. The joint CDF of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is given by <span class="math inline">\(F_{XY}(x,y)=\Pr\left(X\leq x, Y\leq y\right)\)</span>.</p>
@@ -387,7 +406,7 @@ Note
 <p>We next present the concept of independence of random variables. Let <span class="math inline">\(F_{XY}(x,y)\)</span> be the joint CDF of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> and let <span class="math inline">\(F_X\)</span> and <span class="math inline">\(F_Y\)</span> be the univariate CDFs of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, respectively. For two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, we say that <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent if <span class="math inline">\(F_{XY}(x,y)=F_X(x)F_Y(y)\)</span>. More generally, two vectors of random variables <span class="math inline">\(\mathbf{X}\)</span> and <span class="math inline">\(\mathbf{Y}\)</span> are independent if <span class="math inline">\(F_{\mathbf{X},\mathbf{Y}}(\mathbf{x},\mathbf{y})=F_{\mathbf{X}}(\mathbf{x})F_{\mathbf{Y}}(\mathbf{y})\)</span>, where A set of random variables <span class="math inline">\(\{X_i\}_{i=1}^n\)</span> are mutually independent if for any two subsets mutually exclusive subsets of <span class="math inline">\(\{X_i\}_{i=1}^n\)</span> are also independent. Note that we write <span class="math inline">\(X \perp Y\)</span> if <span class="math inline">\(X\)</span> is independent of <span class="math inline">\(Y\)</span>.</p>
 <p>We have that:</p>
 <div id="thm-1" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 2.1</strong></span> &nbsp;</p>
+<p><span class="theorem-title"><strong>Theorem 2.1</strong></span> The following holds:</p>
 <ul>
 <li><span class="math inline">\(X_1\perp X_2 \implies {\textrm{E}}\left[X_1 X_2\right]={\textrm{E}}\left[X_1\right]{\textrm{E}}\left[X_2\right]\)</span></li>
 <li><span class="math inline">\(X_1\perp X_2 \implies {\textrm{corr}}\left[X_1,X_2\right]=0\)</span></li>
@@ -404,7 +423,12 @@ Note
 <div id="exr-4" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 2.4</strong></span> Prove <a href="#thm-2" class="quarto-xref">Theorem&nbsp;<span>2.2</span></a> .</p>
 </div>
-<p>As a corollary of <a href="#thm-2" class="quarto-xref">Theorem&nbsp;<span>2.2</span></a> , we have that - <span class="math inline">\({\textrm{E}}\left[\sum_{i=1}^n a_i X_i\right]=\sum_{i=1}^n a_i{\textrm{E}}\left[ X_i\right]\)</span> - <span class="math inline">\({\textrm{Var}}\left[\sum_{i=1}^n a_i X_i\right]=\sum_{i=1}^n a_i^2{\textrm{Var}}\left[ X_i\right]+\sum_{i\neq j}a_ia_j{\textrm{cov}}\left[X_i,X_j\right]\)</span> - <span class="math inline">\({\textrm{Var}}\left[aX_1+bX_2+c\right]=a^2\mathrm{var}{X_1}+b^2{\textrm{Var}}\left[X_2\right]+2ab{\textrm{cov}}\left[X_1,X_2\right]\)</span></p>
+<p>As a corollary of <a href="#thm-2" class="quarto-xref">Theorem&nbsp;<span>2.2</span></a> , we have that</p>
+<ul>
+<li><span class="math inline">\({\textrm{E}}\left[\sum_{i=1}^n a_i X_i\right]=\sum_{i=1}^n a_i{\textrm{E}}\left[ X_i\right]\)</span></li>
+<li><span class="math inline">\({\textrm{Var}}\left[\sum_{i=1}^n a_i X_i\right]=\sum_{i=1}^n a_i^2{\textrm{Var}}\left[ X_i\right]+\sum_{i\neq j}a_ia_j{\textrm{cov}}\left[X_i,X_j\right]\)</span></li>
+<li><span class="math inline">\({\textrm{Var}}\left[aX_1+bX_2+c\right]=a^2\mathrm{var}{X_1}+b^2{\textrm{Var}}\left[X_2\right]+2ab{\textrm{cov}}\left[X_1,X_2\right]\)</span></li>
+</ul>
 <div id="exr-5" class="theorem exercise">
 <p><span class="theorem-title"><strong>Exercise 2.5</strong></span> What happens to <span class="math inline">\({\textrm{Var}}\left[aX_1+bX_2+c\right]\)</span> when <span class="math inline">\(\{X_i\}_{i=1}^n\)</span> are mutually independent?</p>
 </div>
@@ -423,7 +447,11 @@ Note
 </ul>
 <p>We have the following results:</p>
 <div id="thm-3" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 2.3</strong></span> Suppose that <span class="math inline">\(X\sim \mathcal{N}(\mu,\sigma^2)\)</span>, then - <span class="math inline">\(Z=\frac{X- \mu}{\sigma}\sim \mathcal{N}(0,1)\)</span> - <span class="math inline">\(Z^2\sim \chi^2_1\)</span>.</p>
+<p><span class="theorem-title"><strong>Theorem 2.3</strong></span> Suppose that <span class="math inline">\(X\sim \mathcal{N}(\mu,\sigma^2)\)</span>, then</p>
+<ul>
+<li><span class="math inline">\(Z=\frac{X- \mu}{\sigma}\sim \mathcal{N}(0,1)\)</span></li>
+<li><span class="math inline">\(Z^2\sim \chi^2_1\)</span>.</li>
+</ul>
 </div>
 <p>Let <span class="math inline">\([n]=\{1,\ldots,n\}\)</span>. We also have that</p>
 <div id="thm-4" class="theorem">
@@ -810,7 +838,7 @@ Tip
 <h2 data-number="2.3" class="anchored" data-anchor-id="review-of-matrices-and-linear-algebra"><span class="header-section-number">2.3</span> Review of matrices and linear algebra</h2>
 <p>Recall that</p>
 <div id="def-6" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.5</strong></span> An <span class="math inline">\((n \times m)\)</span> matrix <span class="math inline">\(A\)</span> takes the form <span class="math display">\[\begin{eqnarray*}
+<p><span class="theorem-title"><strong>Definition 2.6</strong></span> An <span class="math inline">\((n \times m)\)</span> matrix <span class="math inline">\(A\)</span> takes the form <span class="math display">\[\begin{eqnarray*}
 A &amp; = &amp; \left( \begin{array}{cccc}
 a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1m} \\
 a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2m} \\
@@ -835,7 +863,7 @@ V = \left( \begin{array}{cc} 2 &amp; 4 \\ 1 &amp; -2 \\ -1 &amp; 0 \end{array} \
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="matrix-properties"><span class="header-section-number">2.3.1</span> Matrix properties</h3>
 <p>First, we define the transpose of a matrix:</p>
 <div id="def-7" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.6</strong></span> Let <span class="math inline">\(A = (( \ a_{ij} \ ))\)</span> for <span class="math inline">\(i=1, \ldots, n\)</span> and <span class="math inline">\(j=1, \ldots, m\)</span>, is an <span class="math inline">\((n \times m)\)</span> matrix. Then <span class="math inline">\(A^\top = A\)</span> transpose <span class="math inline">\(=  (( \ a_{ji} \ ))\)</span> for <span class="math inline">\(j=1, \ldots, m\)</span> and <span class="math inline">\(i=1, \ldots, n\)</span>, and <span class="math inline">\(A^\top\)</span> is an <span class="math inline">\((m \times n)\)</span> matrix.</p>
+<p><span class="theorem-title"><strong>Definition 2.7</strong></span> Let <span class="math inline">\(A = (( \ a_{ij} \ ))\)</span> for <span class="math inline">\(i=1, \ldots, n\)</span> and <span class="math inline">\(j=1, \ldots, m\)</span>, is an <span class="math inline">\((n \times m)\)</span> matrix. Then <span class="math inline">\(A^\top = A\)</span> transpose <span class="math inline">\(=  (( \ a_{ji} \ ))\)</span> for <span class="math inline">\(j=1, \ldots, m\)</span> and <span class="math inline">\(i=1, \ldots, n\)</span>, and <span class="math inline">\(A^\top\)</span> is an <span class="math inline">\((m \times n)\)</span> matrix.</p>
 </div>
 <p>When we transpose a matrix <span class="math inline">\(A\)</span>, the rows of <span class="math inline">\(A\)</span> becomes the columns of <span class="math inline">\(A^\top\)</span> and the columns of <span class="math inline">\(A\)</span> becomes the rows of <span class="math inline">\(A^\top\)</span>.</p>
 <div id="exm-2-3-1" class="theorem example">
@@ -845,7 +873,7 @@ V^\top = \left( \begin{array}{ccc} 2 &amp; 1 &amp; -1 \\ 4 &amp; -2 &amp; 0 \end
 \]</span></p>
 </div>
 <div id="def-8" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.7</strong></span> Let <span class="math inline">\(A = (( \ a_{ij} \ ))\)</span> and <span class="math inline">\(B = (( \ b_{ij} \ ))\)</span> be two <span class="math inline">\((n \times m)\)</span> matrices. Then <span class="math display">\[
+<p><span class="theorem-title"><strong>Definition 2.8</strong></span> Let <span class="math inline">\(A = (( \ a_{ij} \ ))\)</span> and <span class="math inline">\(B = (( \ b_{ij} \ ))\)</span> be two <span class="math inline">\((n \times m)\)</span> matrices. Then <span class="math display">\[
 A \pm B = (( \ a_{ij} \pm \ b_{ij} \ )).
 \]</span></p>
 </div>
@@ -857,7 +885,7 @@ U + V^\top = \left( \begin{array}{ccc} 1+2 &amp; 2+1 &amp; 3+(-1) \\ (-1)+4 &amp
 \left( \begin{array}{ccc} 3 &amp; 3 &amp; 3 \\ 3 &amp; 2 &amp; -2 \end{array} \right)\]</span></p>
 </div>
 <div id="def-9" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.8</strong></span> Let <span class="math inline">\(A = (( \ a_{ij} \ ))\)</span> for <span class="math inline">\(i=1, \ldots, n\)</span> and <span class="math inline">\(j=1, \ldots, m\)</span>, is an <span class="math inline">\((n \times m)\)</span> matrix and <span class="math inline">\(k\)</span> is a constant. Then <span class="math display">\[
+<p><span class="theorem-title"><strong>Definition 2.9</strong></span> Let <span class="math inline">\(A = (( \ a_{ij} \ ))\)</span> for <span class="math inline">\(i=1, \ldots, n\)</span> and <span class="math inline">\(j=1, \ldots, m\)</span>, is an <span class="math inline">\((n \times m)\)</span> matrix and <span class="math inline">\(k\)</span> is a constant. Then <span class="math display">\[
 kA = (( \ k a_{ij} \ )) = Ak,
 \]</span> i.e.&nbsp;each element of the matrix <span class="math inline">\(A\)</span> is multiplied by <span class="math inline">\(k\)</span>.</p>
 </div>
@@ -869,7 +897,7 @@ kU^\top = 4 \left( \begin{array}{cc} 1 &amp; -1 \\ 2 &amp; 4 \\ 3 &amp; -2 \end{
 \]</span></p>
 </div>
 <div id="def-10" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.9</strong></span> Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be two matrices. Then <span class="math inline">\(A\)</span> multiplied by <span class="math inline">\(B\)</span>, <span class="math inline">\(AB\)</span>, is defined only if (number of columns of <span class="math inline">\(A\)</span>) <span class="math inline">\(=\)</span> (number of rows of <span class="math inline">\(B\)</span>).<br>
+<p><span class="theorem-title"><strong>Definition 2.10</strong></span> Let <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> be two matrices. Then <span class="math inline">\(A\)</span> multiplied by <span class="math inline">\(B\)</span>, <span class="math inline">\(AB\)</span>, is defined only if (number of columns of <span class="math inline">\(A\)</span>) <span class="math inline">\(=\)</span> (number of rows of <span class="math inline">\(B\)</span>).<br>
 The product is a <span class="math inline">\(\left( \right.\)</span> (number of rows of <span class="math inline">\(A\)</span>) <span class="math inline">\(\times\)</span> (number of columns of <span class="math inline">\(B\)</span>) <span class="math inline">\(\left. \right)\)</span> matrix.</p>
 <p>More precisely, let <span class="math inline">\(A = (( \ a_{ij} \ ))\)</span> be an <span class="math inline">\((n \times m)\)</span> matrix and <span class="math inline">\(B = (( \ b_{ij} \ ))\)</span> be an <span class="math inline">\((m \times p)\)</span> matrix. Then <span class="math inline">\(C = AB = (( \ c_{ij} \ ))\)</span> is an <span class="math inline">\((n \times p)\)</span> matrix with <span class="math display">\[
 c_{ij} = a_{i1}b_{1j} + a_{i2}b_{2j} + \cdots + a_{im}b_{mj}
@@ -903,7 +931,7 @@ U V &amp; = &amp; \left( \begin{array}{ccc} 1 &amp; 2 &amp; 3 \\ -1 &amp; 4 &amp
 AI_n = A, \ \ \ and \ \ \ I_nB = B.
 \]</span></p>
 <div id="def-12" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.10</strong></span> Let <span class="math inline">\(A\)</span> be an <span class="math inline">\((n \times n)\)</span> matrix. The inverse of <span class="math inline">\(A\)</span>, <span class="math inline">\(A^{-1}\)</span>, if exists satisfies <span class="math display">\[
+<p><span class="theorem-title"><strong>Definition 2.11</strong></span> Let <span class="math inline">\(A\)</span> be an <span class="math inline">\((n \times n)\)</span> matrix. The inverse of <span class="math inline">\(A\)</span>, <span class="math inline">\(A^{-1}\)</span>, if exists satisfies <span class="math display">\[
 A A^{-1} = A^{-1} A = I_n
 \]</span> and if <span class="math inline">\(A^{-1}\)</span> does not exist, then <span class="math inline">\(A\)</span> is a singular matrix.</p>
 </div>
@@ -982,7 +1010,7 @@ W =  \left( \begin{array}{cc} 3 &amp; 2 \\ -4 &amp; 6 \end{array} \right)
 <section id="definition-of-random-vectors" class="level3" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="definition-of-random-vectors"><span class="header-section-number">2.4.1</span> Definition of random vectors</h3>
 <div id="def-2-4-1" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.11</strong></span> Let <span class="math inline">\(Y_1, \cdots, Y_n\)</span> be random variables. Then <span class="math display">\[
+<p><span class="theorem-title"><strong>Definition 2.12</strong></span> Let <span class="math inline">\(Y_1, \cdots, Y_n\)</span> be random variables. Then <span class="math display">\[
 Y = \left( \begin{array}{c} Y_1 \\ \vdots \\ Y_n \end{array} \right)
 \]</span> is an <span class="math inline">\(n\)</span>-dimensional random vector.</p>
 </div>
@@ -991,7 +1019,7 @@ Y = \left( \begin{array}{c} Y_1 \\ \vdots \\ Y_n \end{array} \right)
 <section id="expected-value-and-covariance" class="level3" data-number="2.4.2">
 <h3 data-number="2.4.2" class="anchored" data-anchor-id="expected-value-and-covariance"><span class="header-section-number">2.4.2</span> Expected Value and Covariance</h3>
 <div id="def-2-4-2" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2.12</strong></span> Let <span class="math inline">\(Y\)</span> be an <span class="math inline">\(n\)</span>-dimensional random vector, then the mean (expected value) of <span class="math inline">\(Y\)</span> is defined as <span class="math display">\[
+<p><span class="theorem-title"><strong>Definition 2.13</strong></span> Let <span class="math inline">\(Y\)</span> be an <span class="math inline">\(n\)</span>-dimensional random vector, then the mean (expected value) of <span class="math inline">\(Y\)</span> is defined as <span class="math display">\[
 {\textrm{E}}(Y) = \left( \begin{array}{c} {\textrm{E}}(Y_1) \\ \vdots \\ {\textrm{E}}(Y_n) \end{array} \right) =
 \mu
 \]</span> and the covariance of <span class="math inline">\(Y\)</span> is defined as <span class="math display">\[
