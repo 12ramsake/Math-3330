@@ -280,8 +280,8 @@ window.Quarto = {
   <li><a href="#review-of-introductory-statistics" id="toc-review-of-introductory-statistics" class="nav-link" data-scroll-target="#review-of-introductory-statistics"><span class="header-section-number">2.2</span> Review of introductory statistics</a>
   <ul class="collapse">
   <li><a href="#basic-premise-of-statistics" id="toc-basic-premise-of-statistics" class="nav-link" data-scroll-target="#basic-premise-of-statistics"><span class="header-section-number">2.2.1</span> Basic premise of statistics</a></li>
-  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals"><span class="header-section-number">2.2.2</span> Confidence intervals:</a></li>
-  <li><a href="#hypothesis-tests" id="toc-hypothesis-tests" class="nav-link" data-scroll-target="#hypothesis-tests"><span class="header-section-number">2.2.3</span> Hypothesis tests:</a></li>
+  <li><a href="#confidence-intervals" id="toc-confidence-intervals" class="nav-link" data-scroll-target="#confidence-intervals"><span class="header-section-number">2.2.2</span> Confidence intervals</a></li>
+  <li><a href="#hypothesis-tests" id="toc-hypothesis-tests" class="nav-link" data-scroll-target="#hypothesis-tests"><span class="header-section-number">2.2.3</span> Hypothesis tests</a></li>
   <li><a href="#homework-stop-2" id="toc-homework-stop-2" class="nav-link" data-scroll-target="#homework-stop-2"><span class="header-section-number">2.2.4</span> Homework stop 2</a></li>
   </ul></li>
   <li><a href="#review-of-matrices-and-linear-algebra" id="toc-review-of-matrices-and-linear-algebra" class="nav-link" data-scroll-target="#review-of-matrices-and-linear-algebra"><span class="header-section-number">2.3</span> Review of matrices and linear algebra</a>
@@ -496,7 +496,7 @@ Note
 <p>For example, to estimate <span class="math inline">\(\mu\)</span>, we typically use the sample mean. Here, the estimate is given by <span class="math inline">\(\bar X=\sum_{i=1}^nX_i/n\)</span>. To be specific, the estimate is the value of <span class="math inline">\(\bar X\)</span> and the estimator <span class="math inline">\(T\)</span> is the function that maps <span class="math inline">\(n\)</span> real numbers to their mean. In general, estimates are used to give our `best guess’ at population parameters.</p>
 </section>
 <section id="confidence-intervals" class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="confidence-intervals"><span class="header-section-number">2.2.2</span> Confidence intervals:</h3>
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="confidence-intervals"><span class="header-section-number">2.2.2</span> Confidence intervals</h3>
 <p>Recall from the previous section that our estimate of a parameter is only that, an estimate. In other words, it is not exactly equal to the population parameter. For instance, if we drew a different sample our estimate would change. A confidence interval is used to acknowledge this phenomenon in the reporting of our statistics. Its used to give a range of estimates that we might have obtained from any “regular” sample we might observe. It is ultimately used to quantify the error (sometimes called uncertainty) in our estimate.</p>
 <p>Confidence intervals consist of a level, usually denoted by <span class="math inline">\((1-\alpha)100\%\)</span> and two end points. For example, you have learned confidence intervals for the population mean. When we say <span class="math inline">\((-1,1)\)</span> is <span class="math inline">\(95\%\)</span> confidence interval for the population mean, what does this mean? Colloquially, it means that we expect the sample mean to be somewhere within <span class="math inline">\((-1,1)\)</span> with high confidence. Note that confidence intervals are computed from the data, which means also that for each new sample, we would get a different confidence interval. However, the population parameter never changes. Therefore, the interval is what is varying from sample to sample. This impacts the interpretation of a confidence interval.</p>
 <p>Continuing our example, we have that the interval <span class="math inline">\((-1,1)\)</span> can be interpreted as: “if we drew many more samples, 95% of the <strong>intervals</strong> will contain the population parameter.” We <strong>do not</strong> say that the parameter has a 95% chance of falling in (-1,1), since the parameter is not random, the interval end points are.</p>
@@ -504,7 +504,7 @@ Note
 <p>To summarize this section, a confidence interval is used to quantify the uncertainty in our reported estimates. By uncertainty, we specifically mean the uncertainty resulting from the fact that we have only a sample of the population, and our estimate varies depending on the sample.</p>
 </section>
 <section id="hypothesis-tests" class="level3" data-number="2.2.3">
-<h3 data-number="2.2.3" class="anchored" data-anchor-id="hypothesis-tests"><span class="header-section-number">2.2.3</span> Hypothesis tests:</h3>
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="hypothesis-tests"><span class="header-section-number">2.2.3</span> Hypothesis tests</h3>
 <p>Hypothesis tests are used to determine whether an effect is spurious or a real property of the population. A spurious effect is one that is specific to the sample we observed, and is not a real property of the population. For example, if the heights of males and female students are measured, and we observe that the sample mean of both male and females are equal, then this would be a spurious effect. We know that the population heights of males and females are substantially different. If we drew a new sample, we would likely observe something that mirrors the population reality (provided it is large enough).</p>
 <p>Formally, a hypothesis test compares two competing beliefs about a population parameter, called the null and alternative hypothesis. For instance, we may wish to test whether the population heights of men is greater than women, vs.&nbsp;the heights being less than or equal to that of men.</p>
 <p>We write this as follows: <span class="math inline">\(H_0\colon \mu_{men}\leq \mu_{women}\)</span> vs.&nbsp;<span class="math inline">\(H_a\colon \mu_{men}&gt; \mu_{women}\)</span>.</p>
@@ -761,7 +761,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Note also that we can use the confidence interval method, meaning that if if 0 is in the interval: <span class="math display">\[ \hat\Delta\pm t_{n_1+n_2-2,1-\alpha/2}\sqrt{\hat\sigma_1^2/n_1+\hat\sigma_2^2/n_2},\]</span> then we fail to reject the null hypothesis.</p>
+<p>Note also that we can use the confidence interval method, meaning that if if 0 is in the interval: <span class="math display">\[ \hat\Delta\pm t_{n_1+n_2-2,1-\alpha/2}\hat\sigma_p\sqrt{1/n_1+1/n_2},\]</span> then we fail to reject the null hypothesis.</p>
 </div>
 </div>
 </section>
@@ -945,7 +945,7 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>From your linear algebra course, a prerequisite, you have learned the condition(s) for the existence of an inverse, (https://mathworld.wolfram.com/InvertibleMatrixTheorem.html)[The Invertible Matrix Theorem] and you have learned how to obtain an inverse. You should review them.</p>
+<p>From your linear algebra course, a prerequisite, you have learned the condition(s) for the existence of an inverse, <a href="https://mathworld.wolfram.com/InvertibleMatrixTheorem.html">The Invertible Matrix Theorem</a> and you have learned how to obtain an inverse. You should review them.</p>
 <p>Specifically, you should know how to obtain inverse of any diagonal matrix and any <span class="math inline">\((2 \times 2)\)</span> non-singular matrix, i.e., <span class="math display">\[
 \left( \begin{array}{cc} a &amp; b \\ c &amp; d \end{array} \right)^{-1} =
 \frac{1}{ad - bc} \left( \begin{array}{cc} d &amp; -b \\ -c &amp; a \end{array} \right).
@@ -1029,7 +1029,7 @@ Y = \left( \begin{array}{c} Y_1 \\ \vdots \\ Y_n \end{array} \right)
 </div>
 <p>Sometimes <span class="math inline">\({\textrm{cov}}\left[Y\right]\)</span> is written as <span class="math inline">\({\textrm{Var}}\left[Y\right]\)</span>.</p>
 <p>The following are some facts about <span class="math inline">\(\Sigma\)</span>:</p>
-<p><span class="math inline">\(\Sigma\)</span> is an <span class="math inline">\(n \times n\)</span> matrix with the diagonal elements being the variances, <span class="math inline">\({\textrm{Var}}\left[Y_i\right]\)</span> for <span class="math inline">\(i=1, \ldots, n\)</span>, and the off-diagonal elements being the covariances, <span class="math inline">\({\textrm{cov}}\left[(\right]Y_i, Y_j)\)</span> for <span class="math inline">\(i, j = 1, \ldots, n\)</span> and <span class="math inline">\(i \ne j\)</span>. <span class="math inline">\(\Sigma\)</span> is a symmetric, non-negative definite matrix. In this course, we further restrict it to be a positive definite matrix. <span class="math inline">\(\Sigma\)</span> is referred to as the <strong>covariance matrix</strong>.</p>
+<p><span class="math inline">\(\Sigma\)</span> is an <span class="math inline">\(n \times n\)</span> matrix with the diagonal elements being the variances, <span class="math inline">\({\textrm{Var}}\left[Y_i\right]\)</span> for <span class="math inline">\(i=1, \ldots, n\)</span>, and the off-diagonal elements being the covariances, <span class="math inline">\({\textrm{cov}}\left[Y_i, Y_j\right]\)</span> for <span class="math inline">\(i, j = 1, \ldots, n\)</span> and <span class="math inline">\(i \ne j\)</span>. <span class="math inline">\(\Sigma\)</span> is a symmetric, non-negative definite matrix. In this course, we further restrict it to be a positive definite matrix. <span class="math inline">\(\Sigma\)</span> is referred to as the <strong>covariance matrix</strong>.</p>
 </section>
 <section id="properties-of-expected-value-and-covariance" class="level3" data-number="2.4.3">
 <h3 data-number="2.4.3" class="anchored" data-anchor-id="properties-of-expected-value-and-covariance"><span class="header-section-number">2.4.3</span> Properties of expected value and covariance</h3>
@@ -1039,11 +1039,10 @@ Y = \left( \begin{array}{c} Y_1 \\ \vdots \\ Y_n \end{array} \right)
 <li><span class="math inline">\({\textrm{cov}}\left[A + B Y\right] = B {\textrm{cov}}\left[Y\right] B^\top\)</span>.</li>
 </ul>
 <div id="exr-2-4-1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 2.12</strong></span> Let $Y = (Y_1, , Y_n)^$ be a random vector, where <span class="math inline">\(Y_i\)</span> are i.i.d.<br>
-random variables with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. What are the mean and covariance of <span class="math inline">\(Y\)</span>? Use properties of random vectors to compute the mean and variance of the sample mean.</p>
+<p><span class="theorem-title"><strong>Exercise 2.12</strong></span> Let <span class="math inline">\(Y = (Y_1, \ldots, Y_n)^\top\)</span> be a random vector, where <span class="math inline">\(Y_i\)</span> are i.i.d.&nbsp;random variables with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>. What are the mean and covariance of <span class="math inline">\(Y\)</span>? Use properties of random vectors to compute the mean and variance of the sample mean.</p>
 </div>
 <div id="sol-2-4-1" class="proof solution">
-<p><span class="proof-title"><em>Solution 2.4</em>. </span>First, <span class="math inline">\({\textrm{E}}(Y) = \mu 1\)</span> and <span class="math inline">\({\textrm{cov}}\left[Y\right] = \sigma^2 I\)</span>.Note that <span class="math inline">\(\bar{Y} = (Y_1 + \cdots + Y_n)/n = \frac{1}{n}1^\top Y\)</span>. Now, we have <span class="math display">\[
+<p><span class="proof-title"><em>Solution 2.4</em>. </span>First, <span class="math inline">\({\textrm{E}}(Y) = \mu 1\)</span> and <span class="math inline">\({\textrm{cov}}\left[Y\right] = \sigma^2 I\)</span>. Note that <span class="math inline">\(\bar{Y} = (Y_1 + \cdots + Y_n)/n = \frac{1}{n}1^\top Y\)</span>. Now, we have <span class="math display">\[
 {\textrm{E}}(\bar{Y}) = {\textrm{E}}\left( \frac{1}{n}1^\top Y \right) =
 \frac{1}{n} \left( 1^\top {\textrm{E}}(Y) \right) = \frac{1}{n} (n \mu) = \mu
 \]</span> and,</p>
