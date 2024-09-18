@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.53">
+<meta name="generator" content="quarto-1.3.353">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Linear Regression – Math 3330: Regression Notes</title>
+<title>Math 3330: Regression Notes - 3&nbsp; Linear Regression</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -81,13 +81,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 50,
-  "keyboard-shortcut": [
-    "f",
-    "/",
-    "s"
-  ],
-  "show-item-context": false,
+  "limit": 20,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -96,42 +90,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
-    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-submit-button-title": "Submit"
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -141,12 +106,12 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Unit_2.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Regression</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Unit_2.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Regression</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -156,7 +121,7 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Math 3330: Regression Notes</a> 
@@ -243,9 +208,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
  <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -261,7 +226,7 @@ window.Quarto = {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -333,9 +298,7 @@ window.Quarto = {
   </div>
   
 
-
 </header>
-
 
 <section id="basics-of-linear-regression" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="basics-of-linear-regression"><span class="header-section-number">3.1</span> Basics of linear regression</h2>
@@ -344,8 +307,8 @@ window.Quarto = {
 <h3 data-number="3.1.1" class="anchored" data-anchor-id="the-linear-regression-model"><span class="header-section-number">3.1.1</span> The linear regression model</h3>
 <p>Consider the following example.</p>
 <div id="exm-3-1-1" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.1</strong></span> It is difficult to accurately determine a person’s body fat percentage without immersing them in water. However, we can easily obtain the weight of a person. A researcher would like to know if weight and body fat percentage are related? If so, for a given weight, can the person’s body fat percentage be predicted? If so, how accurate is the prediction? This researcher collected the following data:</p>
-<table class="caption-top table">
+<p><span class="theorem-title"><strong>Example 3.1 </strong></span>It is difficult to accurately determine a person’s body fat percentage without immersing them in water. However, we can easily obtain the weight of a person. A researcher would like to know if weight and body fat percentage are related? If so, for a given weight, can the person’s body fat percentage be predicted? If so, how accurate is the prediction? This researcher collected the following data:</p>
+<table class="table">
 <colgroup>
 <col style="width: 19%">
 <col style="width: 8%">
@@ -403,7 +366,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<table class="caption-top table">
+<table class="table">
 <colgroup>
 <col style="width: 19%">
 <col style="width: 8%">
@@ -478,19 +441,11 @@ window.Quarto = {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># make some histograms</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(df<span class="sc">$</span>Weight,<span class="at">freq=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(df<span class="sc">$</span>BodyFat,<span class="at">freq=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># print summary statistics</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -506,11 +461,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># There seems to be some relationship here</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-1-3.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-1-3.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here is the correlation matrix, notice it is high!</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -562,11 +513,7 @@ BodyFat 0.6966328 1.0000000</code></pre>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># then we would have that the mean function E(Y|X) is given by the following line:</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="sc">-</span><span class="dv">15</span><span class="fl">+.2</span><span class="sc">*</span>x,<span class="dv">125</span>,<span class="dv">280</span>,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">xlab=</span><span class="st">"Weight"</span>,<span class="at">ylab=</span><span class="st">"Expected BF % (E(Y|X))"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Next, let's simulate some body weights from the uniform distribution</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Weight2<span class="ot">=</span><span class="fu">runif</span>(<span class="dv">20</span>,<span class="dv">135</span>,<span class="dv">250</span>)</span>
@@ -583,11 +530,7 @@ BodyFat 0.6966328 1.0000000</code></pre>
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="sc">-</span><span class="dv">15</span><span class="fl">+.2</span><span class="sc">*</span>x,<span class="dv">125</span>,<span class="dv">280</span>,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">xlab=</span><span class="st">"Weight"</span>,<span class="at">ylab=</span><span class="st">"BF %"</span>)</span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(Weight2,Bfs,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Notice how the data are scatted around the line uniformly? This is what data from a simple linear regression model looks like. Try changing the value in <code>set.seed()</code> and re-running the code. Notice how the data changes, but it is always scatted around the line uniformly? This is what we expect to see if the data follow a simple linear regression model.</p>
@@ -624,16 +567,16 @@ Caution
 <section id="homework-stop-1" class="level3" data-number="3.1.3">
 <h3 data-number="3.1.3" class="anchored" data-anchor-id="homework-stop-1"><span class="header-section-number">3.1.3</span> Homework stop 1</h3>
 <div id="exr-3-1-1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.1</strong></span> Try adjusting the parameters <span class="math inline">\(\beta_0,\beta_1,\sigma\)</span> in the simulation, what happens to the data? What happens to the line?</p>
+<p><span class="theorem-title"><strong>Exercise 3.1 </strong></span>Try adjusting the parameters <span class="math inline">\(\beta_0,\beta_1,\sigma\)</span> in the simulation, what happens to the data? What happens to the line?</p>
 </div>
 <div id="exr-3-1-2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.2</strong></span> Is <span class="math inline">\(\beta\)</span> an estimate or a population parameter? Why?</p>
+<p><span class="theorem-title"><strong>Exercise 3.2 </strong></span>Is <span class="math inline">\(\beta\)</span> an estimate or a population parameter? Why?</p>
 </div>
 <div id="exr-3-1-3" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.3</strong></span> Come up with another possible form of <span class="math inline">\(f\)</span> that is not linear. Adjust the simulation to include this form of <span class="math inline">\(f\)</span>.</p>
+<p><span class="theorem-title"><strong>Exercise 3.3 </strong></span>Come up with another possible form of <span class="math inline">\(f\)</span> that is not linear. Adjust the simulation to include this form of <span class="math inline">\(f\)</span>.</p>
 </div>
 <div id="exr-3-1-4" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.4</strong></span> Write down the assumptions of the MLR and the normal MLR. What is the difference between the two models?</p>
+<p><span class="theorem-title"><strong>Exercise 3.4 </strong></span>Write down the assumptions of the MLR and the normal MLR. What is the difference between the two models?</p>
 </div>
 </section>
 </section>
@@ -656,7 +599,7 @@ Caution
 <li><span class="math inline">\(y=(y_1,\ldots,y_n)^\top\in \mathbb{R}^n\)</span> is the observed response variable (fixed/observed)</li>
 <li><span class="math inline">\(x_{ij}\)</span> is the <span class="math inline">\(i^{th}\)</span> observation of the <span class="math inline">\(j^{th}\)</span> explanatory variable (fixed/observed) Data:</li>
 </ul>
-<table class="caption-top table">
+<table class="table">
 <thead>
 <tr class="header">
 <th>Observation</th>
@@ -724,7 +667,7 @@ Caution
 <p>For now, we can assume that all of the covariates <span class="math inline">\(X_j\)</span> are continuous variables. Later in the course, there may be categorical covariates. In this case, the <span class="math inline">\(\beta_j\)</span> corresponding to the categorical covariates have a different interpretation. We will return to this later.</p>
 </div>
 </div>
-<p>Recall <a href="#exm-3-1-1" class="quarto-xref">Example&nbsp;<span>3.1</span></a>. We assume <span class="math inline">\(\forall i\in[20]\)</span>, it holds that <span class="math display">\[Y_i|X_i=\beta^\top X_i+\epsilon_i,\]</span> with <span class="math inline">\(\epsilon_i\sim\mathcal{N}(0,\sigma^2)\)</span>, <span class="math inline">\(\epsilon_i\perp \epsilon_j\)</span> for <span class="math inline">\(i\neq j,\ i,j\in [20]\)</span>. A one unit increase in weight causes, on average, a <span class="math inline">\(\beta_2\)</span> unit increase in body fat percentage. Since <span class="math inline">\(\beta_1\)</span> is the intercept, it has a special interpretation. <span class="math inline">\(\beta_1\)</span> is the average value of <span class="math inline">\(Y_i\)</span> given <span class="math inline">\(X_i=0\)</span>. It is also helpful to note that <span class="math inline">\({\textrm{cov}}(Y)=\sigma^2 I\)</span>.</p>
+<p>Recall <a href="#exm-3-1-1">Example&nbsp;<span>3.1</span></a>. We assume <span class="math inline">\(\forall i\in[20]\)</span>, it holds that <span class="math display">\[Y_i|X_i=\beta^\top X_i+\epsilon_i,\]</span> with <span class="math inline">\(\epsilon_i\sim\mathcal{N}(0,\sigma^2)\)</span>, <span class="math inline">\(\epsilon_i\perp \epsilon_j\)</span> for <span class="math inline">\(i\neq j,\ i,j\in [20]\)</span>. A one unit increase in weight causes, on average, a <span class="math inline">\(\beta_2\)</span> unit increase in body fat percentage. Since <span class="math inline">\(\beta_1\)</span> is the intercept, it has a special interpretation. <span class="math inline">\(\beta_1\)</span> is the average value of <span class="math inline">\(Y_i\)</span> given <span class="math inline">\(X_i=0\)</span>. It is also helpful to note that <span class="math inline">\({\textrm{cov}}(Y)=\sigma^2 I\)</span>.</p>
 </section>
 <section id="least-squares-estimation" class="level3" data-number="3.2.2">
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="least-squares-estimation"><span class="header-section-number">3.2.2</span> Least squares estimation</h3>
@@ -733,11 +676,7 @@ Caution
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>For example, suppose we want to determine if <span class="math inline">\(\beta\)</span> is more likely to be <span class="math inline">\((-35,0.3)^\top\)</span> or <span class="math inline">\((-22,0.2)^\top\)</span> . How can we say which line is a better to our data? One way is to graph them on top of the data and determine which one looks better. Let’s plot these lines.</p>
@@ -748,11 +687,7 @@ Caution
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># plot Y=-25+0.2X</span></span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="sc">-</span><span class="dv">22</span>,<span class="fl">0.2</span>,<span class="at">col=</span><span class="st">'red'</span>,<span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Its not clear which one fits the data better. Even if it was clear, obviously, we cannot plot all possible lines. So how can we determine which line fits the data the “best”?</p>
@@ -791,13 +726,13 @@ Caution
 </ul>
 <p>The estimate <span class="math inline">\(\hat\beta\)</span> is known as the <strong>least squares estimate</strong> of the regression coefficients.</p>
 <div id="def-3-1-1" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 3.1</strong></span> The <strong>least squares estimate</strong> of the regression coefficients is <span class="math display">\[\hat\beta=(X^\top X)^{-1}X^\top Y.\]</span></p>
+<p><span class="theorem-title"><strong>Definition 3.1 </strong></span>The <strong>least squares estimate</strong> of the regression coefficients is <span class="math display">\[\hat\beta=(X^\top X)^{-1}X^\top Y.\]</span></p>
 </div>
 </section>
 <section id="example" class="level3" data-number="3.2.3">
 <h3 data-number="3.2.3" class="anchored" data-anchor-id="example"><span class="header-section-number">3.2.3</span> Example</h3>
 <div id="exm-3-1-2" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.2</strong></span> In the body weight example <a href="#exm-3-1-1" class="quarto-xref">Example&nbsp;<span>3.1</span></a>, write down <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> and compute <span class="math inline">\(\hat\beta\)</span>. Interpret <span class="math inline">\(\hat\beta\)</span>.</p>
+<p><span class="theorem-title"><strong>Example 3.2 </strong></span>In the body weight example <a href="#exm-3-1-1">Example&nbsp;<span>3.1</span></a>, write down <span class="math inline">\(X\)</span>, <span class="math inline">\(y\)</span> and compute <span class="math inline">\(\hat\beta\)</span>. Interpret <span class="math inline">\(\hat\beta\)</span>.</p>
 </div>
 <p>First, we have that <span class="math display">\[Y=\left( 6   , 21  , 15  , 6   , 22  , 31  , 32  , 21  , 25  , 30  , 10  , 20  , 22  , 9   , 38  , 10  , 27  , 12  , 10  , 28  \right)^\top\]</span> <span class="math display">\[X=\left[1_{20}\ | \left( 175 , 181 , 200 , 159 , 196 , 192 , 205 , 173 , 187 , 188 ,
 188 , 240 , 175 , 168 , 246 , 160 , 215 , 159 , 146 , 219  \right)^\top\right]\]</span></p>
@@ -872,12 +807,12 @@ F-statistic: 16.97 on 1 and 18 DF,  p-value: 0.0006434</code></pre>
 <p>The data argument should be the dataframe which contains your data. The formula argument is used to specify the model to be fitted. It provides a symbolic description of the model, indicating the response variable and the predictors/covariates, as well as the relationships between them. The left-hand side should be the name of your response variable, as it is named in your dataframe. To see the names of your variables use the <code>names()</code> function, e.g., <code>names(df)</code>. The right-hand side contains the covariates you want to include in your model. For instance, above, the formula is given by <code>BodyFat ~ Weight</code> . Note that <code>BodyFat</code> is the response and <code>Weight</code> is the covariate.</p>
 <p>We now list some important properties of the least squares estimator.</p>
 <div id="exr-3-1-1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.5</strong></span> Compute <span class="math inline">\({\textrm{E}}\left[\hat\beta\right]\)</span> and <span class="math inline">\({\textrm{cov}}(\hat\beta)\)</span>.</p>
+<p><span class="theorem-title"><strong>Exercise 3.5 </strong></span>Compute <span class="math inline">\({\textrm{E}}\left[\hat\beta\right]\)</span> and <span class="math inline">\({\textrm{cov}}(\hat\beta)\)</span>.</p>
 </div>
-<div id="sol-3-1-1" class="proof solution">
-<p><span class="proof-title"><em>Solution 3.1</em>. </span>It holds that <span class="math inline">\({\textrm{E}}\left[\hat\beta\right]=\beta\)</span> and <span class="math inline">\({\textrm{cov}}(\hat\beta)=\sigma^2 I\)</span>.</p>
+<div id="sol-3-1-1">
+<p>It holds that <span class="math inline">\({\textrm{E}}\left[\hat\beta\right]=\beta\)</span> and <span class="math inline">\({\textrm{cov}}(\hat\beta)=\sigma^2 (X^\top X)^{-1}\)</span>.</p>
 </div>
-<p>Recall that an estimator is <strong>unbiased</strong> if its expectation equals the population parameter it is trying to estimate. After completing <a href="#exr-3-1-1" class="quarto-xref">Exercise&nbsp;<span>3.5</span></a> you will see that <span class="math inline">\(\hat\beta\)</span> is unbiased for the parameter <span class="math inline">\(\beta\)</span>.</p>
+<p>Recall that an estimator is <strong>unbiased</strong> if its expectation equals the population parameter it is trying to estimate. After completing <a href="#exr-3-1-1">Exercise&nbsp;<span>3.5</span></a> you will see that <span class="math inline">\(\hat\beta\)</span> is unbiased for the parameter <span class="math inline">\(\beta\)</span>.</p>
 <p>The least squares estimator is also the “best linear unbiased estimator”, or the BLUE. This is known as the <a href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Markov_theorem">Gauss–Markov</a> theorem. This means that under the assumptions of the linear regression model, over any unbiased estimator of <span class="math inline">\(\beta\)</span> we can construct, which is a linear combination of <span class="math inline">\(Y_1,\ldots,Y_n\)</span>, the estimator <span class="math inline">\(\hat\beta\)</span> has the smallest variance (and therefore, the smallest mean squared error. Recall that for an estimator <span class="math inline">\(\hat\alpha\)</span>, the mean squared error is given by <span class="math inline">\({\textrm{E}}\left[||\beta-\hat\alpha||^2\right]\)</span>.)</p>
 <p>The Gauss–Markov theorem does not require the random error to be normally distributed. If we are willing to assume that <span class="math inline">\(\epsilon\sim \mathcal{N}(0,\sigma^2 I)\)</span>, then <span class="math inline">\(\hat\beta\)</span> is also the <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation">maximum likelihood estimator</a> and the “uniformly minimum-variance unbiased estimator”, or <a href="https://en.wikipedia.org/wiki/Minimum-variance_unbiased_estimator#:~:text=In%20statistics%20a%20minimum%2Dvariance,possible%20values%20of%20the%20parameter">UMVUE</a>. This means that <span class="math inline">\(\hat\beta\)</span> has lower variance than any other unbiased estimator, no matter what the true value of <span class="math inline">\(\beta\)</span> is.</p>
 <p>One might ask, how can we use <span class="math inline">\(\hat\beta\)</span> to predict body fat percentage given weight? The estimate <span class="math inline">\(\hat\beta\)</span> gives us a best guess at the coefficients. Therefore, our best guess at someones body fat is given by <span class="math display">\[Best\ Guess=-27.3762623+ 0.2498741 \times Weight.\]</span> For instance, for someone who is 170 pounds, we would guess that their body fat percentage is <span class="math inline">\(-27.3762623+ 0.2498741 \times 170=\)</span> 15.1023347.</p>
@@ -885,15 +820,15 @@ F-statistic: 16.97 on 1 and 18 DF,  p-value: 0.0006434</code></pre>
 <section id="homework-stop-2" class="level3" data-number="3.2.4">
 <h3 data-number="3.2.4" class="anchored" data-anchor-id="homework-stop-2"><span class="header-section-number">3.2.4</span> Homework stop 2</h3>
 <div id="exr-3-1-2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.6</strong></span> Why do we need <span class="math inline">\(\hat\beta\)</span>, why not use <span class="math inline">\(\beta\)</span>?.</p>
+<p><span class="theorem-title"><strong>Exercise 3.6 </strong></span>Why do we need <span class="math inline">\(\hat\beta\)</span>, why not use <span class="math inline">\(\beta\)</span>?.</p>
 </div>
 <div id="exr-3-1-3" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.7</strong></span> Is <span class="math inline">\(\hat\beta\)</span> an estimate or a population parameter? What about <span class="math inline">\(\beta\)</span>?</p>
+<p><span class="theorem-title"><strong>Exercise 3.7 </strong></span>Is <span class="math inline">\(\hat\beta\)</span> an estimate or a population parameter? What about <span class="math inline">\(\beta\)</span>?</p>
 </div>
 <div id="exr-3-1-4" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.8</strong></span> Compute, <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> and <span class="math inline">\(\hat\beta\)</span> in the following real data example:</p>
+<p><span class="theorem-title"><strong>Exercise 3.8 </strong></span>Compute, <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span> and <span class="math inline">\(\hat\beta\)</span> in the following real data example:</p>
 <p>It is challenging to assess a student’s understanding of a subject without administering an exam. However, we can easily record the number of hours a student studies. A researcher would like to know if the number of hours studied and exam scores are related. This researcher collected the following data:</p>
-<table class="caption-top table">
+<table class="table">
 <thead>
 <tr class="header">
 <th>Student</th>
@@ -1025,7 +960,7 @@ F-statistic: 16.97 on 1 and 18 DF,  p-value: 0.0006434</code></pre>
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="important-quantities-residuals-and-fitted-values"><span class="header-section-number">3.3.1</span> Important quantities: Residuals and fitted values</h3>
 <p>We now introduce some very important quantities: We call the estimated values given our observed <span class="math inline">\(X\)</span> the fitted values: <span class="math inline">\(\hat Y=X\hat\beta\)</span>. The fitted values are what our model would estimate the vector <span class="math inline">\(Y\)</span> to be. We call <span class="math inline">\(\hat \epsilon=Y-\hat Y\)</span> is the <strong>residual vector</strong>. The <span class="math inline">\(i\)</span>th entry of <span class="math inline">\(\hat \epsilon\)</span>, say <span class="math inline">\(\hat \epsilon_i\)</span>, is the <span class="math inline">\(i\)</span>th <strong>residual</strong>. The residuals are the signed distances from the response variable to the estimated regression hyperplane. The <strong>sum of squared error</strong> or <strong>sum of squared residuals</strong> (SSE) is given by <span class="math inline">\(\hat \epsilon^\top \hat \epsilon=\sum_{i=1}^n\hat \epsilon_i^2\)</span>. Note that since we estimated <span class="math inline">\(\beta\)</span> using the least squares method, <span class="math inline">\(\hat \epsilon^\top \hat \epsilon\)</span> is minimized (with respect to varying <span class="math inline">\(\beta\)</span>).</p>
 <div id="exm-3-3-1" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.3</strong></span> Recall <a href="#exm-3-1-1" class="quarto-xref">Example&nbsp;<span>3.1</span></a>. What is the residual of individual 3? How can we interpret this value?</p>
+<p><span class="theorem-title"><strong>Example 3.3 </strong></span>Recall <a href="#exm-3-1-1">Example&nbsp;<span>3.1</span></a>. What is the residual of individual 3? How can we interpret this value?</p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>residuals<span class="ot">=</span>Y<span class="sc">-</span>X<span class="sc">%*%</span>beta_hat; residuals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1068,11 +1003,7 @@ F-statistic: 16.97 on 1 and 18 DF,  p-value: 0.0006434</code></pre>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(Xvals[i,<span class="dv">1</span>]<span class="sc">+</span><span class="dv">2</span>,<span class="fu">mean</span>(Yvals[i,]),<span class="fu">round</span>(residuals[i],<span class="dv">2</span>))</span>
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Then, the population body fat percentages, given weights will look like this: </span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
@@ -1105,7 +1036,7 @@ F-statistic: 16.97 on 1 and 18 DF,  p-value: 0.0006434</code></pre>
         &amp;=(n-1)^{-1}\sum_{i=1}^n(Y_i-\bar Y)^2=(n-1)^{-1}(Y-\bar Y 1)^\top (Y-\bar Y 1).
     \end{align*}\]</span> Therefore, in the null model, the estimate of <span class="math inline">\(\sigma^2\)</span> via the <span class="math inline">\(MSE\)</span> is just the usual estimate of the variance of the response. This is intuitive!</p>
 <p>The following table can be used to summarize the variation in the response:</p>
-<table class="caption-top table">
+<table class="table">
 <thead>
 <tr class="header">
 <th><strong>Source</strong></th>
@@ -1151,7 +1082,7 @@ Note
 </section>
 <section id="coefficients-of-determination" class="level3" data-number="3.3.3">
 <h3 data-number="3.3.3" class="anchored" data-anchor-id="coefficients-of-determination"><span class="header-section-number">3.3.3</span> Coefficients of determination</h3>
-<p>A model is a good model if it can explain a fair amount of the variation in the response. (You can think that the model explains “changes” in the response.) In other words, <span class="math inline">\(SSModel\)</span> should be as close to <span class="math inline">\(SSTotal\)</span> as possible; or equivalently, <span class="math inline">\(SSError\)</span> should be as close to 0 as possible. Now, “close” is a relative term, and so we need another value to reference to. This is where the <strong><span class="math inline">\(R^2\)</span></strong> comes in: <span class="math display">\[R^2=\frac{SSModel}{SST},\]</span> and is the proportion of variation explained by the model. It is clear that <span class="math inline">\(0 \leq  R^2 \leq 1\)</span>, and so rescaling the data will not affect <span class="math inline">\(R^2\)</span> (like it would affect the sum of squares terms <span class="math inline">\(SST,SSE,SSM\)</span>). If <span class="math inline">\(R^2\)</span> is close to 1, it is large – “close to 1” is a subjective/area dependent. Generally, the larger the <span class="math inline">\(R^2\)</span>, the better the model!</p>
+<p>A model is a good model if it can explain a fair amount of the variation in the response. (You can think that the model explains “changes” in the response.) In other words, <span class="math inline">\(SSModel\)</span> should be as close to <span class="math inline">\(SSTotal\)</span> as possible; or equivalently, <span class="math inline">\(SSError\)</span> should be as close to 0 as possible. Now, “close” is a relative term, and so we need another value to reference to. This is where the <strong><span class="math inline">\(R^2\)</span></strong> comes in: <span class="math display">\[R^2=\frac{SSModel}{SST},\]</span> and is the proportion of variation explained by the model. It is clear that <span class="math inline">\(0 \leq R^2 \leq 1\)</span>, and so rescaling the data will not affect <span class="math inline">\(R^2\)</span> (like it would affect the sum of squares terms <span class="math inline">\(SST,SSE,SSM\)</span>). If <span class="math inline">\(R^2\)</span> is close to 1, it is large – “close to 1” is a subjective/area dependent. Generally, the larger the <span class="math inline">\(R^2\)</span>, the better the model!</p>
 <p>To compare different models, we could potentially add different covariates and see if <span class="math inline">\(R^2\)</span> improves. However, every time you add any variable, <span class="math inline">\(R^2\)</span> will always increase. Therefore, it is common to use the adjusted coefficient of determination: <span class="math display">\[\bar R^2=1-(1-R^2)\frac{n-1}{n-p}.\]</span> Thus, the (adjusted) coefficient of determination can be used as a measure of how well the regression model fits the data (how much variance is explained). It could also be used to compare models.</p>
 </section>
 <section id="the-f-test" class="level3" data-number="3.3.4">
@@ -1168,7 +1099,7 @@ Note
 </ul>
 <p>Recall that the ratio of two independent <span class="math inline">\(\chi^2\)</span> distributions divided by their respective degrees of freedom follows an <span class="math inline">\(F\)</span> distribution. Therefore, we have that <span class="math inline">\(F_{obs}\sim F_{dfM,dfE}\)</span>. The corresponding p-value is <span class="math inline">\(\Pr(W &gt; F_{obs})\)</span> where <span class="math inline">\(W\sim F_{dfM;dfE}\)</span>. We can alternatively reject the null hypothesis if <span class="math inline">\(F_{obs}&gt;F_{dfM;dfE,1-alpha}\)</span>, where <span class="math inline">\(F_{obs}&gt;F_{dfM;dfE,1-alpha}\)</span> is the <span class="math inline">\(1-\alpha\)</span> quantile of the <span class="math inline">\(F_{dfM,dfE}\)</span> distribution.</p>
 <p>We can now present the complete ANOVA table</p>
-<table class="caption-top table">
+<table class="table">
 <colgroup>
 <col style="width: 10%">
 <col style="width: 11%">
@@ -1215,7 +1146,7 @@ Note
 </tbody>
 </table>
 <div id="exm-3-3-2" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.4</strong></span> In <a href="#exm-3-1-1" class="quarto-xref">Example&nbsp;<span>3.1</span></a>, compute and interpret the coefficients of determination. Compute and interpret the ANOVA table. Test whether the regression model is significant. (This means perform the <span class="math inline">\(F\)</span> test.)</p>
+<p><span class="theorem-title"><strong>Example 3.4 </strong></span>In <a href="#exm-3-1-1">Example&nbsp;<span>3.1</span></a>, compute and interpret the coefficients of determination. Compute and interpret the ANOVA table. Test whether the regression model is significant. (This means perform the <span class="math inline">\(F\)</span> test.)</p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># recall</span></span>
@@ -1311,9 +1242,9 @@ Total 1737.7500 19        NA       NA           NA</code></pre>
 <section id="homework-stop-3" class="level3" data-number="3.3.5">
 <h3 data-number="3.3.5" class="anchored" data-anchor-id="homework-stop-3"><span class="header-section-number">3.3.5</span> Homework stop 3</h3>
 <div id="exr-3-3-1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.9</strong></span> In the following real data example: <strong>Compute and interpret</strong> the coefficient of determination, the adjusted coefficient of determination and perform the <span class="math inline">\(F\)</span> test for model significance. Including printing the ANOVA table, the null and alternative hypothesis, an interpretation of the p-value and the conclusion of the test.</p>
+<p><span class="theorem-title"><strong>Exercise 3.9 </strong></span>In the following real data example: <strong>Compute and interpret</strong> the coefficient of determination, the adjusted coefficient of determination and perform the <span class="math inline">\(F\)</span> test for model significance. Including printing the ANOVA table, the null and alternative hypothesis, an interpretation of the p-value and the conclusion of the test.</p>
 <p>It is challenging to assess a student’s understanding of a subject without administering an exam. However, we can easily record the number of hours a student studies. A researcher would like to know if the number of hours studied and exam scores are related. This researcher collected the following data:</p>
-<table class="caption-top table">
+<table class="table">
 <thead>
 <tr class="header">
 <th>Student</th>
@@ -1435,13 +1366,13 @@ Total 1737.7500 19        NA       NA           NA</code></pre>
 </div>
 </div>
 <div id="exr-3-3-2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.10</strong></span> Write down the interpretations of: <span class="math inline">\(SSE,\ MSE,\ R^2,\ \bar R^2,\ SSM\)</span>.</p>
+<p><span class="theorem-title"><strong>Exercise 3.10 </strong></span>Write down the interpretations of: <span class="math inline">\(SSE,\ MSE,\ R^2,\ \bar R^2,\ SSM\)</span>.</p>
 </div>
 <div id="exr-3-3-3" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.11</strong></span> What is the interpretation of the p-value in the ANOVA table?</p>
+<p><span class="theorem-title"><strong>Exercise 3.11 </strong></span>What is the interpretation of the p-value in the ANOVA table?</p>
 </div>
 <div id="exr-3-3-4" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.12</strong></span> What extra assumption is needed to perform the <span class="math inline">\(F\)</span>-test?</p>
+<p><span class="theorem-title"><strong>Exercise 3.12 </strong></span>What extra assumption is needed to perform the <span class="math inline">\(F\)</span>-test?</p>
 </div>
 </section>
 <section id="significance-of-one-variable" class="level3" data-number="3.3.6">
@@ -1451,7 +1382,7 @@ Total 1737.7500 19        NA       NA           NA</code></pre>
 <p>To test for significance and compute confidence intervals of a single variate, we have to compute the distribution of <span class="math inline">\(\hat\beta_j\)</span>. We first compute the mean and variance of <span class="math inline">\(\hat\beta_j\)</span>. First, given that <span class="math inline">\({\textrm{E}}(\hat\beta) = \beta\)</span>, we have <span class="math inline">\({\textrm{E}}(\hat\beta_j) = \beta_j\)</span>. Next, <span class="math inline">\({\textrm{Var}}\left[\hat\beta_j\right]\)</span> is the <span class="math inline">\((j, j)^{th}\)</span> entry of <span class="math inline">\({\textrm{cov}}(\hat\beta)\)</span>. In addition, we have derived that <span class="math inline">\({\textrm{cov}}(\hat\beta) = (X^\top X)^{-1} \sigma^2\)</span>.</p>
 <p>Now, recall that if <span class="math inline">\(Z\)</span> is multivariate normal, i.e., <span class="math inline">\(Z\sim\mathcal{N}(\mu,\Sigma)\)</span>, then <span class="math inline">\(b+AZ\sim\mathcal{N}(b+A\mu,A\Sigma A^\top)\)</span>, i.e., <span class="math inline">\(b+AZ\)</span> is also multivariate normal. Therefore, since we have assumed that <span class="math inline">\(\epsilon\sim \mathcal{N}_n(0,\sigma^2 I)\)</span> and that <span class="math inline">\(Y|X=X\beta+\epsilon\)</span>, it follows that <span class="math inline">\(Y|X\sim \mathcal{N}_n(X\beta,\sigma^2 I)\)</span>. Next, we may recall that <span class="math inline">\(\hat\beta=(X^\top X)^{-1} XY\)</span>. Let <span class="math inline">\(A=(X^\top X)^{-1} X\)</span>. Then <span class="math inline">\(\hat\beta=AY\)</span>. It follows that <span class="math inline">\(\hat\beta\)</span> is also multivariate normal! Putting everything together, we have that <span class="math inline">\(\hat\beta\sim \mathcal{N}_p(\beta,(X^\top X)^{-1} \sigma^2)\)</span>.</p>
 <div id="thm-3-4-1" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 3.1</strong></span> Under the assumptions of the <strong>normal linear regression model</strong> it holds that <span class="math inline">\(\hat\beta\sim \mathcal{N}_p(\beta,(X^\top X)^{-1} \sigma^2)\)</span>.</p>
+<p><span class="theorem-title"><strong>Theorem 3.1 </strong></span>Under the assumptions of the <strong>normal linear regression model</strong> it holds that <span class="math inline">\(\hat\beta\sim \mathcal{N}_p(\beta,(X^\top X)^{-1} \sigma^2)\)</span>.</p>
 </div>
 <p>Now that we have the distribution of <span class="math inline">\(\hat\beta\)</span>, we can use it to compute the confidence intervals for <span class="math inline">\(\beta_j\)</span>s.</p>
 <p>Recall from introductory statistics (MATH 1131) that you learned that if we want to compute a confidence interval for the sample mean and the sample variance was unknown, we had to estimate the variance. Similarly, here, the variance of <span class="math inline">\(\hat\beta_j\)</span> contains <span class="math inline">\(\sigma\)</span>, an unknown parameter. Recall that, we estimate <span class="math inline">\(\sigma^2\)</span> by <span class="math inline">\(MSE\)</span>, and so we can estimate the variance of <span class="math inline">\(\hat\beta_j\)</span> by <span class="math inline">\(\hat{\textrm{Var}}\left[\hat\beta_j\right] = (X^\top X)_{j,j}^{-1} MSE\)</span>.</p>
@@ -1481,7 +1412,7 @@ Note
 </div>
 </div>
 <div class="{@exm-3-4-1}">
-<p>In <a href="#exm-3-1-1" class="quarto-xref">Example&nbsp;<span>3.1</span></a>, test if the coefficient for weight is not equal to 1. Next, test if the coefficient for weight is greater than 1. Lastly, test if the coefficient for weight is not equal to 0.</p>
+<p>In <a href="#exm-3-1-1">Example&nbsp;<span>3.1</span></a>, test if the coefficient for weight is not equal to 1. Next, test if the coefficient for weight is greater than 1. Lastly, test if the coefficient for weight is not equal to 0.</p>
 </div>
 <p>First, we have that <span class="math display">\[H_0\colon \beta_1= 15\qquad vs \qquad H_1:\ \beta_1\neq 15.\]</span> Now, let’s execute the test:</p>
 <div class="cell">
@@ -1526,7 +1457,7 @@ F-statistic: 16.97 on 1 and 18 DF,  p-value: 0.0006434</code></pre>
 <p>Based on the concepts that you have learned in 1131, and what we have reviewed in previous lectures, it also follows from the above analysis that a <span class="math inline">\((1-\alpha)100%\)</span> confidence interval for <span class="math inline">\(\beta_j\)</span> is</p>
 <p><span class="math display">\[
 \hat\beta_j \pm t_{dfE, \alpha/2} \sqrt{\widehat{var}(\hat\beta_j)}.
-\]</span> :::{#exm-3-4-2} In <a href="#exm-3-1-1" class="quarto-xref">Example&nbsp;<span>3.1</span></a>, compute a 99% and a 95% confidence interval for the coefficient for weight. Which one is longer? Why? Interpret these intervals. :::</p>
+\]</span> :::{#exm-3-4-2} In <a href="#exm-3-1-1">Example&nbsp;<span>3.1</span></a>, compute a 99% and a 95% confidence interval for the coefficient for weight. Which one is longer? Why? Interpret these intervals. :::</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># By hand</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>beta_hat[<span class="dv">2</span>]<span class="sc">+</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)<span class="sc">*</span><span class="fu">qt</span>(<span class="fl">0.975</span>,dfe)<span class="sc">*</span><span class="fu">sqrt</span>(hvar_beta[<span class="dv">2</span>,<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1572,7 +1503,7 @@ Caution
 <p>We may wish to estimate the average response at a specific set of the covariates <span class="math inline">\(x\)</span>. Given <span class="math inline">\(x\)</span>, the theoretical mean response is <span class="math inline">\(x^\top \beta\)</span>. Given <span class="math inline">\(x\)</span>, we can estimate the mean response as <span class="math inline">\(x^\top \hat\beta\)</span>. For instance, what is the average body fat percentage at 160 pounds? How accurate is our estimate? We can use a confidence interval to answer this question.</p>
 <p>Note that the expectation and variance of the estimate of the mean response are given by <span class="math inline">\({\textrm{E}}\left[x^\top \hat\beta\right]=x^\top \beta\)</span> and <span class="math inline">\({\textrm{Var}}\left[x^\top \hat\beta\right]=x^\top(X^\top X)^{-1}x\sigma^2\)</span>. Again, we must estimate <span class="math inline">\(\sigma\)</span> and we can write <span class="math inline">\(\hat{\textrm{Var}}\left[x^\top \hat\beta\right]=x^\top(X^\top X)^{-1}x MSE\)</span>.</p>
 <div id="exr-3-4-1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.13</strong></span> Under the assumptions of the normal linear regression model, show that for a fixed covariate vector <span class="math inline">\(x\in\mathbb{R}^p\)</span>, <span class="math inline">\(x^\top \hat\beta\)</span> has a multivariate normal distribution and find it’s mean and variance. Argue that <span class="math inline">\(\frac{x^\top\hat\beta - x^\top \beta}{\sqrt{\hat{\textrm{Var}}\left[x^\top \hat\beta\right]}}\sim t_{dfE}\)</span>.</p>
+<p><span class="theorem-title"><strong>Exercise 3.13 </strong></span>Under the assumptions of the normal linear regression model, show that for a fixed covariate vector <span class="math inline">\(x\in\mathbb{R}^p\)</span>, <span class="math inline">\(x^\top \hat\beta\)</span> has a multivariate normal distribution and find it’s mean and variance. Argue that <span class="math inline">\(\frac{x^\top\hat\beta - x^\top \beta}{\sqrt{\hat{\textrm{Var}}\left[x^\top \hat\beta\right]}}\sim t_{dfE}\)</span>.</p>
 </div>
 <p>It can be shown that a (<span class="math inline">\(1-\alpha)100\)</span>% confidence interval for the mean response <span class="math inline">\({\textrm{E}}\left[Y|X=x\right]\)</span> is <span class="math display">\[x^\top\hat\beta\pm t_{dfE,\alpha/2}\sqrt{\hat{\textrm{Var}}\left[x^\top \hat\beta\right]}.\]</span></p>
 <p>Similarly, if we want to test <span class="math display">\[H_0\colon {\textrm{E}}\left[Y|X=x\right]=\mu_0\qquad vs \qquad {\textrm{E}}\left[Y|X=x\right]\neq \mu_0\]</span> we can do the following:</p>
@@ -1586,12 +1517,12 @@ Caution
 <p>Specifically, suppose that we have a subject whose covariates are given by <span class="math inline">\(z\)</span>, but we do not know the value of the subjects response, which we can denote by <span class="math inline">\(Y_{new}\)</span>. Then the true response is <span class="math inline">\((Y_{new}|Z=z)\ =z^\top\beta+\epsilon_{new}\)</span>.</p>
 <p>Suppose we want to predict <span class="math inline">\(Y_{new}\)</span> and give an idea of how much error is in our prediction. The predicted response is known, and is given by <span class="math inline">\({\textrm{E}}\left[Y_{new}|Z=z\right]=z^\top\hat\beta\)</span>. We have <span class="math inline">\({\textrm{Var}}\left[Y_{new}|Z=z\right]={\textrm{Var}}\left[z\hat\beta\right]+{\textrm{Var}}\left[\epsilon_{new}\right]=z^\top(X^\top X)^{-1}z\sigma^2+\sigma^2\)</span>. Therefore, the variation in a new response is the variation in our estimate of <span class="math inline">\(\beta\)</span> plus the inherent population variation, <span class="math inline">\(\sigma^2\)</span>. We have that this can be estimated with: <span class="math inline">\(\hat{\textrm{Var}}\left[Y_{new}|Z=z\right]=z^\top(X^\top X)^{-1}zMSE+MSE\)</span>.</p>
 <div id="exr-3-4-1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.14</strong></span> Under the assumptions of the normal linear regression model, show that for a fixed covariate vector <span class="math inline">\(z\in\mathbb{R}^p\)</span>, <span class="math inline">\(Y_{new}|Z=z\)</span> has a multivariate normal distribution and find it’s mean and variance. Argue that given <span class="math inline">\(Z=z\)</span>, <span class="math display">\[\frac{Y_{new}-z^\top\beta}{\sqrt{\hat{\textrm{Var}}\left[Y_{new}\right]}} \sim t_{dfE}.\]</span></p>
+<p><span class="theorem-title"><strong>Exercise 3.14 </strong></span>Under the assumptions of the normal linear regression model, show that for a fixed covariate vector <span class="math inline">\(z\in\mathbb{R}^p\)</span>, <span class="math inline">\(Y_{new}|Z=z\)</span> has a multivariate normal distribution and find it’s mean and variance. Argue that given <span class="math inline">\(Z=z\)</span>, <span class="math display">\[\frac{Y_{new}-z^\top\beta}{\sqrt{\hat{\textrm{Var}}\left[Y_{new}\right]}} \sim t_{dfE}.\]</span></p>
 </div>
 <p>Therefore, the (<span class="math inline">\(1-\alpha)100\)</span>% prediction interval for <span class="math inline">\(Y_{new}\)</span> is given by: <span class="math display">\[z\hat\beta\pm t_{dfE,\alpha/2}\sqrt{z^\top(X^\top X)^{-1}zMSE+MSE}.\]</span></p>
 <p>Note that the prediction interval is wider than that of the mean response interval for the same covariate vector <span class="math inline">\(z\)</span>. That is because it is more difficult to predict the response for a specific person than it is to estimate a mean of a population. Furthermore, the interpretation of a prediction interval is different. A (<span class="math inline">\(1-\alpha)100\)</span>% prediction interval can be interpreted it as follows. Given a (<span class="math inline">\(1-\alpha)100\)</span>% prediction interval for <span class="math inline">\(Y_{new}|Z=z\)</span>, say <span class="math inline">\((a,b)\)</span>, we say that the probability <span class="math inline">\(Y_{new}\)</span> is in <span class="math inline">\((a,b)\)</span> is (<span class="math inline">\(1-\alpha)100\)</span>%. Note that this differs substantially from a confidence interval!</p>
 <div id="exm-3-4-3" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.5</strong></span> In <a href="#exm-3-1-1" class="quarto-xref">Example&nbsp;<span>3.1</span></a>, execute the following: What is a 95% confidence interval for the mean of someone who weighs 165 pounds? What is a 95% confidence interval for predicted BF% of someone who weighs 165 pounds? Interpret these intervals.</p>
+<p><span class="theorem-title"><strong>Example 3.5 </strong></span>In <a href="#exm-3-1-1">Example&nbsp;<span>3.1</span></a>, execute the following: What is a 95% confidence interval for the mean of someone who weighs 165 pounds? What is a 95% confidence interval for predicted BF% of someone who weighs 165 pounds? Interpret these intervals.</p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Intervals are given as follows:</span></span>
@@ -1613,13 +1544,13 @@ Caution
 <section id="homework-stop-4" class="level3" data-number="3.3.8">
 <h3 data-number="3.3.8" class="anchored" data-anchor-id="homework-stop-4"><span class="header-section-number">3.3.8</span> Homework stop 4</h3>
 <div id="exr-3-4-3" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.15</strong></span> What is the difference between a prediction interval and an interval for the mean response ?</p>
+<p><span class="theorem-title"><strong>Exercise 3.15 </strong></span>What is the difference between a prediction interval and an interval for the mean response ?</p>
 </div>
 <div id="exr-3-4-4" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.16</strong></span> Code the confidence intervals for the mean response and prediction interval without using the predict function.</p>
+<p><span class="theorem-title"><strong>Exercise 3.16 </strong></span>Code the confidence intervals for the mean response and prediction interval without using the predict function.</p>
 </div>
 <div id="exr-3-4-5" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.17</strong></span> Do the chapter 3 practice problems from the problem list.</p>
+<p><span class="theorem-title"><strong>Exercise 3.17 </strong></span>Do the chapter 3 practice problems from the problem list.</p>
 </div>
 </section>
 <section id="partial-testing" class="level3" data-number="3.3.9">
@@ -1658,7 +1589,7 @@ Note
 \end{align*}\]</span> You might also see the partial correlation coefficient: <span class="math display">\[R(X_1,\ldots,X_{k-1}|X_{k},\ldots,X_p)=\sqrt{ R^2(X_1,\ldots,X_{k-1}|X_{k},\ldots,X_p)}.\]</span></p>
 <p>This quantity is the extra proportion of variation explained from adding the covariates <span class="math inline">\(X_1,\ldots,X_{k-1}\)</span> to the model which already contains <span class="math inline">\(X_{k},\ldots,X_p\)</span>.</p>
 <div id="exm-3-4-5" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.6</strong></span> A researcher ran an experiment to see if YouTube, Facebook and newspaper ads would improve sales. Run the partial <span class="math inline">\(F\)</span> test to see how online advertising affects sales. Compute and interpret the following quantities:</p>
+<p><span class="theorem-title"><strong>Example 3.6 </strong></span>A researcher ran an experiment to see if YouTube, Facebook and newspaper ads would improve sales. Run the partial <span class="math inline">\(F\)</span> test to see how online advertising affects sales. Compute and interpret the following quantities:</p>
 <ul>
 <li><span class="math inline">\(SSE_R - SSE_C = SSdrop\)</span></li>
 <li><span class="math inline">\(dfE_R - dfE_C = dfdrop\)</span></li>
@@ -1682,11 +1613,7 @@ Note
 </div>
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(marketing)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">#setting n to be a variable (sample size)</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span><span class="fu">nrow</span>(marketing)</span>
@@ -1862,7 +1789,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>It’s a good time to stop and do another example to review the topics covered so far.</p>
 <div id="exm-3-4-4" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.7</strong></span> In the dataset <code>mtcars</code> we have the following variables:</p>
+<p><span class="theorem-title"><strong>Example 3.7 </strong></span>In the dataset <code>mtcars</code> we have the following variables:</p>
 <ul>
 <li>mpg: Miles/(US) gallon</li>
 <li>cyl: Number of cylinders</li>
@@ -2070,7 +1997,7 @@ carb         -1.94235037  1.43215215</code></pre>
 <div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 85% of the variation in mpg is explained by cyl, disp, hp, drat, wt, qsec, gear and carb</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="exr-3-4-3b" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.18</strong></span> Interpret all of the above quantites.</p>
+<p><span class="theorem-title"><strong>Exercise 3.18 </strong></span>Interpret all of the above quantites.</p>
 </div>
 </section>
 </section>
@@ -2090,7 +2017,7 @@ carb         -1.94235037  1.43215215</code></pre>
 </ul>
 <p>See below for an example: <embed src="plots/QQPlots.PDF" width="640" height="480"> Note that you will always have some deviation at the ends of the line in the qq-plot.</p>
 <div id="exm-3-1-2" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.8</strong></span> In examples <a href="#exm-3-1-1" class="quarto-xref">Example&nbsp;<span>3.1</span></a> and <a href="#exm-3-4-5" class="quarto-xref">Example&nbsp;<span>3.6</span></a>, check that the normality assumption is valid.</p>
+<p><span class="theorem-title"><strong>Example 3.8 </strong></span>In examples <a href="#exm-3-1-1">Example&nbsp;<span>3.1</span></a> and <a href="#exm-3-4-5">Example&nbsp;<span>3.6</span></a>, check that the normality assumption is valid.</p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the data frame</span></span>
@@ -2124,22 +2051,14 @@ F-statistic: 16.97 on 1 and 18 DF,  p-value: 0.0006434</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">qqPlot</span>(model<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">22</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 12  6</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(model<span class="sc">$</span>residuals,<span class="at">breaks=</span><span class="dv">10</span>,<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">11</span>,<span class="dv">11</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This appears okay!</span></span>
 <span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -2176,22 +2095,14 @@ F-statistic: 570.3 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Not great. </span></span>
 <span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">qqPlot</span>(full_model<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">22</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-15-3.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-15-3.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 131   6</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(full_model<span class="sc">$</span>residuals,<span class="at">breaks=</span><span class="dv">10</span>,<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">11</span>,<span class="dv">11</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-15-4.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-15-4.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -2203,22 +2114,14 @@ F-statistic: 570.3 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model<span class="sc">$</span>fitted.values,model<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Observe that in the marketing example, the residuals admit a pattern. This usually indicates either a non-linear relationship with the covariates, or an important covariate is missing. In this case, we would say the assumption of identically distributed errors is violated.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb132"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(full_model<span class="sc">$</span>fitted.values,full_model<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Plotting the residuals against the covariates can reveal dependence between the errors. For instance, if time is a covariate, you can plot the residuals over time to see if they have any relationship with time. If there appears to be dependence among the residuals, then the assumptions of the model are violated. That is, in these plots we should also see a horizontal band centered at 0 containing the observations. If not, then the residuals have a relationship with the given covariate.</p>
@@ -2228,53 +2131,29 @@ F-statistic: 570.3 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(marketing<span class="sc">$</span>youtube,full_model<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb134"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(marketing<span class="sc">$</span>facebook,full_model<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-18-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-18-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(marketing<span class="sc">$</span>newspaper,full_model<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-18-3.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-18-3.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb136"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(marketing<span class="sc">$</span>youtube,full_model<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(marketing<span class="sc">$</span>facebook,full_model<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb138"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(marketing<span class="sc">$</span>newspaper,full_model<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-19-3.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-19-3.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Notice how the newspaper plot changes with the new axis limits. It appears that the variance of the error is changing with the value of the Facebook and Youtube budgets.</p>
@@ -2283,22 +2162,14 @@ F-statistic: 570.3 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(full_model<span class="sc">$</span>fitted.values,marketing<span class="sc">$</span>sales,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
 <span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Notice that the line is slightly curved above the line at the ends. This means that at high and low values, the actual sales are empirically greater than as predicted by the model. Let’s plot the actual data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(marketing,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>In this case, Youtube and Facebook spending seems to have a nonlinear relationship with sales. We will see how to remedy this in later chapters.</p>
@@ -2306,32 +2177,16 @@ F-statistic: 570.3 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(full_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-22-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-22-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-22-3.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-22-3.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-22-4.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-22-4.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>We will learn in later chapters how to check the assumptions more thoroughly and how to remedy violations of the assumptions.</p>
@@ -2340,7 +2195,7 @@ F-statistic: 570.3 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h3 data-number="3.4.3" class="anchored" data-anchor-id="homework-stop-5"><span class="header-section-number">3.4.3</span> Homework stop 5</h3>
 <p>Complete the assigned textbook problems for Chapter 4.</p>
 <div id="exr-3-6-1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.19</strong></span> List the assumptions for the normal MLR model and the MLR model. Write down how you would check each assumption.</p>
+<p><span class="theorem-title"><strong>Exercise 3.19 </strong></span>List the assumptions for the normal MLR model and the MLR model. Write down how you would check each assumption.</p>
 </div>
 </section>
 </section>
@@ -2392,7 +2247,7 @@ X^\top y&amp;= \begin{bmatrix}\sum_{i=1}^ny_i \\ \sum_{i=1}^nx_i y_i \end{bmatri
 <p>Now, <span class="math display">\[\hat\beta_1=\frac{1}{n \sum_{i=1}^n(x_i - \bar{x})^2}
 \left(- \sum_{i=1}^nx_i \ \sum_{i=1}^ny_i + n \sum_{i=1}^nx_i y_i\right).\]</span></p>
 <div id="exr-3-5-1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.20</strong></span> Let’s show that <span class="math display">\[
+<p><span class="theorem-title"><strong>Exercise 3.20 </strong></span>Let’s show that <span class="math display">\[
 \hat\beta_1 = \frac{n \sum_{i=1}^nx_i y _i - \sum_{i=1}^nx_i \ \sum_{i=1}^ny_i}{n \sum_{i=1}^n(x_i - \bar{x})^2}
 = \frac{\sum_{i=1}^n(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n(x_i - \bar{x})^2}.
 \]</span></p>
@@ -2407,7 +2262,7 @@ X^\top y&amp;= \begin{bmatrix}\sum_{i=1}^ny_i \\ \sum_{i=1}^nx_i y_i \end{bmatri
 <p>Now, looking at the intercept term, we have <span class="math display">\[\hat\beta_0=\frac{1}{n \sum_{i=1}^n(x_i - \bar{x})^2}
 \left(\sum_{i=1}^nx_i^2 \ \sum_{i=1}^ny_i - \sum_{i=1}^nx_i \ \sum_{i=1}^nx_i y_i\right).\]</span></p>
 <div id="exr-3-5-2" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.21</strong></span> Show that <span class="math display">\[\hat\beta_0=\bar y - \hat\beta_1\bar x.
+<p><span class="theorem-title"><strong>Exercise 3.21 </strong></span>Show that <span class="math display">\[\hat\beta_0=\bar y - \hat\beta_1\bar x.
 \]</span></p>
 </div>
 <p>Observe that the intercept is the mean of <span class="math inline">\(Y\)</span> minus the mean of <span class="math inline">\(X\)</span> times the estimated slope. In essence, it tells us that the intercept <span class="math inline">\((\hat{\beta}_0)\)</span> represents the value of <span class="math inline">\((X)\)</span> when <span class="math inline">\((X)\)</span> is at its mean value (<span class="math inline">\((\bar{X})\)</span>) and that <span class="math inline">\((\bar{X})\)</span> is adjusted by subtracting the contribution of <span class="math inline">\((\hat{\beta}_1 \bar{X})\)</span>.</p>
@@ -2457,7 +2312,7 @@ Note
 \hat\theta \pm z_{\alpha/2} \sqrt{\frac{1}{n-3}},
 \]</span> and the corresponding confidence interval of <span class="math inline">\(\rho\)</span> can be obtained by the inverse transformation. Similarly, if the hypothesized value of <span class="math inline">\(\rho\)</span> is <span class="math inline">\(\rho_0\)</span>, then the hypothesized value of <span class="math inline">\(\theta\)</span> is <span class="math inline">\(\theta_0 = \frac{1}{2} \log \frac{1 + \rho_0}{1-\rho_0}\)</span>. The observed test statistic can be obtained and the corresponding <span class="math inline">\(p\)</span>-value can be obtained based on the standard normal distribution.</p>
 <div id="exm-3-6-2" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.9</strong></span> In <a href="#exm-3-1-1" class="quarto-xref">Example&nbsp;<span>3.1</span></a> test if the correlation between body fat and weight is 0. Next, test if the correlation is greater than 1/2. Construct a 95% CI for <span class="math inline">\(\rho.\)</span></p>
+<p><span class="theorem-title"><strong>Example 3.9 </strong></span>In <a href="#exm-3-1-1">Example&nbsp;<span>3.1</span></a> test if the correlation between body fat and weight is 0. Next, test if the correlation is greater than 1/2. Construct a 95% CI for <span class="math inline">\(\rho.\)</span></p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb142"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="do">############################ Exploratory</span></span>
@@ -2478,19 +2333,11 @@ BodyFat 0.6966328 1.0000000</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(df<span class="sc">$</span>Weight,<span class="at">freq=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(df<span class="sc">$</span>BodyFat,<span class="at">freq=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-23-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-23-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb146"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2571,7 +2418,7 @@ F-statistic: 16.97 on 1 and 18 DF,  p-value: 0.0006434</code></pre>
 <li>Complete the Chapter 2 questions in the textbook.</li>
 </ul>
 <div id="exr-3-6-3" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.22</strong></span> For <span class="math display">\[Y_i = \beta_0 + \beta_1 X_i + \epsilon_i\]</span> <span class="math display">\[
+<p><span class="theorem-title"><strong>Exercise 3.22 </strong></span>For <span class="math display">\[Y_i = \beta_0 + \beta_1 X_i + \epsilon_i\]</span> <span class="math display">\[
 y = \left( \begin{array}{c} y_1 \\ \vdots \\ y_n \end{array} \right),
 X = \left( \begin{array}{cc} 1 &amp; x_1 \\ \vdots &amp; \vdots \\ 1 &amp; x_n \end{array} \right),
 \beta = \left( \begin{array}{c} \beta_0 \\ \beta_1 \end{array} \right),
@@ -2614,16 +2461,12 @@ X = \left( \begin{array}{cc} 1 &amp; x_1 \\ \vdots &amp; \vdots \\ 1 &amp; x_n \
 <span id="cb162-20"><a href="#cb162-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb162-21"><a href="#cb162-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Next, we do an example from the textbook, which uses the NFL data. Specifically, we try to evaluate the relationship between number of wins and several explanatory variables.</p>
 <div id="exm-3-6-1" class="theorem example">
-<p><span class="theorem-title"><strong>Example 3.10</strong></span> Using the following NFL data, complete 3.1-3.4, 4.1 and 4.2 in the textbook.</p>
+<p><span class="theorem-title"><strong>Example 3.10 </strong></span>Using the following NFL data, complete 3.1-3.4, 4.1 and 4.2 in the textbook.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="do">################## NFL example #################</span></span>
 <span id="cb163-2"><a href="#cb163-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This gives you the data sets used in the textbook</span></span>
@@ -2863,28 +2706,16 @@ ORY         -0.008797465 -0.004819085</code></pre>
 <span id="cb215-3"><a href="#cb215-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(regression_model2<span class="sc">$</span>residuals<span class="sc">/</span>summ<span class="sc">$</span>sigma,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
 <span id="cb215-4"><a href="#cb215-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb216"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(regression_model2<span class="sc">$</span>residuals,<span class="at">breaks=</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-27-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-27-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb217"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(regression_model2<span class="sc">$</span>fitted.values,regression_model<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
 <span id="cb217-2"><a href="#cb217-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-27-3.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-27-3.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb218"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span><span class="fu">nrow</span>(df)</span>
 <span id="cb218-2"><a href="#cb218-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span>n,regression_model2<span class="sc">$</span>residuals,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
@@ -2915,11 +2746,7 @@ F-statistic: 14.22 on 1 and 26 DF,  p-value: 0.0008481</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb220"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb220-1"><a href="#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(time,res<span class="sc">$</span>fitted.values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_2_files/figure-html/unnamed-chunk-27-4.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_2_files/figure-html/unnamed-chunk-27-4.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb221"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb221-1"><a href="#cb221-1" aria-hidden="true" tabindex="-1"></a>regression_model3<span class="ot">=</span><span class="fu">lm</span>(Wins<span class="sc">~</span>PerR<span class="sc">+</span>ORY,<span class="at">data=</span>df)</span>
 <span id="cb221-2"><a href="#cb221-2" aria-hidden="true" tabindex="-1"></a>summ3<span class="ot">=</span><span class="fu">summary</span>(regression_model3)</span>
@@ -3011,13 +2838,13 @@ ORY         -0.01015637 -0.002916818</code></pre>
 <section id="homework-questions" class="level3" data-number="3.6.2">
 <h3 data-number="3.6.2" class="anchored" data-anchor-id="homework-questions"><span class="header-section-number">3.6.2</span> Homework questions</h3>
 <div id="exr-3-6-4" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.23</strong></span> Show <span class="math inline">\({\textrm{Var}}\left[\hat Y|X\right]=\sigma^2 H\)</span>.</p>
+<p><span class="theorem-title"><strong>Exercise 3.23 </strong></span>Show <span class="math inline">\({\textrm{Var}}\left[\hat Y|X\right]=\sigma^2 H\)</span>.</p>
 </div>
 <div id="exr-3-6-5" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.24</strong></span> Check for multicolinearity in our past examples.</p>
+<p><span class="theorem-title"><strong>Exercise 3.24 </strong></span>Check for multicolinearity in our past examples.</p>
 </div>
 <div id="exr-3-6-6" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 3.25</strong></span> Complete the problem sets from Chapter’s 2, 3 and 4!</p>
+<p><span class="theorem-title"><strong>Exercise 3.25 </strong></span>Complete the problem sets from Chapter’s 2, 3 and 4!</p>
 </div>
 
 
@@ -3060,7 +2887,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -3092,50 +2930,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+  function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
+      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -3145,17 +2944,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start',
+      placement: 'bottom-start'
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -3167,130 +2957,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
-        }
-        return container.innerHTML
-      } else {
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(note);
-        }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
-    }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
-        }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
+      return note.innerHTML;
     });
   }
       let selectedAnnoteEl;
@@ -3334,7 +3001,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
-            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -3360,32 +3026,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -3447,18 +3087,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Unit_1.html" class="pagination-link" aria-label="Review material">
+      <a href="./Unit_1.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Review material</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Unit_3.html" class="pagination-link" aria-label="Residual analysis">
+      <a href="./Unit_3.html" class="pagination-link">
         <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Residual analysis</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-
 
 
 

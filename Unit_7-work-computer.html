@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Math 3330: Regression Notes - 8&nbsp; Multicollinearity</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Unit_8.html" rel="next">
+<link href="./Unit_6.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Unit_7.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multicollinearity</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Math 3330: Regression Notes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_0.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Review material</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Residual analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transformations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Indicator Variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_6.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Leverage and Influence</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_7.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multicollinearity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Variable/Model Selection</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Robust Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Appendix_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Introduction to R software</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#multicollinearity-and-the-problems-it-creates" id="toc-multicollinearity-and-the-problems-it-creates" class="nav-link active" data-scroll-target="#multicollinearity-and-the-problems-it-creates"><span class="header-section-number">8.1</span> Multicollinearity and the problems it creates</a></li>
+  <li><a href="#multicollinearity-diagnostics" id="toc-multicollinearity-diagnostics" class="nav-link" data-scroll-target="#multicollinearity-diagnostics"><span class="header-section-number">8.2</span> Multicollinearity Diagnostics</a></li>
+  <li><a href="#homework-questions" id="toc-homework-questions" class="nav-link" data-scroll-target="#homework-questions"><span class="header-section-number">8.3</span> Homework questions</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multicollinearity</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="multicollinearity-and-the-problems-it-creates" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="multicollinearity-and-the-problems-it-creates"><span class="header-section-number">8.1</span> Multicollinearity and the problems it creates</h2>
+<p>A serious problem that may dramatically impact the usefulness of a regression model is multicollinearity, or near-linear dependence among the regression variables. That is multicollinearity refers to near-linear dependence among the regressors. The regressors are the columns of the <span class="math inline">\(X\)</span> matrix, so clearly an exact linear dependence among the regressors would result in a singular <span class="math inline">\(X^\top X\)</span>. This will impact our ability to estimate <span class="math inline">\(\beta\)</span>.</p>
+<p>To elaborate, assume that the regressor variables and the response have been centered and scaled to unit length. The matrix <span class="math inline">\(X^\top X\)</span> is then a <span class="math inline">\(p\times p\)</span> correlation matrix (of the vector of regressors) and <span class="math inline">\(X^\top Y\)</span> is the vector of correlations between the regressors and response. Recall that a set of vectors <span class="math inline">\(v_1,\ldots,v_n\)</span> are linearly dependent if there exists <span class="math inline">\(c\neq 0\)</span> such that <span class="math inline">\(\sum_{i=1}^nc_iv_i=0\)</span>. If the columns of <span class="math inline">\(X\)</span> are linearly dependent, then <span class="math inline">\(X^\top X\)</span> is not invertible! We say there is multicollinearity if there exists <span class="math inline">\(c\neq 0\)</span> such that <span class="math inline">\(\sum_{i=1}^nc_iv_i&lt;\epsilon\)</span> for some small <span class="math inline">\(\epsilon\)</span>.</p>
+<p>Multicollinearity results in large variances and covariances for the least - squares estimators of the regression coefficients. Let <span class="math inline">\(A=(X^\top X)^{-1}\)</span>, where the regressors have been centered and scaled to unit length. That is, columns <span class="math inline">\(2,\ldots,p\)</span> of <span class="math inline">\(X\)</span> have their mean subtracted and are divided by their respective norms. Then <span class="math display">\[A_{jj}=(1-R^2_j)^{-1},\]</span> where <span class="math inline">\(R^2_j\)</span> is the coefficient of multiple determination from the regression of <span class="math inline">\(X_j\)</span> on the remaining <span class="math inline">\(p - 1\)</span> regressor variables. Now, recall that <span class="math inline">\({\textrm{Var}}\left[\hat\beta_j\right]=A_{jj}\sigma^2\)</span>. What happens when the correlation is approximately 1 between <span class="math inline">\(X_j\)</span> and another regressor? It is easy to see that the the variance of coefficient <span class="math inline">\(j\)</span> goes to <span class="math inline">\(\infty\)</span> as <span class="math inline">\({\textrm{corr}}\left[X_j,X_i\right]\to 1\)</span>.</p>
+<p>This huge variance results in large magnitude of the least squares estimators of the regression coefficients. We have that <span class="math inline">\({\textrm{E}}\left[\left\lVert\hat\beta-\beta\right\rVert^2\right]=\sum_{i=1}^p\sigma^2 {\textrm{Var}}\left[\hat\beta_i\right]=\sigma^2 \mathop{\mathrm{trace}}(X^\top X)^{-1}\)</span>. Recall! <span class="math inline">\(\mathop{\mathrm{trace}}(A)\)</span> is the sum of its eigenvalues. If <span class="math inline">\(X^\top X\)</span> has near linearly dependent columns, then some of the eigenvalues <span class="math inline">\(\lambda_1,\ldots,\lambda_p\)</span> will be near 0 (why?). Thus, <span class="math display">\[{\textrm{E}}\left[\left\lVert\hat\beta-\beta\right\rVert^2\right]=\sigma^2\mathop{\mathrm{trace}}(X^\top X)^{-1}=\sigma^2\sum_{i=1}^p\frac{1}{\lambda_i}.\]</span> We can also show that <span class="math display">\[{\textrm{E}}\left[\hat{\beta}^{\top} \hat{\beta}\right]=\beta^{\top} \beta+\sigma^2 \operatorname{Tr}\left(X^{\top} X\right)^{-1},\]</span> which gives the same interpretation.</p>
+<p>We can also observe this empirically.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's simulate data from a regression model with highly correlated regressors. </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>simulate_coef<span class="ot">=</span><span class="cf">function</span>(){</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  n<span class="ot">=</span><span class="dv">100</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  X<span class="ot">=</span><span class="fu">rnorm</span>(n)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  X2<span class="ot">=</span><span class="dv">2</span><span class="sc">*</span>X<span class="sc">+</span><span class="fu">rnorm</span>(n,<span class="dv">0</span>,<span class="fl">0.01</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  Y<span class="ot">=</span><span class="dv">1</span><span class="sc">+</span><span class="dv">2</span><span class="sc">*</span>X<span class="sc">+</span>X2<span class="sc">*</span><span class="dv">2</span><span class="sc">+</span><span class="fu">rnorm</span>(n)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">coef</span>(<span class="fu">lm</span>(Y<span class="sc">~</span>X<span class="sc">+</span>X2)))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># See the HUGE variance in the estimated coefficients? 0 this is from MCL!</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>CF<span class="ot">=</span><span class="fu">replicate</span>(<span class="dv">1000</span>,<span class="fu">simulate_coef</span>())</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(CF[<span class="dv">1</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(CF[<span class="dv">2</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(CF[<span class="dv">3</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-1-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>It is easy to see from this analysis that multicollinearity is a serious problem, and we should check for it in regression modelling.</p>
+</section>
+<section id="multicollinearity-diagnostics" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="multicollinearity-diagnostics"><span class="header-section-number">8.2</span> Multicollinearity Diagnostics</h2>
+<p>We need some diagnostics to detect multicollinearity. The first of which is the <strong>correlation matrix</strong>, which is good for detecting pairwise correlations, but not so much for more complicated dependencies! To correct this, a popular diagnostic is the <strong>variance inflation factor</strong> (VIF): these are the diagonals of <span class="math inline">\((X^\top X)^{-1}\)</span>. A VIF that exceeds 3, 5 or 10 is an indication that the associated regression coefficients are poorly estimated because of multicollinearity. The variance inflation factor can be written as <span class="math inline">\((1-R^2_j)^{-1}\)</span>, where <span class="math inline">\(R^2_j\)</span> is the coefficient of determination obtained from regressing <span class="math inline">\(x_j\)</span> on the other regressor variables. For categorical variables, we may look at their VIF together, instead of for the individual dummy variables. This is done via the <a href="https://www.tandfonline.com/doi/abs/10.1080/01621459.1992.10475190#.U2jkTFdMzTo">generalized VIF (GVIF)</a>, which was developed by our very own Georges Monette and John Fox <span class="citation" data-cites="Monette1992">(<a href="references.html#ref-Monette1992" role="doc-biblioref">Fox and Monette 1992</a>)</span>. We can consider the <span class="math inline">\((GVIF^(1/(2\text{number of dummy variables})))\)</span>. This is computed automatically in R.</p>
+<p>One can also look at the eigenvalues of <span class="math inline">\(X^\top X\)</span>, where the regressors are centered and normalized to unit length. If the eigenvalues are small, this indicates multicollinearity. One metric computed from the eigenvalues is the <strong>condition number</strong> of <span class="math inline">\(X^\top X\)</span>: <span class="math inline">\(\kappa=\max \lambda_j/\min \lambda_j\)</span>, where the regressors are centered and normalized to unit length. Condition numbers between 100 and 1000 imply moderate to strong multicollinearity, and if <span class="math inline">\(\kappa\)</span> exceeds 1000, severe multicollinearity is indicated. Diagonalizing via <span class="math inline">\(X^\top X=\Lambda D \Lambda^\top\)</span> yields the eigenvectors, which help us determine the exact dependence between variables is. You can check the eigenvectors associated with the small eigenvalues. Components that are large in the eigenvector indicate that that variable is contributing to the multicollinearity.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>While the method of least squares will generally produce poor estimates of the individual model parameters when strong multicollinearity is present, this does not necessarily imply that the fitted model is a poor predictor.</p>
+<ol type="1">
+<li>If predictions are confined to regions of the <span class="math inline">\(X\)</span>-space where the multicollinearity holds approximately, the fitted model often produces satisfactory predictions.</li>
+<li>The linear combinations <span class="math inline">\(X\beta\)</span> may be estimated well, even if <span class="math inline">\(\beta\)</span> is not.</li>
+</ol>
+</div>
+</div>
+<div id="exm-7-3-1" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.1 </strong></span>Recall example <a href="Unit_5.html#exm-6-4-1">Example&nbsp;<span>6.6</span></a>. Check for leverage and influential points in the proposed models. Compute all three measures of leverage/influence/outlyingness introduced in this lesson.</p>
+</div>
+<p>I will load in the data below:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'lubridate' was built under R version 4.2.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lubridate'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "PropType"
+[1] Commercial
+Levels:  Commercial Condominium Lg Apartment Residential Vacant Land
+[1] "District"
+[1] 6
+[1] "Extwall"
+[1] 
+10 Levels:  Aluminum / Vinyl Block Brick Fiber-Cement Frame ... Stucco
+[1] "Stories"
+[1] 2
+[1] "Year_Built"
+[1] 1880
+[1] "Nr_of_rms"
+[1] 0
+[1] "Fin_sqft"
+[1] 1840
+[1] "Units"
+[1] 1
+[1] "Bdrms"
+[1] 0
+[1] "Fbath"
+[1] 0
+[1] "Lotsize"
+[1] 12750
+[1] "Sale_date"
+[1] 11688
+[1] "Sale_price"
+[1] 15900
+[1] "PropType"
+[1] Residential
+Levels:  Commercial Condominium Lg Apartment Residential Vacant Land
+[1] "factor"
+[1] "District"
+[1] 7
+[1] "integer"
+[1] "Extwall"
+[1] Frame
+10 Levels:  Aluminum / Vinyl Block Brick Fiber-Cement Frame ... Stucco
+[1] "factor"
+[1] "Stories"
+[1] 2
+[1] "double"
+[1] "Year_Built"
+[1] 1913
+[1] "integer"
+[1] "Nr_of_rms"
+[1] 0
+[1] "integer"
+[1] "Fin_sqft"
+[1] 3476
+[1] "integer"
+[1] "Units"
+[1] 4
+[1] "integer"
+[1] "Bdrms"
+[1] 9
+[1] "integer"
+[1] "Fbath"
+[1] 1
+[1] "integer"
+[1] "Lotsize"
+[1] 5040
+[1] "integer"
+[1] "Sale_date"
+[1] 11719
+[1] "integer"
+[1] "Sale_price"
+[1] 42000
+[1] "integer"
+[1] "PropType"
+[1] Residential
+Levels:  Commercial Condominium Lg Apartment Residential Vacant Land
+[1] "factor"
+[1] "District"
+[1] 7
+Levels: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+[1] "factor"
+[1] "Extwall"
+[1] Frame
+10 Levels:  Aluminum / Vinyl Block Brick Fiber-Cement Frame ... Stucco
+[1] "factor"
+[1] "Stories"
+[1] 2
+Levels: 1 1.5 2 2.5 3 3.5
+[1] "factor"
+[1] "Year_Built"
+[1] 1913
+[1] "integer"
+[1] "Nr_of_rms"
+[1] 0
+Levels: 0
+[1] "factor"
+[1] "Fin_sqft"
+[1] 3476
+[1] "integer"
+[1] "Units"
+[1] 4
+Levels: 0 1 2 3 4 6 7 8 13
+[1] "factor"
+[1] "Bdrms"
+[1] 9
+Levels: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 2031
+[1] "factor"
+[1] "Fbath"
+[1] 1
+Levels: 0 1 2 3 4 5 6 10
+[1] "factor"
+[1] "Lotsize"
+[1] 5040
+[1] "integer"
+[1] "Sale_date"
+[1] 11719
+[1] "integer"
+[1] "Sale_price"
+[1] 42000
+[1] "integer"
+[1] "PropType"
+[1] Residential
+Levels:  Commercial Condominium Lg Apartment Residential Vacant Land
+[1] "factor"
+[1] "District"
+[1] 7
+Levels: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+[1] "factor"
+[1] "Extwall"
+[1] Frame
+10 Levels:  Aluminum / Vinyl Block Brick Fiber-Cement Frame ... Stucco
+[1] "factor"
+[1] "Stories"
+[1] 2
+Levels: 1 1.5 2 2.5 3 3.5
+[1] "factor"
+[1] "Year_Built"
+[1] 1913
+[1] "integer"
+[1] "Nr_of_rms"
+[1] 0
+Levels: 0
+[1] "factor"
+[1] "Fin_sqft"
+[1] 3476
+[1] "integer"
+[1] "Units"
+[1] 4
+Levels: 0 1 2 3 4 6 7 8 13
+[1] "factor"
+[1] "Bdrms"
+[1] 9
+Levels: 0 1 2 3 4 5 6 7 8 9 10 11 12 13
+[1] "factor"
+[1] "Fbath"
+[1] 1
+Levels: 0 1 2 3 4 5 6 10
+[1] "factor"
+[1] "Lotsize"
+[1] 5040
+[1] "integer"
+[1] "Sale_date"
+[1] 11719
+[1] "integer"
+[1] "Sale_price"
+[1] 42000
+[1] "integer"
+[1] "PropType"
+
+               Commercial  Condominium Lg Apartment  Residential  Vacant Land 
+           0            0            0            0        24623            0 
+[1] "District"
+
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
+1009 1410 1585  166 3762  703 1033  838 1146 2740 3658  470 2754 2813  536 
+[1] "Extwall"
+
+                 Aluminum / Vinyl            Block            Brick 
+               0            13931              147             5684 
+    Fiber-Cement            Frame  Masonry / Frame        Prem Wood 
+             149             2527              760               63 
+           Stone           Stucco 
+             915              447 
+[1] "Stories"
+
+    1   1.5     2   2.5     3   3.5 
+15647  3441  5516     9     9     1 
+[1] "Nr_of_rms"
+
+    0 
+24623 
+[1] "Units"
+
+    0     1     2     3     4     6     7     8    13 
+    1 20048  4304   230    31     3     3     2     1 
+[1] "Bdrms"
+
+    0     1     2     3     4     5     6     7     8     9    10    11    12 
+    8   111  3280 12646  5770  1356  1228   123    74    20     3     1     1 
+   13 
+    2 
+[1] "Fbath"
+
+    0     1     2     3     4     5     6    10 
+   25 14543  9006   916   108    21     3     1 
+[1] "District"
+
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
+1009 1410 1585  166 3762  703 1033  838 1146 2740 3658  470 2754 2813  536 
+[1] "Extwall"
+
+                 Aluminum / Vinyl            Block            Brick 
+               0            13931              147             5684 
+    Fiber-Cement            Frame  Masonry / Frame        Prem Wood 
+             149             2527              760               63 
+           Stone           Stucco 
+             915              447 
+[1] "Stories"
+
+    1   1.5     2   2.5     3   3.5 
+15647  3441  5516     9     9     1 
+[1] "Units"
+
+    0     1     2     3     4     6     7     8    13 
+    1 20048  4304   230    31     3     3     2     1 
+[1] "Bdrms"
+
+    0     1     2     3     4     5     6     7     8     9    10    11    12 
+    8   111  3280 12646  5770  1356  1228   123    74    20     3     1     1 
+   13 
+    2 
+[1] "Fbath"
+
+    0     1     2     3     4     5     6    10 
+   25 14543  9006   916   108    21     3     1 
+[1] "District"
+
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
+1009 1410 1585  166 3762  703 1033  838 1146 2740 3658  470 2754 2813  535 
+[1] "Extwall"
+
+Aluminum / Vinyl            Block            Brick     Fiber-Cement 
+           13930              147             5684              149 
+           Frame  Masonry / Frame        Prem Wood            Stone 
+            2527              760               63              915 
+          Stucco 
+             447 
+[1] "Stories"
+
+    1   1.5     2    &gt;2 
+15647  3441  5515    19 
+[1] "Units"
+
+    0     1     2     3    &gt;3 
+    0 20048  4304   230    40 
+[1] "Bdrms"
+
+    0     1     2     3     4     5     6     7     8    &gt;8 
+    8   111  3280 12645  5770  1356  1228   123    74    27 
+[1] "Fbath"
+
+    0     1     2     3     4    &gt;4 
+   25 14543  9005   916   108    25 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>numer<span class="ot">=</span><span class="cn">NULL</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df_clean4<span class="sc">$</span>d_3<span class="ot">=</span><span class="fu">as.factor</span>(df_clean4<span class="sc">$</span>d_3)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">names</span>(df_clean4)){</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.factor</span>(df_clean4[<span class="dv">1</span>,i])){</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    numer<span class="ot">=</span><span class="fu">c</span>(numer,i)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>model3<span class="ot">=</span><span class="fu">lm</span>(<span class="fu">sqrt</span>(Sale_price)<span class="sc">~</span> District <span class="sc">+</span>  Extwall <span class="sc">+</span>     </span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>            Stories  <span class="sc">+</span>    Year_Built  <span class="sc">+</span> Fin_sqft  <span class="sc">+</span>   </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>            Units   <span class="sc">+</span>     Bdrms   <span class="sc">+</span>    </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>            Fbath  <span class="sc">+</span>    <span class="fu">log</span>(Lotsize)   <span class="sc">+</span> Sale_date <span class="sc">+</span>d_3<span class="sc">*</span>Lotsize<span class="sc">-</span>d_3,df_clean4[<span class="sc">-</span><span class="dv">11142</span>,])</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = sqrt(Sale_price) ~ District + Extwall + Stories + 
+    Year_Built + Fin_sqft + Units + Bdrms + Fbath + log(Lotsize) + 
+    Sale_date + d_3 * Lotsize - d_3, data = df_clean4[-11142, 
+    ])
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-321.00  -28.80    1.89   30.34  358.90 
+
+Coefficients:
+                         Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)            -9.434e+02  4.742e+01 -19.896  &lt; 2e-16 ***
+District2               3.197e+01  2.133e+00  14.986  &lt; 2e-16 ***
+District3               1.359e+02  4.013e+00  33.857  &lt; 2e-16 ***
+District4              -3.220e+01  4.475e+00  -7.194 6.46e-13 ***
+District5               9.062e+01  1.837e+00  49.326  &lt; 2e-16 ***
+District6               1.212e+01  2.677e+00   4.528 6.00e-06 ***
+District7              -5.133e+00  2.295e+00  -2.237 0.025306 *  
+District8               4.136e+01  2.543e+00  16.266  &lt; 2e-16 ***
+District9               6.329e+01  2.300e+00  27.522  &lt; 2e-16 ***
+District10              9.751e+01  1.917e+00  50.860  &lt; 2e-16 ***
+District11              1.114e+02  1.838e+00  60.590  &lt; 2e-16 ***
+District12              2.692e+01  3.110e+00   8.657  &lt; 2e-16 ***
+District13              1.095e+02  1.899e+00  57.668  &lt; 2e-16 ***
+District14              1.495e+02  1.945e+00  76.848  &lt; 2e-16 ***
+District15             -4.212e+01  2.847e+00 -14.794  &lt; 2e-16 ***
+ExtwallBlock           -8.205e+00  4.312e+00  -1.903 0.057076 .  
+ExtwallBrick            8.448e+00  8.573e-01   9.855  &lt; 2e-16 ***
+ExtwallFiber-Cement     4.313e+01  4.405e+00   9.791  &lt; 2e-16 ***
+ExtwallFrame           -5.392e+00  1.144e+00  -4.712 2.47e-06 ***
+ExtwallMasonry / Frame  4.668e+00  2.006e+00   2.327 0.019960 *  
+ExtwallPrem Wood        2.038e+01  6.582e+00   3.096 0.001962 ** 
+ExtwallStone            1.970e+01  1.803e+00  10.925  &lt; 2e-16 ***
+ExtwallStucco           6.682e+00  2.512e+00   2.660 0.007812 ** 
+Stories1.5              1.518e+01  1.160e+00  13.091  &lt; 2e-16 ***
+Stories2                1.950e+01  1.221e+00  15.971  &lt; 2e-16 ***
+Stories&gt;2               6.858e+00  1.203e+01   0.570 0.568683    
+Year_Built              3.667e-01  2.153e-02  17.033  &lt; 2e-16 ***
+Fin_sqft                7.819e-02  1.185e-03  65.975  &lt; 2e-16 ***
+Units2                 -8.114e+01  1.304e+00 -62.234  &lt; 2e-16 ***
+Units3                 -1.086e+02  4.040e+00 -26.889  &lt; 2e-16 ***
+Units&gt;3                -4.515e+01  8.622e+00  -5.236 1.65e-07 ***
+Bdrms1                 -5.402e+01  1.981e+01  -2.727 0.006395 ** 
+Bdrms2                 -3.909e+01  1.917e+01  -2.039 0.041420 *  
+Bdrms3                 -2.701e+01  1.915e+01  -1.411 0.158267    
+Bdrms4                 -3.559e+01  1.915e+01  -1.859 0.063086 .  
+Bdrms5                 -3.820e+01  1.920e+01  -1.990 0.046627 *  
+Bdrms6                 -5.453e+01  1.921e+01  -2.838 0.004543 ** 
+Bdrms7                 -7.402e+01  1.973e+01  -3.753 0.000175 ***
+Bdrms8                 -6.659e+01  2.012e+01  -3.310 0.000934 ***
+Bdrms&gt;8                -1.126e+02  2.159e+01  -5.216 1.84e-07 ***
+Fbath1                  5.974e+00  1.149e+01   0.520 0.602960    
+Fbath2                  2.847e+01  1.150e+01   2.477 0.013261 *  
+Fbath3                  4.665e+01  1.167e+01   3.997 6.43e-05 ***
+Fbath4                  6.142e+01  1.267e+01   4.846 1.26e-06 ***
+Fbath&gt;4                -1.075e+01  1.599e+01  -0.672 0.501687    
+log(Lotsize)            3.582e+01  2.799e+00  12.796  &lt; 2e-16 ***
+Sale_date               6.622e-03  3.043e-04  21.763  &lt; 2e-16 ***
+Lotsize                -1.850e-03  3.290e-04  -5.623 1.90e-08 ***
+d_3TRUE:Lotsize         1.332e-02  6.869e-04  19.386  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 51.18 on 24393 degrees of freedom
+Multiple R-squared:  0.7267,    Adjusted R-squared:  0.7261 
+F-statistic:  1351 on 48 and 24393 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlations </span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span><span class="fu">model.matrix</span>(model3)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(<span class="fu">cor</span>(X[,<span class="sc">-</span><span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(<span class="fu">cor</span>(X[,<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">23</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># VIFS</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(model3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>there are higher-order terms (interactions) in this model
+consider setting type = 'predictor'; see ?vif</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  GVIF Df GVIF^(1/(2*Df))
+District     20.319970 14        1.113555
+Extwall       1.565989  8        1.028429
+Stories       2.912907  3        1.195055
+Year_Built    2.504250  1        1.582482
+Fin_sqft      5.102227  1        2.258811
+Units         3.378335  3        1.224947
+Bdrms         4.367916  9        1.085352
+Fbath         3.604551  5        1.136803
+log(Lotsize) 10.326795  1        3.213533
+Sale_date     1.020317  1        1.010108
+Lotsize       8.427453  1        2.903008
+d_3:Lotsize   7.911101  1        2.812668</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlations </span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>X2<span class="ot">=</span><span class="fu">apply</span>(X,<span class="dv">2</span>,<span class="cf">function</span>(x){(x<span class="sc">-</span><span class="fu">mean</span>(x))<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">sum</span>((x<span class="sc">-</span><span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>))}); <span class="fu">dim</span>(X2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 24442    49</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>X2[,<span class="dv">1</span>]<span class="ot">=</span>X[,<span class="dv">1</span>]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span>X2</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>A<span class="ot">=</span><span class="fu">eigen</span>(<span class="fu">t</span>(X)<span class="sc">%*%</span>X)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sort</span>(A<span class="sc">$</span>values)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(A<span class="sc">$</span>values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 49</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(A<span class="sc">$</span>vectors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 49 49</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Condition number </span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(A<span class="sc">$</span>values)<span class="sc">/</span><span class="fu">min</span>(A<span class="sc">$</span>values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 56717926</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(A<span class="sc">$</span>vectors)<span class="ot">=</span><span class="fu">names</span>(model3<span class="sc">$</span>coefficients)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>A<span class="sc">$</span>vectors[,<span class="dv">47</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           (Intercept)              District2              District3 
+          0.0000000000          -0.1902200491          -0.4571071865 
+             District4              District5              District6 
+         -0.0753888337          -0.2958386758          -0.1580258718 
+             District7              District8              District9 
+         -0.1738396492          -0.1728764705          -0.1650082067 
+            District10             District11             District12 
+         -0.2705806185          -0.2821142024          -0.1393040649 
+            District13             District14             District15 
+         -0.2572744017          -0.2916994411          -0.1323665254 
+          ExtwallBlock           ExtwallBrick    ExtwallFiber-Cement 
+         -0.0008084970           0.0013732688           0.0042869578 
+          ExtwallFrame ExtwallMasonry / Frame       ExtwallPrem Wood 
+          0.0005674730          -0.0019579218          -0.0021712211 
+          ExtwallStone          ExtwallStucco             Stories1.5 
+         -0.0024955551           0.0002136232          -0.0019372604 
+              Stories2              Stories&gt;2             Year_Built 
+          0.0066917405           0.0043031604           0.0043384232 
+              Fin_sqft                 Units2                 Units3 
+         -0.0139067181           0.0084704356           0.0118512292 
+               Units&gt;3                 Bdrms1                 Bdrms2 
+          0.0048416052          -0.0021348743          -0.0091279065 
+                Bdrms3                 Bdrms4                 Bdrms5 
+          0.0050747471          -0.0009397373           0.0041042781 
+                Bdrms6                 Bdrms7                 Bdrms8 
+          0.0006877857           0.0021295461           0.0040708054 
+               Bdrms&gt;8                 Fbath1                 Fbath2 
+          0.0031116098           0.0011838802           0.0077718229 
+                Fbath3                 Fbath4                Fbath&gt;4 
+         -0.0088663356          -0.0080050797          -0.0177872113 
+          log(Lotsize)              Sale_date                Lotsize 
+         -0.2957372227          -0.0016338118           0.2398374024 
+       d_3TRUE:Lotsize 
+          0.2492626187 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(A<span class="sc">$</span>vectors[,<span class="dv">47</span>],<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           (Intercept)              District2              District3 
+                   0.0                   -0.2                   -0.5 
+             District4              District5              District6 
+                  -0.1                   -0.3                   -0.2 
+             District7              District8              District9 
+                  -0.2                   -0.2                   -0.2 
+            District10             District11             District12 
+                  -0.3                   -0.3                   -0.1 
+            District13             District14             District15 
+                  -0.3                   -0.3                   -0.1 
+          ExtwallBlock           ExtwallBrick    ExtwallFiber-Cement 
+                   0.0                    0.0                    0.0 
+          ExtwallFrame ExtwallMasonry / Frame       ExtwallPrem Wood 
+                   0.0                    0.0                    0.0 
+          ExtwallStone          ExtwallStucco             Stories1.5 
+                   0.0                    0.0                    0.0 
+              Stories2              Stories&gt;2             Year_Built 
+                   0.0                    0.0                    0.0 
+              Fin_sqft                 Units2                 Units3 
+                   0.0                    0.0                    0.0 
+               Units&gt;3                 Bdrms1                 Bdrms2 
+                   0.0                    0.0                    0.0 
+                Bdrms3                 Bdrms4                 Bdrms5 
+                   0.0                    0.0                    0.0 
+                Bdrms6                 Bdrms7                 Bdrms8 
+                   0.0                    0.0                    0.0 
+               Bdrms&gt;8                 Fbath1                 Fbath2 
+                   0.0                    0.0                    0.0 
+                Fbath3                 Fbath4                Fbath&gt;4 
+                   0.0                    0.0                    0.0 
+          log(Lotsize)              Sale_date                Lotsize 
+                  -0.3                    0.0                    0.2 
+       d_3TRUE:Lotsize 
+                   0.2 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(A<span class="sc">$</span>vectors[,<span class="dv">47</span>][<span class="fu">abs</span>(<span class="fu">round</span>(A<span class="sc">$</span>vectors[,<span class="dv">47</span>],<span class="dv">1</span>))<span class="sc">&gt;</span><span class="dv">0</span>],<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      District2       District3       District4       District5       District6 
+           -0.2            -0.5            -0.1            -0.3            -0.2 
+      District7       District8       District9      District10      District11 
+           -0.2            -0.2            -0.2            -0.3            -0.3 
+     District12      District13      District14      District15    log(Lotsize) 
+           -0.1            -0.3            -0.3            -0.1            -0.3 
+        Lotsize d_3TRUE:Lotsize 
+            0.2             0.2 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Changes the baseline variable in Bdrms to 1bdrm</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>df_clean4<span class="ot">=</span><span class="fu">within</span>(df_clean4, Bdrms <span class="ot">&lt;-</span> <span class="fu">relevel</span>(Bdrms, <span class="at">ref =</span> <span class="dv">1</span>))</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>model3<span class="ot">=</span><span class="fu">lm</span>(<span class="fu">sqrt</span>(Sale_price)<span class="sc">~</span> District <span class="sc">+</span>  Extwall <span class="sc">+</span>     </span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>            Stories  <span class="sc">+</span>    Year_Built  <span class="sc">+</span> Fin_sqft  <span class="sc">+</span>   </span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>            Units   <span class="sc">+</span>     Bdrms   <span class="sc">+</span>    </span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>            Fbath  <span class="sc">+</span>   Lotsize   <span class="sc">+</span> Sale_date ,df_clean4[<span class="sc">-</span><span class="dv">18811</span>,])</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = sqrt(Sale_price) ~ District + Extwall + Stories + 
+    Year_Built + Fin_sqft + Units + Bdrms + Fbath + Lotsize + 
+    Sale_date, data = df_clean4[-18811, ])
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-378.69  -29.28    1.82   30.85  410.85 
+
+Coefficients:
+                         Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)            -8.126e+02  4.613e+01 -17.615  &lt; 2e-16 ***
+District2               3.159e+01  2.163e+00  14.606  &lt; 2e-16 ***
+District3               1.952e+02  2.354e+00  82.935  &lt; 2e-16 ***
+District4              -3.831e+01  4.530e+00  -8.455  &lt; 2e-16 ***
+District5               8.891e+01  1.861e+00  47.768  &lt; 2e-16 ***
+District6               9.078e+00  2.701e+00   3.361 0.000777 ***
+District7              -6.748e+00  2.324e+00  -2.903 0.003700 ** 
+District8               3.786e+01  2.558e+00  14.800  &lt; 2e-16 ***
+District9               6.219e+01  2.329e+00  26.707  &lt; 2e-16 ***
+District10              9.596e+01  1.942e+00  49.406  &lt; 2e-16 ***
+District11              1.117e+02  1.862e+00  59.994  &lt; 2e-16 ***
+District12              2.200e+01  3.106e+00   7.082 1.46e-12 ***
+District13              1.086e+02  1.925e+00  56.431  &lt; 2e-16 ***
+District14              1.471e+02  1.960e+00  75.070  &lt; 2e-16 ***
+District15             -4.561e+01  2.881e+00 -15.834  &lt; 2e-16 ***
+ExtwallBlock           -6.968e+00  4.371e+00  -1.594 0.110896    
+ExtwallBrick            9.702e+00  8.672e-01  11.187  &lt; 2e-16 ***
+ExtwallFiber-Cement     3.045e+01  4.439e+00   6.860 7.06e-12 ***
+ExtwallFrame           -5.864e+00  1.160e+00  -5.056 4.31e-07 ***
+ExtwallMasonry / Frame  4.712e+00  2.033e+00   2.318 0.020459 *  
+ExtwallPrem Wood        9.106e+00  6.659e+00   1.368 0.171451    
+ExtwallStone            1.913e+01  1.827e+00  10.469  &lt; 2e-16 ***
+ExtwallStucco           1.007e+01  2.543e+00   3.961 7.49e-05 ***
+Stories1.5              1.364e+01  1.174e+00  11.616  &lt; 2e-16 ***
+Stories2                1.701e+01  1.234e+00  13.786  &lt; 2e-16 ***
+Stories&gt;2              -2.020e+01  1.215e+01  -1.662 0.096486 .  
+Year_Built              4.425e-01  2.127e-02  20.807  &lt; 2e-16 ***
+Fin_sqft                8.554e-02  1.161e-03  73.647  &lt; 2e-16 ***
+Units2                 -8.515e+01  1.310e+00 -65.012  &lt; 2e-16 ***
+Units3                 -1.210e+02  4.056e+00 -29.825  &lt; 2e-16 ***
+Units&gt;3                -5.160e+01  8.731e+00  -5.911 3.45e-09 ***
+Bdrms1                 -5.516e+01  2.008e+01  -2.746 0.006028 ** 
+Bdrms2                 -3.994e+01  1.943e+01  -2.055 0.039873 *  
+Bdrms3                 -2.861e+01  1.941e+01  -1.474 0.140474    
+Bdrms4                 -3.810e+01  1.941e+01  -1.962 0.049726 *  
+Bdrms5                 -3.989e+01  1.946e+01  -2.049 0.040448 *  
+Bdrms6                 -5.609e+01  1.948e+01  -2.879 0.003987 ** 
+Bdrms7                 -7.650e+01  2.000e+01  -3.825 0.000131 ***
+Bdrms8                 -7.333e+01  2.039e+01  -3.596 0.000324 ***
+Bdrms&gt;8                -1.209e+02  2.189e+01  -5.523 3.37e-08 ***
+Fbath1                  8.037e+00  1.164e+01   0.690 0.490070    
+Fbath2                  2.939e+01  1.165e+01   2.522 0.011690 *  
+Fbath3                  5.249e+01  1.183e+01   4.438 9.12e-06 ***
+Fbath4                  7.393e+01  1.283e+01   5.763 8.38e-09 ***
+Fbath&gt;4                 2.514e+01  1.610e+01   1.561 0.118503    
+Lotsize                 2.263e-03  1.402e-04  16.146  &lt; 2e-16 ***
+Sale_date               6.535e-03  3.085e-04  21.183  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 51.89 on 24395 degrees of freedom
+Multiple R-squared:  0.7197,    Adjusted R-squared:  0.7192 
+F-statistic:  1362 on 46 and 24395 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span><span class="fu">model.matrix</span>(model3)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(<span class="fu">cor</span>(X[,<span class="sc">-</span><span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-3-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(<span class="fu">cor</span>(X[,<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">23</span>)]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-3-5.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(model3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               GVIF Df GVIF^(1/(2*Df))
+District   3.502955 14        1.045789
+Extwall    1.525214  8        1.026735
+Stories    2.875881  3        1.192509
+Year_Built 2.378166  1        1.542130
+Fin_sqft   4.776509  1        2.185523
+Units      3.268762  3        1.218234
+Bdrms      4.319495  9        1.084681
+Fbath      3.461503  5        1.132209
+Lotsize    1.500673  1        1.225020
+Sale_date  1.020188  1        1.010043</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span><span class="fu">model.matrix</span>(model3)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>X2<span class="ot">=</span><span class="fu">apply</span>(X,<span class="dv">2</span>,<span class="cf">function</span>(x){(x<span class="sc">-</span><span class="fu">mean</span>(x))<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">sum</span>((x<span class="sc">-</span><span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>))}); <span class="fu">dim</span>(X2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 24442    47</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>X2[,<span class="dv">1</span>]<span class="ot">=</span>X[,<span class="dv">1</span>]</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span>X2</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>A<span class="ot">=</span><span class="fu">eigen</span>(<span class="fu">t</span>(X)<span class="sc">%*%</span>X)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sort</span>(A<span class="sc">$</span>values)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-3-6.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(A<span class="sc">$</span>values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 47</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(A<span class="sc">$</span>vectors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 47 47</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(A<span class="sc">$</span>values)<span class="sc">/</span><span class="fu">min</span>(A<span class="sc">$</span>values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 56720033</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(A<span class="sc">$</span>vectors)<span class="ot">=</span><span class="fu">names</span>(model3<span class="sc">$</span>coefficients)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>A<span class="sc">$</span>vectors[,<span class="dv">47</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           (Intercept)              District2              District3 
+          0.000000e+00           2.619132e-05           1.207406e-04 
+             District4              District5              District6 
+         -3.201930e-04          -7.029899e-05          -3.810939e-04 
+             District7              District8              District9 
+          6.068082e-05           1.591002e-04           7.967962e-05 
+            District10             District11             District12 
+         -2.752736e-04          -1.611035e-05          -6.077944e-05 
+            District13             District14             District15 
+          5.639536e-05          -6.878039e-05           9.692746e-05 
+          ExtwallBlock           ExtwallBrick    ExtwallFiber-Cement 
+          6.576042e-05           9.155544e-06           1.071904e-04 
+          ExtwallFrame ExtwallMasonry / Frame       ExtwallPrem Wood 
+         -1.480316e-04           1.799130e-04           2.427226e-05 
+          ExtwallStone          ExtwallStucco             Stories1.5 
+          4.940000e-05           6.326156e-05          -1.573666e-04 
+              Stories2              Stories&gt;2             Year_Built 
+         -5.125292e-04          -4.109253e-05          -4.666373e-04 
+              Fin_sqft                 Units2                 Units3 
+         -1.826189e-04           5.944295e-05          -1.396694e-04 
+               Units&gt;3                 Bdrms1                 Bdrms2 
+         -2.525845e-03          -7.308903e-02          -4.080768e-01 
+                Bdrms3                 Bdrms4                 Bdrms5 
+         -6.032135e-01          -5.115462e-01          -2.759452e-01 
+                Bdrms6                 Bdrms7                 Bdrms8 
+         -2.631505e-01          -8.522042e-02          -6.566017e-02 
+               Bdrms&gt;8                 Fbath1                 Fbath2 
+         -3.965072e-02           1.436394e-01           1.409356e-01 
+                Fbath3                 Fbath4                Fbath&gt;4 
+          5.547059e-02           1.948755e-02           9.278804e-03 
+               Lotsize              Sale_date 
+          9.599399e-06          -4.311547e-05 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(A<span class="sc">$</span>vectors[,<span class="dv">47</span>],<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           (Intercept)              District2              District3 
+                   0.0                    0.0                    0.0 
+             District4              District5              District6 
+                   0.0                    0.0                    0.0 
+             District7              District8              District9 
+                   0.0                    0.0                    0.0 
+            District10             District11             District12 
+                   0.0                    0.0                    0.0 
+            District13             District14             District15 
+                   0.0                    0.0                    0.0 
+          ExtwallBlock           ExtwallBrick    ExtwallFiber-Cement 
+                   0.0                    0.0                    0.0 
+          ExtwallFrame ExtwallMasonry / Frame       ExtwallPrem Wood 
+                   0.0                    0.0                    0.0 
+          ExtwallStone          ExtwallStucco             Stories1.5 
+                   0.0                    0.0                    0.0 
+              Stories2              Stories&gt;2             Year_Built 
+                   0.0                    0.0                    0.0 
+              Fin_sqft                 Units2                 Units3 
+                   0.0                    0.0                    0.0 
+               Units&gt;3                 Bdrms1                 Bdrms2 
+                   0.0                   -0.1                   -0.4 
+                Bdrms3                 Bdrms4                 Bdrms5 
+                  -0.6                   -0.5                   -0.3 
+                Bdrms6                 Bdrms7                 Bdrms8 
+                  -0.3                   -0.1                   -0.1 
+               Bdrms&gt;8                 Fbath1                 Fbath2 
+                   0.0                    0.1                    0.1 
+                Fbath3                 Fbath4                Fbath&gt;4 
+                   0.1                    0.0                    0.0 
+               Lotsize              Sale_date 
+                   0.0                    0.0 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(A<span class="sc">$</span>vectors[,<span class="dv">47</span>][<span class="fu">abs</span>(<span class="fu">round</span>(A<span class="sc">$</span>vectors[,<span class="dv">47</span>],<span class="dv">1</span>))<span class="sc">&gt;</span><span class="dv">0</span>],<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Bdrms1 Bdrms2 Bdrms3 Bdrms4 Bdrms5 Bdrms6 Bdrms7 Bdrms8 Fbath1 Fbath2 Fbath3 
+  -0.1   -0.4   -0.6   -0.5   -0.3   -0.3   -0.1   -0.1    0.1    0.1    0.1 </code></pre>
+</div>
+</div>
+<div id="exm-7-3-1" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.2 </strong></span>Example 9.1 from the textbook - The Acetylene Data. Below presents data concerning the percentage of conversion of <span class="math inline">\(n\)</span> - heptane to acetylene and three explanatory variables. These are typical chemical process data for which a full quadratic response surface in all three regressors is often considered to be an appropriate tentative model. Let’s build the model and see how the extrapolation performs.</p>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="do">########### Example 2 </span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Conversion_of_n_Heptane_to_Acetylene =</span> <span class="fu">c</span>(<span class="fl">49.0</span>, <span class="fl">50.2</span>, <span class="fl">50.5</span>, <span class="fl">48.5</span>, <span class="fl">47.5</span>, <span class="fl">44.5</span>, <span class="fl">28.0</span>, <span class="fl">31.5</span>, <span class="fl">34.5</span>, <span class="fl">35.0</span>, <span class="fl">38.0</span>, <span class="fl">38.5</span>, <span class="fl">15.0</span>, <span class="fl">17.0</span>, <span class="fl">20.5</span>, <span class="fl">29.5</span>),</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Reactor_Temperature_deg_C =</span> <span class="fu">c</span>(<span class="dv">1300</span>, <span class="dv">1300</span>, <span class="dv">1300</span>, <span class="dv">1300</span>, <span class="dv">1300</span>, <span class="dv">1300</span>, <span class="dv">1200</span>, <span class="dv">1200</span>, <span class="dv">1200</span>, <span class="dv">1200</span>, <span class="dv">1200</span>, <span class="dv">1200</span>, <span class="dv">1100</span>, <span class="dv">1100</span>, <span class="dv">1100</span>, <span class="dv">1100</span>),</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Ratio_of_H2_to_n_Heptane_mole_ratio =</span> <span class="fu">c</span>(<span class="fl">7.5</span>, <span class="fl">9.0</span>, <span class="fl">11.0</span>, <span class="fl">13.5</span>, <span class="fl">17.0</span>, <span class="fl">23.0</span>, <span class="fl">5.3</span>, <span class="fl">7.5</span>, <span class="fl">11.0</span>, <span class="fl">13.5</span>, <span class="fl">17.0</span>, <span class="fl">23.0</span>, <span class="fl">5.3</span>, <span class="fl">7.5</span>, <span class="fl">11.0</span>, <span class="fl">17.0</span>),</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Contact_Time_sec =</span> <span class="fu">c</span>(<span class="fl">0.0120</span>, <span class="fl">0.0120</span>, <span class="fl">0.0115</span>, <span class="fl">0.0130</span>, <span class="fl">0.0135</span>, <span class="fl">0.0120</span>, <span class="fl">0.0400</span>, <span class="fl">0.0380</span>, <span class="fl">0.0320</span>, <span class="fl">0.0260</span>, <span class="fl">0.0340</span>, <span class="fl">0.0410</span>, <span class="fl">0.0840</span>, <span class="fl">0.0980</span>, <span class="fl">0.0920</span>, <span class="fl">0.0860</span>)</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Printing the dataframe</span></span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Conversion_of_n_Heptane_to_Acetylene Reactor_Temperature_deg_C
+1                                 49.0                      1300
+2                                 50.2                      1300
+3                                 50.5                      1300
+4                                 48.5                      1300
+5                                 47.5                      1300
+6                                 44.5                      1300
+  Ratio_of_H2_to_n_Heptane_mole_ratio Contact_Time_sec
+1                                 7.5           0.0120
+2                                 9.0           0.0120
+3                                11.0           0.0115
+4                                13.5           0.0130
+5                                17.0           0.0135
+6                                23.0           0.0120</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For standardizing via Z scores</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>unit_norm<span class="ot">=</span><span class="cf">function</span>(x){</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  x<span class="ot">=</span>x<span class="sc">-</span><span class="fu">mean</span>(x)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">sqrt</span>(<span class="fu">length</span>(x)<span class="sc">-</span><span class="dv">1</span>)<span class="sc">*</span>x<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">sum</span>(x<span class="sc">^</span><span class="dv">2</span>)))</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>df2<span class="ot">=</span>df</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a><span class="co">#standardizing the regressors</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>df2[,<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]<span class="ot">=</span><span class="fu">apply</span>(df[,<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>],<span class="dv">2</span>,unit_norm)</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>df2<span class="ot">=</span><span class="fu">data.frame</span>(df2)</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(<span class="fu">cor</span>(df2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Observe the high correlations between Contact time and Reactor temperature</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df2<span class="sc">$</span>Reactor_Temperature_deg_C,df2<span class="sc">$</span>Contact_Time_sec,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>orig<span class="ot">=</span><span class="fu">names</span>(df2)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df2)<span class="ot">=</span><span class="fu">c</span>(<span class="st">'P'</span>,<span class="st">'t'</span>,<span class="st">'H'</span>,<span class="st">'C'</span>)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>df2<span class="sc">$</span>t2<span class="ot">=</span>df2<span class="sc">$</span>t<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>df2<span class="sc">$</span>H2<span class="ot">=</span>df2<span class="sc">$</span>H<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>df2<span class="sc">$</span>C2<span class="ot">=</span>df2<span class="sc">$</span>C<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>RS<span class="ot">=</span><span class="fu">lm</span>(P<span class="sc">~</span>t<span class="sc">+</span>H<span class="sc">+</span>C<span class="sc">+</span>t<span class="sc">*</span>H<span class="sc">+</span>t<span class="sc">*</span>C<span class="sc">+</span>C<span class="sc">*</span>H<span class="sc">+</span>t2<span class="sc">+</span>H2<span class="sc">+</span>C2  ,df2)</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(RS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = P ~ t + H + C + t * H + t * C + C * H + t2 + H2 + 
+    C2, data = df2)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.3499 -0.3411  0.1297  0.5011  0.6720 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  35.8958     1.0916  32.884 5.26e-08 ***
+t             4.0038     4.5087   0.888 0.408719    
+H             2.7783     0.3071   9.048 0.000102 ***
+C            -8.0423     6.0707  -1.325 0.233461    
+t2          -12.5236    12.3238  -1.016 0.348741    
+H2           -0.9727     0.3746  -2.597 0.040844 *  
+C2          -11.5932     7.7063  -1.504 0.183182    
+t:H          -6.4568     1.4660  -4.404 0.004547 ** 
+t:C         -26.9804    21.0213  -1.283 0.246663    
+H:C          -3.7681     1.6553  -2.276 0.063116 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.9014 on 6 degrees of freedom
+Multiple R-squared:  0.9977,    Adjusted R-squared:  0.9943 
+F-statistic: 289.7 on 9 and 6 DF,  p-value: 3.225e-07</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crazy high VIF</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(RS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>there are higher-order terms (interactions) in this model
+consider setting type = 'predictor'; see ?vif</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          t           H           C          t2          H2          C2 
+ 375.247759    1.740631  680.280039 1762.575365    3.164318 1156.766284 
+        t:H         t:C         H:C 
+  31.037059 6563.345193   35.611286 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(RS,<span class="at">type=</span><span class="st">'predictor'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>GVIFs computed for predictors</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           GVIF Df GVIF^(1/(2*Df)) Interacts With Other Predictors
+t  51654.740516  6        2.470354           H, C       t2, H2, C2
+H  51654.740516  6        2.470354           t, C       t2, H2, C2
+C  51654.740516  6        2.470354           t, H       t2, H2, C2
+t2  1762.575365  1       41.983037           --    t, H, C, H2, C2
+H2     3.164318  1        1.778853           --    t, H, C, t2, C2
+C2  1156.766284  1       34.011267           --    t, H, C, t2, H2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># hidden extrapolation - be careful</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a grid to extrapolate over</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>c_grid<span class="ot">=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>,<span class="at">l=</span><span class="dv">100</span>)</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>t_grid<span class="ot">=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>,<span class="at">l=</span><span class="dv">100</span>)</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>g<span class="ot">=</span><span class="fu">expand.grid</span>(t_grid,c_grid)</span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding a fixed value of H=-0.6082179</span></span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>g<span class="ot">=</span><span class="fu">cbind</span>(g,<span class="fu">rep</span>(<span class="sc">-</span><span class="fl">0.6082179</span>,<span class="fu">nrow</span>(g)))</span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding H^2</span></span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>g<span class="ot">=</span><span class="fu">cbind</span>(g,g<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Making new dataframe for predictions</span></span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>new_dat<span class="ot">=</span><span class="fu">data.frame</span>(g)</span>
+<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(new_dat)<span class="ot">=</span><span class="fu">c</span>(<span class="st">"t"</span>,<span class="st">"C"</span>,<span class="st">"H"</span>,<span class="st">"t2"</span>,<span class="st">"C2"</span>,<span class="st">"H2"</span>)</span>
+<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicting the values on the grid</span></span>
+<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a>Z<span class="ot">=</span><span class="fu">predict.lm</span>(RS,new_dat)</span>
+<span id="cb63-19"><a href="#cb63-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-20"><a href="#cb63-20" aria-hidden="true" tabindex="-1"></a><span class="fu">contour</span>(c_grid,t_grid,<span class="fu">matrix</span>(Z, <span class="at">ncol =</span> <span class="fu">length</span>(t_grid)),<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">labcex=</span><span class="dv">2</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)<span class="sc">*</span><span class="dv">2</span>,<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)<span class="sc">*</span><span class="dv">2</span>)</span>
+<span id="cb63-21"><a href="#cb63-21" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(df2<span class="sc">$</span>t,df2<span class="sc">$</span>C,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-4-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Notice that as soon as we leave the region with data, the response becomes negative. </span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Recall that it is a percentage and can't be negative</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="do">## This shows that mild extrapolation dangerous!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="exm-7-3-2" class="theorem example">
+<p><span class="theorem-title"><strong>Example 8.3 </strong></span>Use the NFL data from the textbook - regress the number of wins against all variables. Check for multicollinearity. Propose a method to resolve the multicollinearity.</p>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="do">#####################################################</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="co">#              </span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a><span class="co">#           NFL DATA EXAMPLE</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a><span class="co">#                        </span></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a><span class="do">#####################################################</span></span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>df<span class="ot">=</span>MPV<span class="sc">::</span>table.b1</span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Note</span></span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    y   x1   x2   x3   x4  x5   x6   x7   x8   x9
+1  10 2113 1985 38.9 64.7   4  868 59.7 2205 1917
+2  11 2003 2855 38.8 61.3   3  615 55.0 2096 1575
+3  11 2957 1737 40.1 60.0  14  914 65.6 1847 2175
+4  13 2285 2905 41.6 45.3  -4  957 61.4 1903 2476
+5  10 2971 1666 39.2 53.8  15  836 66.1 1457 1866
+6  11 2309 2927 39.7 74.1   8  786 61.0 1848 2339
+7  10 2528 2341 38.1 65.4  12  754 66.1 1564 2092
+8  11 2147 2737 37.0 78.3  -1  761 58.0 1821 1909
+9   4 1689 1414 42.1 47.6  -3  714 57.0 2577 2001
+10  2 2566 1838 42.3 54.2  -1  797 58.9 2476 2254
+11  7 2363 1480 37.3 48.0  19  984 67.5 1984 2217
+12 10 2109 2191 39.5 51.9   6  700 57.2 1917 1758
+13  9 2295 2229 37.4 53.6  -5 1037 58.8 1761 2032
+14  9 1932 2204 35.1 71.4   3  986 58.6 1709 2025
+15  6 2213 2140 38.8 58.3   6  819 59.2 1901 1686
+16  5 1722 1730 36.6 52.6 -19  791 54.4 2288 1835
+17  5 1498 2072 35.3 59.3  -5  776 49.6 2072 1914
+18  5 1873 2929 41.1 55.3  10  789 54.3 2861 2496
+19  6 2118 2268 38.2 69.6   6  582 58.7 2411 2670
+20  4 1775 1983 39.3 78.3   7  901 51.7 2289 2202
+21  3 1904 1792 39.7 38.1  -9  734 61.9 2203 1988
+22  3 1929 1606 39.7 68.8 -21  627 52.7 2592 2324
+23  4 2080 1492 35.5 68.8  -8  722 57.8 2053 2550
+24 10 2301 2835 35.3 74.1   2  683 59.7 1979 2110
+25  6 2040 2416 38.7 50.0   0  576 54.9 2048 2628
+26  8 2447 1638 39.9 57.1  -8  848 65.3 1786 1776
+27  2 1416 2649 37.4 56.3 -22  684 43.8 2876 2524
+28  0 1503 1503 39.3 47.0  -9  875 53.5 2560 2241</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       y                x1             x2             x3              x4       
+ Min.   : 0.000   Min.   :1416   Min.   :1414   Min.   :35.10   Min.   :38.10  
+ 1st Qu.: 4.000   1st Qu.:1896   1st Qu.:1714   1st Qu.:37.38   1st Qu.:52.42  
+ Median : 6.500   Median :2111   Median :2106   Median :38.85   Median :57.70  
+ Mean   : 6.964   Mean   :2110   Mean   :2127   Mean   :38.64   Mean   :59.40  
+ 3rd Qu.:10.000   3rd Qu.:2303   3rd Qu.:2474   3rd Qu.:39.70   3rd Qu.:68.80  
+ Max.   :13.000   Max.   :2971   Max.   :2929   Max.   :42.30   Max.   :78.30  
+       x5               x6               x7              x8      
+ Min.   :-22.00   Min.   : 576.0   Min.   :43.80   Min.   :1457  
+ 1st Qu.: -5.75   1st Qu.: 710.5   1st Qu.:54.77   1st Qu.:1848  
+ Median :  1.00   Median : 787.5   Median :58.65   Median :2050  
+ Mean   :  0.00   Mean   : 789.9   Mean   :58.16   Mean   :2110  
+ 3rd Qu.:  6.25   3rd Qu.: 869.8   3rd Qu.:61.10   3rd Qu.:2320  
+ Max.   : 19.00   Max.   :1037.0   Max.   :67.50   Max.   :2876  
+       x9      
+ Min.   :1575  
+ 1st Qu.:1913  
+ Median :2101  
+ Mean   :2128  
+ 3rd Qu.:2328  
+ Max.   :2670  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "y"  "x1" "x2" "x3" "x4" "x5" "x6" "x7" "x8" "x9"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df)<span class="ot">=</span><span class="fu">c</span>(<span class="st">"Wins"</span>,<span class="st">"RushY"</span>,<span class="st">"PassY"</span>,</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>            <span class="st">"PuntA"</span>,<span class="st">"FGP"</span>,<span class="st">"TurnD"</span>,</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">"PenY"</span>,<span class="st">"PerR"</span>,<span class="st">"ORY"</span>,<span class="st">"OPY"</span>)</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Wins            RushY          PassY          PuntA            FGP       
+ Min.   : 0.000   Min.   :1416   Min.   :1414   Min.   :35.10   Min.   :38.10  
+ 1st Qu.: 4.000   1st Qu.:1896   1st Qu.:1714   1st Qu.:37.38   1st Qu.:52.42  
+ Median : 6.500   Median :2111   Median :2106   Median :38.85   Median :57.70  
+ Mean   : 6.964   Mean   :2110   Mean   :2127   Mean   :38.64   Mean   :59.40  
+ 3rd Qu.:10.000   3rd Qu.:2303   3rd Qu.:2474   3rd Qu.:39.70   3rd Qu.:68.80  
+ Max.   :13.000   Max.   :2971   Max.   :2929   Max.   :42.30   Max.   :78.30  
+     TurnD             PenY             PerR            ORY      
+ Min.   :-22.00   Min.   : 576.0   Min.   :43.80   Min.   :1457  
+ 1st Qu.: -5.75   1st Qu.: 710.5   1st Qu.:54.77   1st Qu.:1848  
+ Median :  1.00   Median : 787.5   Median :58.65   Median :2050  
+ Mean   :  0.00   Mean   : 789.9   Mean   :58.16   Mean   :2110  
+ 3rd Qu.:  6.25   3rd Qu.: 869.8   3rd Qu.:61.10   3rd Qu.:2320  
+ Max.   : 19.00   Max.   :1037.0   Max.   :67.50   Max.   :2876  
+      OPY      
+ Min.   :1575  
+ 1st Qu.:1913  
+ Median :2101  
+ Mean   :2128  
+ 3rd Qu.:2328  
+ Max.   :2670  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>model<span class="ot">=</span><span class="fu">lm</span>(Wins<span class="sc">~</span>.,<span class="at">data=</span>df)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="do">################## Multicollinearity</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="do">###### Corr plot</span></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(<span class="fu">cor</span>(df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="do">###### VIF</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   RushY    PassY    PuntA      FGP    TurnD     PenY     PerR      ORY 
+4.827645 1.420161 2.126597 1.566107 1.924035 1.275979 5.414572 4.535643 
+     OPY 
+1.423390 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># recalculating via the X'X matrix</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span><span class="fu">model.matrix</span>(model)</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 28 10</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co">#standardizing</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>X2<span class="ot">=</span><span class="fu">apply</span>(X,<span class="dv">2</span>,<span class="cf">function</span>(x){(x<span class="sc">-</span><span class="fu">mean</span>(x))<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">sum</span>((x<span class="sc">-</span><span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>))}); <span class="fu">dim</span>(X2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 28 10</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co">#replacing with column of ones again </span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>X2[,<span class="dv">1</span>]<span class="ot">=</span>X[,<span class="dv">1</span>]</span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span>X2</span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(<span class="fu">solve</span>(<span class="fu">t</span>(X)<span class="sc">%*%</span>X))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)       RushY       PassY       PuntA         FGP       TurnD 
+ 0.03571429  4.82764538  1.42016105  2.12659726  1.56610698  1.92403474 
+       PenY        PerR         ORY         OPY 
+ 1.27597850  5.41457162  4.53564335  1.42338989 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co"># observe that</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>model<span class="ot">=</span><span class="fu">lm</span>(RushY<span class="sc">~</span>.,<span class="at">data=</span>df[,<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>s<span class="ot">=</span><span class="fu">summary</span>(model)</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>(<span class="dv">1</span><span class="sc">-</span>s<span class="sc">$</span>r.squared)<span class="sc">^</span>(<span class="sc">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.827645</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="do">###### Condition Number / Eigenvalue / Eigenvector</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span><span class="fu">model.matrix</span>(model)</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 28  9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="co">#standardizing</span></span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>X2<span class="ot">=</span><span class="fu">apply</span>(X,<span class="dv">2</span>,<span class="cf">function</span>(x){(x<span class="sc">-</span><span class="fu">mean</span>(x))<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">sum</span>((x<span class="sc">-</span><span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>))}); <span class="fu">dim</span>(X2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 28  9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>X2[,<span class="dv">1</span>]<span class="ot">=</span>X[,<span class="dv">1</span>]</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span>X2</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a>ev<span class="ot">=</span><span class="fu">eigen</span>(<span class="fu">t</span>(X)<span class="sc">%*%</span>X)</span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a>xev<span class="ot">=</span>ev<span class="sc">$</span>values</span>
+<span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a>condition_number<span class="ot">=</span><span class="fu">max</span>(xev)<span class="sc">/</span><span class="fu">min</span>(xev)</span>
+<span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a>condition_number</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 215.646</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(xev)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  0.1298424  0.3552922  0.5328487  0.6867363  0.8232325  1.2191453  1.6977743
+[8]  2.5551283 28.0000000</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="co">#index of minimum eigenvalue</span></span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>minn<span class="ot">=</span><span class="fu">which.min</span>(xev)</span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>ev<span class="sc">$</span>vectors[,minn]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.675215e-16 -2.109094e-01  2.615778e-01 -4.250523e-02  1.442042e-01
+[6] -4.744502e-02 -6.475229e-01 -6.423531e-01  1.741790e-01</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(ev<span class="sc">$</span>vectors)<span class="ot">=</span><span class="fu">names</span>(model<span class="sc">$</span>coefficients)</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>ev<span class="sc">$</span>vectors</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     [,1]          [,2]          [,3]          [,4]
+(Intercept)  1.000000e+00 -3.434947e-17  5.656001e-17  1.332883e-16
+PassY       -1.931673e-17  8.040232e-02  4.548137e-01 -4.590825e-01
+PuntA        1.733313e-16  2.847481e-02 -5.282204e-01 -5.050070e-01
+FGP          6.643674e-18 -1.498563e-02  6.360469e-01 -4.652414e-02
+TurnD        1.358771e-18 -4.436052e-01  9.254740e-02 -4.700157e-01
+PenY        -4.747269e-17 -3.638914e-01 -1.751243e-01  1.469074e-01
+PerR        -4.843659e-17 -5.401530e-01 -1.437332e-01 -1.847958e-01
+ORY         -9.496374e-17  5.364518e-01 -2.217080e-01 -1.153371e-01
+OPY          1.353659e-16  2.893988e-01  2.291129e-02 -4.920345e-01
+                     [,5]          [,6]          [,7]          [,8]
+(Intercept)  1.753269e-17  4.497241e-17 -8.295922e-18  9.898359e-17
+PassY        3.414787e-01  5.912719e-01  2.410126e-01 -8.451722e-02
+PuntA        2.835269e-01  3.495064e-02 -3.785463e-01 -4.145009e-01
+FGP         -1.687798e-01 -2.417375e-01 -6.140270e-01 -3.567854e-01
+TurnD       -9.900605e-03 -1.291665e-01 -2.199263e-01  6.984198e-01
+PenY        -5.210958e-01  6.822653e-01 -2.680418e-01 -6.487362e-02
+PerR        -4.221330e-02 -3.015818e-01  2.274534e-01 -2.994520e-01
+ORY         -9.681973e-02  2.538335e-02 -3.566234e-01  3.161428e-01
+OPY         -7.012299e-01 -1.302810e-01  3.499387e-01 -1.101525e-01
+                     [,9]
+(Intercept) -1.675215e-16
+PassY       -2.109094e-01
+PuntA        2.615778e-01
+FGP         -4.250523e-02
+TurnD        1.442042e-01
+PenY        -4.744502e-02
+PerR        -6.475229e-01
+ORY         -6.423531e-01
+OPY          1.741790e-01</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co"># names(model$coefficients)[abs(round(ev$vectors[,minn],1))&gt;0]</span></span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(ev<span class="sc">$</span>vectors[,minn],<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)       PassY       PuntA         FGP       TurnD        PenY 
+        0.0        -0.2         0.3         0.0         0.1         0.0 
+       PerR         ORY         OPY 
+       -0.6        -0.6         0.2 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What should we do?</span></span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>RushDiff<span class="ot">=</span>(df<span class="sc">$</span>RushY<span class="sc">-</span>df<span class="sc">$</span>ORY)</span>
+<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a><span class="co"># df$RushDiffPer=df$RushY/(df$RushY+df$ORY)</span></span>
+<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-6"><a href="#cb99-6" aria-hidden="true" tabindex="-1"></a><span class="co"># paste(names(df),collapse='+')</span></span>
+<span id="cb99-7"><a href="#cb99-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-8"><a href="#cb99-8" aria-hidden="true" tabindex="-1"></a>model<span class="ot">=</span><span class="fu">lm</span>(Wins<span class="sc">~</span>PassY<span class="sc">+</span>PuntA<span class="sc">+</span>FGP<span class="sc">+</span>TurnD<span class="sc">+</span>PenY<span class="sc">+</span>PerR<span class="sc">+</span>OPY<span class="sc">+</span>RushDiff,<span class="at">data=</span>df)</span>
+<span id="cb99-9"><a href="#cb99-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Wins ~ PassY + PuntA + FGP + TurnD + PenY + PerR + 
+    OPY + RushDiff, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.6976 -0.8333  0.0823  0.7845  2.7968 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -6.5581613 12.7312595  -0.515 0.612409    
+PassY        0.0037880  0.0008196   4.622 0.000186 ***
+PuntA       -0.0208741  0.2052446  -0.102 0.920057    
+FGP          0.0249704  0.0407274   0.613 0.547073    
+TurnD       -0.0029187  0.0465199  -0.063 0.950628    
+PenY         0.0021519  0.0031747   0.678 0.506053    
+PerR         0.1388836  0.1504572   0.923 0.367542    
+OPY         -0.0023446  0.0012749  -1.839 0.081587 .  
+RushDiff     0.0023289  0.0011199   2.080 0.051347 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.822 on 19 degrees of freedom
+Multiple R-squared:  0.8071,    Adjusted R-squared:  0.7258 
+F-statistic: 9.935 on 8 and 19 DF,  p-value: 2.305e-05</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(<span class="fu">cor</span>(df))</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   PassY    PuntA      FGP    TurnD     PenY     PerR      OPY RushDiff 
+1.360875 1.347757 1.514088 1.914974 1.230133 5.347319 1.162295 4.774672 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>model<span class="ot">=</span><span class="fu">lm</span>(Wins<span class="sc">~</span>PassY<span class="sc">+</span>PuntA<span class="sc">+</span>FGP<span class="sc">+</span>TurnD<span class="sc">+</span>PenY<span class="sc">+</span>OPY<span class="sc">+</span>RushDiff,<span class="at">data=</span>df)</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Wins ~ PassY + PuntA + FGP + TurnD + PenY + OPY + 
+    RushDiff, data = df)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.9325 -0.9011 -0.1062  0.9020  3.0495 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.8643720  9.8338943   0.088 0.930833    
+PassY        0.0035079  0.0007586   4.624 0.000164 ***
+PuntA        0.0143946  0.2009097   0.072 0.943594    
+FGP          0.0156562  0.0393115   0.398 0.694659    
+TurnD        0.0114784  0.0436650   0.263 0.795336    
+PenY         0.0023024  0.0031587   0.729 0.474510    
+OPY         -0.0021934  0.0012596  -1.741 0.096996 .  
+RushDiff     0.0031495  0.0006787   4.641 0.000158 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.815 on 20 degrees of freedom
+Multiple R-squared:  0.7984,    Adjusted R-squared:  0.7279 
+F-statistic: 11.32 on 7 and 20 DF,  p-value: 9.485e-06</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(<span class="fu">cor</span>(df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_7_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   PassY    PuntA      FGP    TurnD     PenY      OPY RushDiff 
+1.174416 1.301051 1.421150 1.699715 1.226886 1.143100 1.766523 </code></pre>
+</div>
+</div>
+<p>There are four primary sources/causes of multicollinearity :</p>
+<ul>
+<li>The data collection method employed: In this case, some of the variables are typically confounded and/or the experiment/study was not well-designed.</li>
+<li>Constraints on the model or in the population: Sometimes, only certain combinations of levels of variables can be observed together.</li>
+<li>Model specification: Sometimes you have two or more variables in your model that are measuring the same thing.</li>
+<li>An overdefined model: You have too many variables in your model.</li>
+</ul>
+<p>Make sure to check for each of these. Sometimes, regression coefficients have the wrong sign. This is likely due to one of the following:</p>
+<ul>
+<li>The range of some of the regressors is too small – if the range of some of the regressors is too small, then the variance of <span class="math inline">\(\hat\beta\)</span> is high.</li>
+<li>Important regressors have not been included in the model.</li>
+<li><strong>Multicollinearity is present.</strong></li>
+<li>Computational errors have been made.</li>
+</ul>
+<p>Multicollinearity can be cured with:</p>
+<ol type="1">
+<li>more data (lol often not possible), 2, model re-specification: Can you include a function of the variables that preserves the information, but aren’t linearly dependent? Can you remove a variable?</li>
+<li>Or, a modified version of regression, one of Lasso, ridge or elastic net regression.</li>
+</ol>
+</section>
+<section id="homework-questions" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="homework-questions"><span class="header-section-number">8.3</span> Homework questions</h2>
+<p>Complete the Chapter 9 textbook questions.</p>
+<div id="exr-8-4-1" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 8.1 </strong></span>Check for multicollinearity in all of our past examples.</p>
+</div>
+<div id="exr-8-4-2" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 8.2 </strong></span>Summarize the 3 multicollinearity diagnostics.</p>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-Monette1992" class="csl-entry" role="listitem">
+Fox, John, and Georges Monette. 1992. <span>“Generalized Collinearity Diagnostics.”</span> <em>Journal of the American Statistical Association</em> 87 (417): 178–83. <a href="https://doi.org/10.1080/01621459.1992.10475190">https://doi.org/10.1080/01621459.1992.10475190</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Unit_6.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Leverage and Influence</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Unit_8.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Variable/Model Selection</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
