@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Math 3330: Regression Notes - 7&nbsp; Leverage and Influence</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Unit_7.html" rel="next">
+<link href="./Unit_5.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Unit_6.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Leverage and Influence</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Math 3330: Regression Notes</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_0.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Review material</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Residual analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transformations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Indicator Variables</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_6.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Leverage and Influence</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_7.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multicollinearity</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Variable/Model Selection</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Unit_9.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Robust Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Appendix_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Introduction to R software</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#influential-observations-and-leverage" id="toc-influential-observations-and-leverage" class="nav-link active" data-scroll-target="#influential-observations-and-leverage"><span class="header-section-number">7.1</span> Influential observations and leverage</a></li>
+  <li><a href="#cooks-distance" id="toc-cooks-distance" class="nav-link" data-scroll-target="#cooks-distance"><span class="header-section-number">7.2</span> Cook’s Distance</a></li>
+  <li><a href="#data-depth-functions" id="toc-data-depth-functions" class="nav-link" data-scroll-target="#data-depth-functions"><span class="header-section-number">7.3</span> Data depth functions</a></li>
+  <li><a href="#homework-questions" id="toc-homework-questions" class="nav-link" data-scroll-target="#homework-questions"><span class="header-section-number">7.4</span> Homework questions</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Leverage and Influence</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="influential-observations-and-leverage" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="influential-observations-and-leverage"><span class="header-section-number">7.1</span> Influential observations and leverage</h2>
+<p>Recall that violations of model assumptions are more likely at remote points, and these violations may be hard to detect from inspection of the ordinary residuals because their residuals will usually be smaller. Points that are outlying in the <span class="math inline">\(x\)</span>-direction are known as <strong>leverage points</strong>. <strong>Influential points</strong> are not only remote in terms of the specific values for the regressors, but the observed response is not consistent with the values that would be predicted based on only the other data points. It is important to find these influential points and assess their impact on the model.</p>
+<p>Below gives an example of an influential point. The seventh point in the data set is outlying in the <span class="math inline">\(x\)</span>-direction, and it’s response value is not consistent with the regression line based on the other six observations:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">330</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>(<span class="fu">rnorm</span>(<span class="dv">6</span>),<span class="fl">2.5</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span>x<span class="sc">*</span><span class="dv">2</span><span class="sc">+</span><span class="dv">3</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>y[<span class="dv">7</span>]<span class="ot">=</span>y[<span class="dv">7</span>]<span class="sc">+</span><span class="dv">7</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,y,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">lm</span>(y<span class="sc">~</span>x)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(a<span class="sc">$</span>coefficients[<span class="dv">1</span>]<span class="sc">+</span>x<span class="sc">*</span>a<span class="sc">$</span>coefficients[<span class="dv">2</span>],<span class="at">add=</span>T,<span class="at">lwd=</span><span class="dv">3</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(x<span class="sc">*</span><span class="dv">2</span><span class="sc">+</span><span class="dv">3</span>,<span class="at">add=</span>T,<span class="at">col=</span><span class="dv">2</span>,<span class="at">lwd=</span><span class="dv">3</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>a2<span class="ot">=</span><span class="fu">lm</span>(y[<span class="sc">-</span><span class="dv">7</span>]<span class="sc">~</span>x[<span class="sc">-</span><span class="dv">7</span>])</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(a2<span class="sc">$</span>coefficients[<span class="dv">1</span>]<span class="sc">+</span>x<span class="sc">*</span>a2<span class="sc">$</span>coefficients[<span class="dv">2</span>],<span class="at">add=</span>T,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">col=</span><span class="st">'blue'</span>,<span class="at">lty=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>a<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)           x 
+   2.048937    3.979977 </code></pre>
+</div>
+</div>
+<p>Sometimes we find that a regression coefficient may have a sign that does not make engineering or scientific sense, a regressor known to be important may be statistically insignificant, or a model that fits the data well and that is logical from an application – environment perspective may produce poor predictions. These situations may be the result of one or, perhaps, a few influential observations.</p>
+<p>Recall the hat matrix <span class="math inline">\(H=X(X^\top X)^{-1}X^\top\)</span>, as well as that it holds that <span class="math inline">\({\textrm{Var}}\left[\hat\epsilon\right]=\sigma^2(I-H)\)</span> and <span class="math inline">\({\textrm{Var}}\left[\hat Y\right]=\sigma^2 H\)</span>. Note that <span class="math inline">\(h_{ij}\)</span> can be interpreted as the amount of leverage exerted by the <span class="math inline">\(ith\)</span> observation <span class="math inline">\(y_i\)</span> on the <span class="math inline">\(jth\)</span> fitted value <span class="math inline">\(\hat y_j\)</span>. We usually focus attention on the diagonal elements <span class="math inline">\(h_{ii}\)</span> of the hat matrix <span class="math inline">\(H\)</span>, which may be written as <span class="math display">\[h_{ii}=x_i^\top (X^\top X)^{-1} x_i,\]</span> where <span class="math inline">\(X_i^\top\)</span> is the <span class="math inline">\(i\)</span>th row of <span class="math inline">\(X\)</span>. The hat matrix diagonal is a standardized measure of the distance of the <span class="math inline">\(i\)</span>th observation from the center (or centroid) of the <span class="math inline">\(x\)</span>-space. Therefore, large values of <span class="math inline">\(h_{ii}\)</span> implies that <span class="math inline">\(x_i\)</span> is potentially influential. Furthermore, note that <span class="math inline">\(rank(H)=p\)</span> since the trace of an idempotent matrix equals its rank, which means that <span class="math inline">\(\bar h= p/n\)</span>. It follows that values well above <span class="math inline">\(p/n\)</span>, say <span class="math inline">\(h_{ii}&gt;2p/n\)</span>, can be called leverage points.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span><span class="fu">as.matrix</span>(<span class="fu">cbind</span>(<span class="fu">rep</span>(<span class="dv">1</span>,<span class="fu">length</span>(x)),x))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span><span class="fu">model.matrix</span>(a)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>hat<span class="ot">=</span>X<span class="sc">%*%</span><span class="fu">solve</span>(<span class="fu">t</span>(X)<span class="sc">%*%</span>X)<span class="sc">%*%</span><span class="fu">t</span>(X)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        1         2         3         4         5         6         7 
+0.2027453 0.2288737 0.2596869 0.1751432 0.1735495 0.3887329 0.5712686 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>p<span class="ot">=</span><span class="dv">2</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span><span class="dv">7</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(hat)<span class="sc">&gt;</span><span class="dv">2</span><span class="sc">*</span>p<span class="sc">/</span>n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    1     2     3     4     5     6     7 
+FALSE FALSE FALSE FALSE FALSE FALSE FALSE </code></pre>
+</div>
+</div>
+</section>
+<section id="cooks-distance" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="cooks-distance"><span class="header-section-number">7.2</span> Cook’s Distance</h2>
+<p>Cook’s Distance is one way to incorporate both the <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> values into an outlyingness measure: <span class="math display">\[
+D_i\left(X^{\top} X, p, MSE\right) \equiv D_i=\frac{\left(\hat{\beta}_{(i)}-\hat{\beta}\right)^{\top} X^{\top} X\left(\hat{\beta}_{(i)}-\hat{\beta}\right)}{p MSE}, \  i=\in [n],
+\]</span> where <span class="math inline">\(\hat{\beta}_{(i)}\)</span> is the OLS estimator with the <span class="math inline">\(i\)</span>th point removed.Large values of Cook’s distance signal a leverage point.</p>
+<p>What do we mean by a large value? We can compare <span class="math inline">\(D_i\)</span> to the 50th percentile of the <span class="math inline">\(F_{p,n-p}\)</span> distribution. This gives the interpretation that deleting the <span class="math inline">\(i\)</span>th point moves the estimate to the boundary of a 50% confidence interval. <span class="math inline">\(F_{p,n-p}\approx 1\)</span>, and so usually take <span class="math inline">\(D_i\geq 1\)</span> to be large.</p>
+<p>Observe that <span class="math display">\[
+D_i=\frac{r_i^2}{p} \frac{\operatorname{Var}\left(\hat{Y}_i\right)}{\operatorname{Var}\left(\hat\epsilon_i\right)}=\frac{r_i^2}{p} \frac{h_{i i}}{1-h_{i i}}, \quad i=1,2, \ldots, n,\]</span> where it is important to recall that <span class="math inline">\(r_i\)</span> is the studentized residual. Now, the quantity <span class="math inline">\(\frac{h_{i i}}{1-h_{i i}}\)</span> can be shown to be the distance from the vector <span class="math inline">\(x_i\)</span> to the centroid of the remaining data. Therefore, <span class="math inline">\(D_i\)</span> is the product of outlyingness in both the <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> directions. We may also write <span class="math inline">\(D_i\)</span> as <span class="math display">\[D_i=\frac{\left\lVert\hat{y}_{(i)}-\hat{y}\right\rVert^2}{p MSE},\]</span> which allows for the interpretation: The Cook’s distance of the <span class="math inline">\(i\)</span>th point is the normalized distance between the fitted value with and without point <span class="math inline">\(i\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#cut off</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cooks.distance</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           1            2            3            4            5            6 
+0.1708029420 0.2516095165 0.0180669722 0.0009569213 0.0011772793 0.2002829110 
+           7 
+3.3311562309 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cooks.distance</span>(a)<span class="sc">&gt;</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    1     2     3     4     5     6     7 
+FALSE FALSE FALSE FALSE FALSE FALSE  TRUE </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(y,x))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df[<span class="fu">cooks.distance</span>(a)<span class="sc">&gt;</span><span class="dv">1</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   y   x
+7 15 2.5</code></pre>
+</div>
+</div>
+</section>
+<section id="data-depth-functions" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="data-depth-functions"><span class="header-section-number">7.3</span> Data depth functions</h2>
+<p>A more modern approach and nonparametric approach to outlier detection is through data depth. A data depth function gives meaning to centrality, order and outlyingness in spaces beyond <span class="math inline">\(\mathbb{R}\)</span>. A data depth function is a function which takes a sample and a point, and returns how central the point is, with respect to the sample. Depth functions can be written as <span class="math inline">\({\textrm{D}}\colon \mathbb{R}^{d}\times \text{Sample} \rightarrow \mathbb{R}^+\)</span>. There are different definitions of depth, so I will give a few.</p>
+<p>Let <span class="math inline">\(S^{d-1}= \{x\in \mathbb{R}^{d}\colon \left\lVert x\right\rVert=1\}\)</span> be the set of unit vectors in <span class="math inline">\(\mathbb{R}^{d}\)</span>, let <span class="math inline">\(\mathbb{X}_{n}=\{(Y_1,X_{1,1},\ldots,X_{1,p-1}),\ldots, (Y_n,X_{n,1},\ldots,X_{n,p-1})\}\)</span>, let <span class="math inline">\(\mathbb{X}_{n}^\top u\)</span> be <span class="math inline">\(\mathbb{X}_{n}\)</span> projected onto <span class="math inline">\(u\in S^{d-1}\)</span> and let <span class="math inline">\(\widehat F_u\)</span> be the empirical CDF with respect to <span class="math inline">\(\mathbb{X}_{n}^\top u\)</span>.</p>
+<div id="dfn-7-1-1">
+<p>The halfspace depth <span class="math inline">\({\textrm{D}}_H\)</span> of a point <span class="math inline">\(x\in \mathbb{R}^{d}\)</span> with respect to a distribution <span class="math inline">\(F\)</span> over <span class="math inline">\(\mathbb{R}^{d}\)</span> is <span class="math display">\[
+{\textrm{D}}_H(x;F)=\inf_{u\in S^{d-1}} \widehat F_u(x^\top u)\wedge (1-F_u(x^\top u))=\inf_{u\in S^{d-1}}
+F_u(x^\top u).
+\]</span></p>
+</div>
+<div id="dfn-7-1-2">
+<p>Given a translation and scale equivariant location estimate <span class="math inline">\(\mu\)</span> and a translation and scale invariant scale estimate <span class="math inline">\(\sigma\)</span>, the outlyingness at <span class="math inline">\(x\in\mathbb{R}^{d}\)</span> is defined as <span class="math display">\[O(x)=\sup _{u\in S^{d-1}} \frac{\left|x^\top u-\mu(\mathbb{X}_{n}^\top u)\right|}{\sigma(\mathbb{X}_{n}^\top u)}.\]</span> Define projection depth as <span class="math display">\[{\textrm{D}}_p(x)=(1+O(x))^{-1}.\]</span></p>
+</div>
+<p>In order to detect outliers, we look for observations that have low depth. See, continuing our toy example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages('ddalpha')</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>depths<span class="ot">=</span>ddalpha<span class="sc">::</span><span class="fu">depth.projection</span>(<span class="fu">cbind</span>(x,y),<span class="fu">cbind</span>(x,y))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>depths</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.276409011 0.255272074 0.500000000 0.973754328 0.973046927 0.338954415
+[7] 0.001071387</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>depths<span class="sc">&lt;</span><span class="fl">0.015</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE</code></pre>
+</div>
+</div>
+<div id="exm-6-3-1" class="theorem example">
+<p><span class="theorem-title"><strong>Example 7.1 </strong></span>Recall example <a href="Unit_5.html#exm-6-4-1">Example&nbsp;<span>6.6</span></a>. Check for leverage and influential points in the proposed models. Compute all three measures of leverage/influence/outlyingness introduced in this lesson.</p>
+</div>
+<p>I will load in the data below:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'lubridate' was built under R version 4.2.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lubridate'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "PropType"
+[1] Commercial
+Levels:  Commercial Condominium Lg Apartment Residential Vacant Land
+[1] "District"
+[1] 6
+[1] "Extwall"
+[1] 
+10 Levels:  Aluminum / Vinyl Block Brick Fiber-Cement Frame ... Stucco
+[1] "Stories"
+[1] 2
+[1] "Year_Built"
+[1] 1880
+[1] "Nr_of_rms"
+[1] 0
+[1] "Fin_sqft"
+[1] 1840
+[1] "Units"
+[1] 1
+[1] "Bdrms"
+[1] 0
+[1] "Fbath"
+[1] 0
+[1] "Lotsize"
+[1] 12750
+[1] "Sale_date"
+[1] 11688
+[1] "Sale_price"
+[1] 15900
+[1] "PropType"
+[1] Residential
+Levels:  Commercial Condominium Lg Apartment Residential Vacant Land
+[1] "factor"
+[1] "District"
+[1] 7
+[1] "integer"
+[1] "Extwall"
+[1] Frame
+10 Levels:  Aluminum / Vinyl Block Brick Fiber-Cement Frame ... Stucco
+[1] "factor"
+[1] "Stories"
+[1] 2
+[1] "double"
+[1] "Year_Built"
+[1] 1913
+[1] "integer"
+[1] "Nr_of_rms"
+[1] 0
+[1] "integer"
+[1] "Fin_sqft"
+[1] 3476
+[1] "integer"
+[1] "Units"
+[1] 4
+[1] "integer"
+[1] "Bdrms"
+[1] 9
+[1] "integer"
+[1] "Fbath"
+[1] 1
+[1] "integer"
+[1] "Lotsize"
+[1] 5040
+[1] "integer"
+[1] "Sale_date"
+[1] 11719
+[1] "integer"
+[1] "Sale_price"
+[1] 42000
+[1] "integer"
+[1] "PropType"
+[1] Residential
+Levels:  Commercial Condominium Lg Apartment Residential Vacant Land
+[1] "factor"
+[1] "District"
+[1] 7
+Levels: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+[1] "factor"
+[1] "Extwall"
+[1] Frame
+10 Levels:  Aluminum / Vinyl Block Brick Fiber-Cement Frame ... Stucco
+[1] "factor"
+[1] "Stories"
+[1] 2
+Levels: 1 1.5 2 2.5 3 3.5
+[1] "factor"
+[1] "Year_Built"
+[1] 1913
+[1] "integer"
+[1] "Nr_of_rms"
+[1] 0
+Levels: 0
+[1] "factor"
+[1] "Fin_sqft"
+[1] 3476
+[1] "integer"
+[1] "Units"
+[1] 4
+Levels: 0 1 2 3 4 6 7 8 13
+[1] "factor"
+[1] "Bdrms"
+[1] 9
+Levels: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 2031
+[1] "factor"
+[1] "Fbath"
+[1] 1
+Levels: 0 1 2 3 4 5 6 10
+[1] "factor"
+[1] "Lotsize"
+[1] 5040
+[1] "integer"
+[1] "Sale_date"
+[1] 11719
+[1] "integer"
+[1] "Sale_price"
+[1] 42000
+[1] "integer"
+[1] "PropType"
+[1] Residential
+Levels:  Commercial Condominium Lg Apartment Residential Vacant Land
+[1] "factor"
+[1] "District"
+[1] 7
+Levels: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+[1] "factor"
+[1] "Extwall"
+[1] Frame
+10 Levels:  Aluminum / Vinyl Block Brick Fiber-Cement Frame ... Stucco
+[1] "factor"
+[1] "Stories"
+[1] 2
+Levels: 1 1.5 2 2.5 3 3.5
+[1] "factor"
+[1] "Year_Built"
+[1] 1913
+[1] "integer"
+[1] "Nr_of_rms"
+[1] 0
+Levels: 0
+[1] "factor"
+[1] "Fin_sqft"
+[1] 3476
+[1] "integer"
+[1] "Units"
+[1] 4
+Levels: 0 1 2 3 4 6 7 8 13
+[1] "factor"
+[1] "Bdrms"
+[1] 9
+Levels: 0 1 2 3 4 5 6 7 8 9 10 11 12 13
+[1] "factor"
+[1] "Fbath"
+[1] 1
+Levels: 0 1 2 3 4 5 6 10
+[1] "factor"
+[1] "Lotsize"
+[1] 5040
+[1] "integer"
+[1] "Sale_date"
+[1] 11719
+[1] "integer"
+[1] "Sale_price"
+[1] 42000
+[1] "integer"
+[1] "PropType"
+
+               Commercial  Condominium Lg Apartment  Residential  Vacant Land 
+           0            0            0            0        24623            0 
+[1] "District"
+
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
+1009 1410 1585  166 3762  703 1033  838 1146 2740 3658  470 2754 2813  536 
+[1] "Extwall"
+
+                 Aluminum / Vinyl            Block            Brick 
+               0            13931              147             5684 
+    Fiber-Cement            Frame  Masonry / Frame        Prem Wood 
+             149             2527              760               63 
+           Stone           Stucco 
+             915              447 
+[1] "Stories"
+
+    1   1.5     2   2.5     3   3.5 
+15647  3441  5516     9     9     1 
+[1] "Nr_of_rms"
+
+    0 
+24623 
+[1] "Units"
+
+    0     1     2     3     4     6     7     8    13 
+    1 20048  4304   230    31     3     3     2     1 
+[1] "Bdrms"
+
+    0     1     2     3     4     5     6     7     8     9    10    11    12 
+    8   111  3280 12646  5770  1356  1228   123    74    20     3     1     1 
+   13 
+    2 
+[1] "Fbath"
+
+    0     1     2     3     4     5     6    10 
+   25 14543  9006   916   108    21     3     1 
+[1] "District"
+
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
+1009 1410 1585  166 3762  703 1033  838 1146 2740 3658  470 2754 2813  536 
+[1] "Extwall"
+
+                 Aluminum / Vinyl            Block            Brick 
+               0            13931              147             5684 
+    Fiber-Cement            Frame  Masonry / Frame        Prem Wood 
+             149             2527              760               63 
+           Stone           Stucco 
+             915              447 
+[1] "Stories"
+
+    1   1.5     2   2.5     3   3.5 
+15647  3441  5516     9     9     1 
+[1] "Units"
+
+    0     1     2     3     4     6     7     8    13 
+    1 20048  4304   230    31     3     3     2     1 
+[1] "Bdrms"
+
+    0     1     2     3     4     5     6     7     8     9    10    11    12 
+    8   111  3280 12646  5770  1356  1228   123    74    20     3     1     1 
+   13 
+    2 
+[1] "Fbath"
+
+    0     1     2     3     4     5     6    10 
+   25 14543  9006   916   108    21     3     1 
+[1] "District"
+
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
+1009 1410 1585  166 3762  703 1033  838 1146 2740 3658  470 2754 2813  535 
+[1] "Extwall"
+
+Aluminum / Vinyl            Block            Brick     Fiber-Cement 
+           13930              147             5684              149 
+           Frame  Masonry / Frame        Prem Wood            Stone 
+            2527              760               63              915 
+          Stucco 
+             447 
+[1] "Stories"
+
+    1   1.5     2    &gt;2 
+15647  3441  5515    19 
+[1] "Units"
+
+    0     1     2     3    &gt;3 
+    0 20048  4304   230    40 
+[1] "Bdrms"
+
+    0     1     2     3     4     5     6     7     8    &gt;8 
+    8   111  3280 12645  5770  1356  1228   123    74    27 
+[1] "Fbath"
+
+    0     1     2     3     4    &gt;4 
+   25 14543  9005   916   108    25 </code></pre>
+</div>
+</div>
+<p>We can now analysze the data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># df_clean4=df_clean4[df_clean4$Lotsize&lt;70000,]</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>custom_palette <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#1f77b4"</span>, <span class="st">"#ff7f0e"</span>, <span class="st">"#2ca02c"</span>, <span class="st">"#d62728"</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#9467bd"</span>, <span class="st">"#8c564b"</span>, <span class="st">"#e377c2"</span>, <span class="st">"#7f7f7f"</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#bcbd22"</span>, <span class="st">"#17becf"</span>, <span class="st">"#393b79"</span>, </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#8c6d31"</span>, <span class="st">"#9c9ede"</span>, <span class="st">"#637939"</span>, <span class="st">"#eb348f"</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Our model from the previous lecture</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>df_clean4<span class="sc">$</span>d_3<span class="ot">=</span>df_clean4<span class="sc">$</span>District<span class="sc">==</span><span class="dv">3</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>model2<span class="ot">=</span><span class="fu">lm</span>(<span class="fu">sqrt</span>(Sale_price)<span class="sc">~</span> District <span class="sc">+</span>  Extwall <span class="sc">+</span>     </span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>            Stories  <span class="sc">+</span>    Year_Built  <span class="sc">+</span> Fin_sqft  <span class="sc">+</span>   </span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>            Units   <span class="sc">+</span>     Bdrms   <span class="sc">+</span>    </span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>            Fbath  <span class="sc">+</span>    <span class="fu">log</span>(Lotsize)   <span class="sc">+</span> Sale_date <span class="sc">+</span>d_3<span class="sc">*</span>Lotsize<span class="sc">-</span>d_3,df_clean4)</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute residuals</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>student_res2<span class="ot">=</span><span class="fu">rstudent</span>(model2)</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(df_clean4<span class="sc">$</span>Lotsize) ,student_res2,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>summ2<span class="ot">=</span><span class="fu">summary</span>(model2); summ2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = sqrt(Sale_price) ~ District + Extwall + Stories + 
+    Year_Built + Fin_sqft + Units + Bdrms + Fbath + log(Lotsize) + 
+    Sale_date + d_3 * Lotsize - d_3, data = df_clean4)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-321.26  -28.88    1.83   30.31  360.39 
+
+Coefficients:
+                         Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)            -9.602e+02  4.736e+01 -20.277  &lt; 2e-16 ***
+District2               3.198e+01  2.135e+00  14.979  &lt; 2e-16 ***
+District3               1.447e+02  3.708e+00  39.019  &lt; 2e-16 ***
+District4              -3.250e+01  4.478e+00  -7.257 4.07e-13 ***
+District5               9.059e+01  1.838e+00  49.282  &lt; 2e-16 ***
+District6               1.232e+01  2.678e+00   4.600 4.25e-06 ***
+District7              -5.148e+00  2.296e+00  -2.242 0.024989 *  
+District8               4.163e+01  2.544e+00  16.366  &lt; 2e-16 ***
+District9               6.322e+01  2.301e+00  27.477  &lt; 2e-16 ***
+District10              9.744e+01  1.918e+00  50.793  &lt; 2e-16 ***
+District11              1.112e+02  1.839e+00  60.490  &lt; 2e-16 ***
+District12              2.754e+01  3.110e+00   8.857  &lt; 2e-16 ***
+District13              1.095e+02  1.900e+00  57.613  &lt; 2e-16 ***
+District14              1.497e+02  1.946e+00  76.906  &lt; 2e-16 ***
+District15             -4.216e+01  2.849e+00 -14.797  &lt; 2e-16 ***
+ExtwallBlock           -8.222e+00  4.315e+00  -1.906 0.056705 .  
+ExtwallBrick            8.448e+00  8.578e-01   9.848  &lt; 2e-16 ***
+ExtwallFiber-Cement     4.270e+01  4.408e+00   9.688  &lt; 2e-16 ***
+ExtwallFrame           -5.459e+00  1.145e+00  -4.768 1.87e-06 ***
+ExtwallMasonry / Frame  4.695e+00  2.007e+00   2.339 0.019322 *  
+ExtwallPrem Wood        2.015e+01  6.586e+00   3.060 0.002219 ** 
+ExtwallStone            1.967e+01  1.804e+00  10.906  &lt; 2e-16 ***
+ExtwallStucco           6.901e+00  2.513e+00   2.746 0.006043 ** 
+Stories1.5              1.511e+01  1.160e+00  13.024  &lt; 2e-16 ***
+Stories2                1.940e+01  1.221e+00  15.882  &lt; 2e-16 ***
+Stories&gt;2               4.922e+00  1.203e+01   0.409 0.682581    
+Year_Built              3.606e-01  2.152e-02  16.759  &lt; 2e-16 ***
+Fin_sqft                7.881e-02  1.181e-03  66.744  &lt; 2e-16 ***
+Units2                 -8.159e+01  1.302e+00 -62.658  &lt; 2e-16 ***
+Units3                 -1.100e+02  4.035e+00 -27.264  &lt; 2e-16 ***
+Units&gt;3                -4.615e+01  8.626e+00  -5.350 8.89e-08 ***
+Bdrms1                 -5.372e+01  1.982e+01  -2.710 0.006725 ** 
+Bdrms2                 -3.891e+01  1.918e+01  -2.029 0.042483 *  
+Bdrms3                 -2.700e+01  1.916e+01  -1.409 0.158741    
+Bdrms4                 -3.564e+01  1.916e+01  -1.860 0.062899 .  
+Bdrms5                 -3.845e+01  1.921e+01  -2.002 0.045339 *  
+Bdrms6                 -5.450e+01  1.922e+01  -2.835 0.004587 ** 
+Bdrms7                 -7.387e+01  1.974e+01  -3.743 0.000182 ***
+Bdrms8                 -6.713e+01  2.013e+01  -3.335 0.000855 ***
+Bdrms&gt;8                -1.135e+02  2.161e+01  -5.256 1.49e-07 ***
+Fbath1                  6.170e+00  1.149e+01   0.537 0.591397    
+Fbath2                  2.863e+01  1.150e+01   2.489 0.012803 *  
+Fbath3                  4.760e+01  1.168e+01   4.076 4.60e-05 ***
+Fbath4                  6.076e+01  1.268e+01   4.791 1.67e-06 ***
+Fbath&gt;4                -5.056e+00  1.597e+01  -0.317 0.751598    
+log(Lotsize)            3.931e+01  2.734e+00  14.382  &lt; 2e-16 ***
+Sale_date               6.616e-03  3.045e-04  21.729  &lt; 2e-16 ***
+Lotsize                -2.250e-03  3.217e-04  -6.996 2.70e-12 ***
+d_3TRUE:Lotsize         1.144e-02  6.042e-04  18.936  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 51.21 on 24394 degrees of freedom
+Multiple R-squared:  0.727, Adjusted R-squared:  0.7264 
+F-statistic:  1353 on 48 and 24394 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>summ2<span class="sc">$</span>adj.r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7264436</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute residual analysis</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>MSE2<span class="ot">=</span>summ2<span class="sc">$</span>sigma<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(student_res2,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(student_res2,<span class="at">freq=</span>F,<span class="at">breaks=</span><span class="dv">100</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x,<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">add=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(student_res2,<span class="at">freq=</span>F,<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>,<span class="dv">5</span>),<span class="at">breaks=</span><span class="dv">100</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x,<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">add=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-6-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model2<span class="sc">$</span>fitted.values,student_res2,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-6-5.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df_clean4<span class="sc">$</span>Sale_date ,student_res2,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-6-6.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(df_clean4<span class="sc">$</span>Lotsize) ,student_res2,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-6-7.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df_clean4<span class="sc">$</span>Fin_sqft ,student_res2,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-6-8.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First measure</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>X<span class="ot">=</span><span class="fu">model.matrix</span>(model2)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>hat<span class="ot">=</span>X<span class="sc">%*%</span><span class="fu">solve</span>(<span class="fu">t</span>(X)<span class="sc">%*%</span>X)<span class="sc">%*%</span><span class="fu">t</span>(X)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co"># diag(hat)</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>p<span class="ot">=</span><span class="fu">ncol</span>(X)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span><span class="fu">nrow</span>(X)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>out_1<span class="ot">=</span><span class="fu">which</span>(<span class="fu">diag</span>(hat)<span class="sc">&gt;</span><span class="dv">2</span><span class="sc">*</span>p<span class="sc">/</span>n)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sort</span>(<span class="fu">diag</span>(hat)[out_1]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-6-9.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># I would still look at those after the elbow</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Cooks distances</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>CDS<span class="ot">=</span><span class="fu">cooks.distance</span>(model2)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sort</span>(CDS,T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-6-10.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(CDS<span class="sc">&gt;</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>named integer(0)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(CDS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2306738</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>df_clean4[CDS<span class="sc">&gt;</span><span class="dv">1</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] District   Extwall    Stories    Year_Built Fin_sqft   Units     
+ [7] Bdrms      Fbath      Lotsize    Sale_date  Sale_price d_3       
+&lt;0 rows&gt; (or 0-length row.names)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># I would still look at those two values that are far from the other distances</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># I would still look at those before the elbow</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="co"># We may only look at numeric values for depth functions - so we can either</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>numer<span class="ot">=</span><span class="cn">NULL</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>df_clean4<span class="sc">$</span>d_3<span class="ot">=</span><span class="fu">as.factor</span>(df_clean4<span class="sc">$</span>d_3)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">names</span>(df_clean4)){</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.factor</span>(df_clean4[<span class="dv">1</span>,i])){</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    numer<span class="ot">=</span><span class="fu">c</span>(numer,i)</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>numer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Year_Built" "Fin_sqft"   "Lotsize"    "Sale_date"  "Sale_price"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>depths<span class="ot">=</span>ddalpha<span class="sc">::</span><span class="fu">depth.projection</span>(df_clean4[,numer],df_clean4[,numer])</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(depths<span class="sc">&lt;</span><span class="fl">0.1</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]   5  64 129 324 343 468 470 589 631 663</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sort</span>(depths,F)[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-6-11.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice there is a crack around 0.035, I would look at those observations</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sort</span>(depths,F)[<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-6-12.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sort</span>(depths,F))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-6-13.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># OR </span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>depths<span class="ot">=</span>ddalpha<span class="sc">::</span><span class="fu">depth.projection</span>(<span class="fu">cbind</span>(X,<span class="fu">sqrt</span>(df_clean4<span class="sc">$</span>Sale_price)),<span class="fu">cbind</span>(X,<span class="fu">sqrt</span>(df_clean4<span class="sc">$</span>Sale_price)))</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(depths<span class="sc">&lt;</span><span class="fl">0.1</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  2  5 13 26 28 34 53 64 65 66</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sort</span>(depths,F)[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Unit_6_files/figure-html/unnamed-chunk-6-14.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.max</span>(<span class="fu">diag</span>(hat))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>16833 
+11142 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.max</span>(CDS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>16833 
+11142 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(depths)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11142</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hugely expensive home!</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>df_clean4[<span class="dv">11142</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      District Extwall Stories Year_Built Fin_sqft Units Bdrms Fbath Lotsize
+16833        3   Brick       2       2005     5746     1     5     4   47045
+      Sale_date Sale_price  d_3
+16833     16526    1260000 TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>model3<span class="ot">=</span><span class="fu">lm</span>(<span class="fu">sqrt</span>(Sale_price)<span class="sc">~</span> District <span class="sc">+</span>  Extwall <span class="sc">+</span>     </span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>            Stories  <span class="sc">+</span>    Year_Built  <span class="sc">+</span> Fin_sqft  <span class="sc">+</span>   </span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>            Units   <span class="sc">+</span>     Bdrms   <span class="sc">+</span>    </span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>            Fbath  <span class="sc">+</span>    <span class="fu">log</span>(Lotsize)   <span class="sc">+</span> Sale_date <span class="sc">+</span>d_3<span class="sc">*</span>Lotsize<span class="sc">-</span>d_3,df_clean4[<span class="sc">-</span><span class="fu">which.max</span>(CDS),])</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare</span></span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>s<span class="ot">=</span><span class="fu">summary</span>(model3)</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = sqrt(Sale_price) ~ District + Extwall + Stories + 
+    Year_Built + Fin_sqft + Units + Bdrms + Fbath + log(Lotsize) + 
+    Sale_date + d_3 * Lotsize - d_3, data = df_clean4[-which.max(CDS), 
+    ])
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-321.00  -28.80    1.89   30.34  358.90 
+
+Coefficients:
+                         Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)            -9.434e+02  4.742e+01 -19.896  &lt; 2e-16 ***
+District2               3.197e+01  2.133e+00  14.986  &lt; 2e-16 ***
+District3               1.359e+02  4.013e+00  33.857  &lt; 2e-16 ***
+District4              -3.220e+01  4.475e+00  -7.194 6.46e-13 ***
+District5               9.062e+01  1.837e+00  49.326  &lt; 2e-16 ***
+District6               1.212e+01  2.677e+00   4.528 6.00e-06 ***
+District7              -5.133e+00  2.295e+00  -2.237 0.025306 *  
+District8               4.136e+01  2.543e+00  16.266  &lt; 2e-16 ***
+District9               6.329e+01  2.300e+00  27.522  &lt; 2e-16 ***
+District10              9.751e+01  1.917e+00  50.860  &lt; 2e-16 ***
+District11              1.114e+02  1.838e+00  60.590  &lt; 2e-16 ***
+District12              2.692e+01  3.110e+00   8.657  &lt; 2e-16 ***
+District13              1.095e+02  1.899e+00  57.668  &lt; 2e-16 ***
+District14              1.495e+02  1.945e+00  76.848  &lt; 2e-16 ***
+District15             -4.212e+01  2.847e+00 -14.794  &lt; 2e-16 ***
+ExtwallBlock           -8.205e+00  4.312e+00  -1.903 0.057076 .  
+ExtwallBrick            8.448e+00  8.573e-01   9.855  &lt; 2e-16 ***
+ExtwallFiber-Cement     4.313e+01  4.405e+00   9.791  &lt; 2e-16 ***
+ExtwallFrame           -5.392e+00  1.144e+00  -4.712 2.47e-06 ***
+ExtwallMasonry / Frame  4.668e+00  2.006e+00   2.327 0.019960 *  
+ExtwallPrem Wood        2.038e+01  6.582e+00   3.096 0.001962 ** 
+ExtwallStone            1.970e+01  1.803e+00  10.925  &lt; 2e-16 ***
+ExtwallStucco           6.682e+00  2.512e+00   2.660 0.007812 ** 
+Stories1.5              1.518e+01  1.160e+00  13.091  &lt; 2e-16 ***
+Stories2                1.950e+01  1.221e+00  15.971  &lt; 2e-16 ***
+Stories&gt;2               6.858e+00  1.203e+01   0.570 0.568683    
+Year_Built              3.667e-01  2.153e-02  17.033  &lt; 2e-16 ***
+Fin_sqft                7.819e-02  1.185e-03  65.975  &lt; 2e-16 ***
+Units2                 -8.114e+01  1.304e+00 -62.234  &lt; 2e-16 ***
+Units3                 -1.086e+02  4.040e+00 -26.889  &lt; 2e-16 ***
+Units&gt;3                -4.515e+01  8.622e+00  -5.236 1.65e-07 ***
+Bdrms1                 -5.402e+01  1.981e+01  -2.727 0.006395 ** 
+Bdrms2                 -3.909e+01  1.917e+01  -2.039 0.041420 *  
+Bdrms3                 -2.701e+01  1.915e+01  -1.411 0.158267    
+Bdrms4                 -3.559e+01  1.915e+01  -1.859 0.063086 .  
+Bdrms5                 -3.820e+01  1.920e+01  -1.990 0.046627 *  
+Bdrms6                 -5.453e+01  1.921e+01  -2.838 0.004543 ** 
+Bdrms7                 -7.402e+01  1.973e+01  -3.753 0.000175 ***
+Bdrms8                 -6.659e+01  2.012e+01  -3.310 0.000934 ***
+Bdrms&gt;8                -1.126e+02  2.159e+01  -5.216 1.84e-07 ***
+Fbath1                  5.974e+00  1.149e+01   0.520 0.602960    
+Fbath2                  2.847e+01  1.150e+01   2.477 0.013261 *  
+Fbath3                  4.665e+01  1.167e+01   3.997 6.43e-05 ***
+Fbath4                  6.142e+01  1.267e+01   4.846 1.26e-06 ***
+Fbath&gt;4                -1.075e+01  1.599e+01  -0.672 0.501687    
+log(Lotsize)            3.582e+01  2.799e+00  12.796  &lt; 2e-16 ***
+Sale_date               6.622e-03  3.043e-04  21.763  &lt; 2e-16 ***
+Lotsize                -1.850e-03  3.290e-04  -5.623 1.90e-08 ***
+d_3TRUE:Lotsize         1.332e-02  6.869e-04  19.386  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 51.18 on 24393 degrees of freedom
+Multiple R-squared:  0.7267,    Adjusted R-squared:  0.7261 
+F-statistic:  1351 on 48 and 24393 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = sqrt(Sale_price) ~ District + Extwall + Stories + 
+    Year_Built + Fin_sqft + Units + Bdrms + Fbath + log(Lotsize) + 
+    Sale_date + d_3 * Lotsize - d_3, data = df_clean4)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-321.26  -28.88    1.83   30.31  360.39 
+
+Coefficients:
+                         Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)            -9.602e+02  4.736e+01 -20.277  &lt; 2e-16 ***
+District2               3.198e+01  2.135e+00  14.979  &lt; 2e-16 ***
+District3               1.447e+02  3.708e+00  39.019  &lt; 2e-16 ***
+District4              -3.250e+01  4.478e+00  -7.257 4.07e-13 ***
+District5               9.059e+01  1.838e+00  49.282  &lt; 2e-16 ***
+District6               1.232e+01  2.678e+00   4.600 4.25e-06 ***
+District7              -5.148e+00  2.296e+00  -2.242 0.024989 *  
+District8               4.163e+01  2.544e+00  16.366  &lt; 2e-16 ***
+District9               6.322e+01  2.301e+00  27.477  &lt; 2e-16 ***
+District10              9.744e+01  1.918e+00  50.793  &lt; 2e-16 ***
+District11              1.112e+02  1.839e+00  60.490  &lt; 2e-16 ***
+District12              2.754e+01  3.110e+00   8.857  &lt; 2e-16 ***
+District13              1.095e+02  1.900e+00  57.613  &lt; 2e-16 ***
+District14              1.497e+02  1.946e+00  76.906  &lt; 2e-16 ***
+District15             -4.216e+01  2.849e+00 -14.797  &lt; 2e-16 ***
+ExtwallBlock           -8.222e+00  4.315e+00  -1.906 0.056705 .  
+ExtwallBrick            8.448e+00  8.578e-01   9.848  &lt; 2e-16 ***
+ExtwallFiber-Cement     4.270e+01  4.408e+00   9.688  &lt; 2e-16 ***
+ExtwallFrame           -5.459e+00  1.145e+00  -4.768 1.87e-06 ***
+ExtwallMasonry / Frame  4.695e+00  2.007e+00   2.339 0.019322 *  
+ExtwallPrem Wood        2.015e+01  6.586e+00   3.060 0.002219 ** 
+ExtwallStone            1.967e+01  1.804e+00  10.906  &lt; 2e-16 ***
+ExtwallStucco           6.901e+00  2.513e+00   2.746 0.006043 ** 
+Stories1.5              1.511e+01  1.160e+00  13.024  &lt; 2e-16 ***
+Stories2                1.940e+01  1.221e+00  15.882  &lt; 2e-16 ***
+Stories&gt;2               4.922e+00  1.203e+01   0.409 0.682581    
+Year_Built              3.606e-01  2.152e-02  16.759  &lt; 2e-16 ***
+Fin_sqft                7.881e-02  1.181e-03  66.744  &lt; 2e-16 ***
+Units2                 -8.159e+01  1.302e+00 -62.658  &lt; 2e-16 ***
+Units3                 -1.100e+02  4.035e+00 -27.264  &lt; 2e-16 ***
+Units&gt;3                -4.615e+01  8.626e+00  -5.350 8.89e-08 ***
+Bdrms1                 -5.372e+01  1.982e+01  -2.710 0.006725 ** 
+Bdrms2                 -3.891e+01  1.918e+01  -2.029 0.042483 *  
+Bdrms3                 -2.700e+01  1.916e+01  -1.409 0.158741    
+Bdrms4                 -3.564e+01  1.916e+01  -1.860 0.062899 .  
+Bdrms5                 -3.845e+01  1.921e+01  -2.002 0.045339 *  
+Bdrms6                 -5.450e+01  1.922e+01  -2.835 0.004587 ** 
+Bdrms7                 -7.387e+01  1.974e+01  -3.743 0.000182 ***
+Bdrms8                 -6.713e+01  2.013e+01  -3.335 0.000855 ***
+Bdrms&gt;8                -1.135e+02  2.161e+01  -5.256 1.49e-07 ***
+Fbath1                  6.170e+00  1.149e+01   0.537 0.591397    
+Fbath2                  2.863e+01  1.150e+01   2.489 0.012803 *  
+Fbath3                  4.760e+01  1.168e+01   4.076 4.60e-05 ***
+Fbath4                  6.076e+01  1.268e+01   4.791 1.67e-06 ***
+Fbath&gt;4                -5.056e+00  1.597e+01  -0.317 0.751598    
+log(Lotsize)            3.931e+01  2.734e+00  14.382  &lt; 2e-16 ***
+Sale_date               6.616e-03  3.045e-04  21.729  &lt; 2e-16 ***
+Lotsize                -2.250e-03  3.217e-04  -6.996 2.70e-12 ***
+d_3TRUE:Lotsize         1.144e-02  6.042e-04  18.936  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 51.21 on 24394 degrees of freedom
+Multiple R-squared:  0.727, Adjusted R-squared:  0.7264 
+F-statistic:  1353 on 48 and 24394 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice that some of the coefficients moved several standard errors!! This is a huge change - recall that outside 2 SE is outside the confidence interval. </span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">abs</span>(model3<span class="sc">$</span>coefficients<span class="sc">-</span>model2<span class="sc">$</span>coefficients)<span class="sc">/</span>s<span class="sc">$</span>coefficients[,<span class="dv">2</span>],T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       d_3TRUE:Lotsize              District3           log(Lotsize) 
+          2.7297502981           2.1971866905           1.2489775385 
+               Lotsize               Fin_sqft                Fbath&gt;4 
+          1.2173969751           0.5279266560           0.3557179406 
+           (Intercept)                 Units2                 Units3 
+          0.3548686149           0.3483112977           0.3440975682 
+            Year_Built             District12              Stories&gt;2 
+          0.2838090549           0.2009250235           0.1609478004 
+               Units&gt;3              District8    ExtwallFiber-Cement 
+          0.1158034935           0.1079176134           0.0979397132 
+            District14          ExtwallStucco                 Fbath3 
+          0.0968505363           0.0868090117           0.0811545357 
+              Stories2              District6              District4 
+          0.0809900175           0.0746760059           0.0671275338 
+            District11             Stories1.5           ExtwallFrame 
+          0.0651160136           0.0590571059           0.0589709060 
+                Fbath4                Bdrms&gt;8             District10 
+          0.0522382418           0.0424206397           0.0348954098 
+      ExtwallPrem Wood              District9                 Bdrms8 
+          0.0347734841           0.0280150217           0.0269106282 
+             Sale_date             District13                 Fbath1 
+          0.0206936434           0.0177781436           0.0170112211 
+                Bdrms1                 Fbath2 ExtwallMasonry / Frame 
+          0.0148955698           0.0141436974           0.0136770147 
+                Bdrms5              District5             District15 
+          0.0131294534           0.0122119997           0.0121572452 
+          ExtwallStone                 Bdrms2                 Bdrms7 
+          0.0115155040           0.0092235530           0.0075798342 
+             District7           ExtwallBlock              District2 
+          0.0063212030           0.0040912402           0.0033830696 
+                Bdrms4                 Bdrms6                 Bdrms3 
+          0.0025300928           0.0012446363           0.0006895854 
+          ExtwallBrick 
+          0.0004495469 </code></pre>
+</div>
+</div>
+<p>How should we treat influential observations? The easiest course of action is removal. If there are many influential observations, then you might want to try robust model fitting methods, which automatically account for outliers and influential observations.</p>
+</section>
+<section id="homework-questions" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="homework-questions"><span class="header-section-number">7.4</span> Homework questions</h2>
+<p>Complete the Chapter 6 textbook questions. :::{#exr-7-4-1} What are the three methods we have learned for detecting influential/leverage points? :::</p>
+<div id="exr-7-4-2" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 7.1 </strong></span>Compute the hat values, Cook’s distances and the depth values for the body weight example. Are there any influential/leverage points/outliers?</p>
+</div>
+<div id="exr-7-4-3" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 7.2 </strong></span>Compute the hat values, Cook’s distances and the depth values for the cars example. Are there any outliers/influential/leverage points?</p>
+</div>
+<div id="exr-7-4-4" class="theorem exercise">
+<p><span class="theorem-title"><strong>Exercise 7.3 </strong></span>Fit a model without location to the real estate data of your choosing. Compute the hat values, Cook’s distances and the depth values for the cars example. Are there any influential/leverage points/outliers? Print out the influential/leverage points/outliers. Why do you think they are outlying? Should we remove them?</p>
+</div>
+<p>\end{document}</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Unit_5.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Indicator Variables</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Unit_7.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multicollinearity</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

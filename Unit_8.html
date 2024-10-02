@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.53">
+<meta name="generator" content="quarto-1.3.353">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>9&nbsp; Variable/Model Selection – Math 3330: Regression Notes</title>
+<title>Math 3330: Regression Notes - 9&nbsp; Variable/Model Selection</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -81,13 +81,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 50,
-  "keyboard-shortcut": [
-    "f",
-    "/",
-    "s"
-  ],
-  "show-item-context": false,
+  "limit": 20,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -96,42 +90,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
-    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-submit-button-title": "Submit"
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -141,12 +106,12 @@ window.Quarto = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Unit_8.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Variable/Model Selection</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Unit_8.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Variable/Model Selection</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -156,7 +121,7 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Math 3330: Regression Notes</a> 
@@ -243,9 +208,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
  <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -261,7 +226,7 @@ window.Quarto = {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -306,9 +271,7 @@ window.Quarto = {
   </div>
   
 
-
 </header>
-
 
 <section id="variable-selection" class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="variable-selection"><span class="header-section-number">9.1</span> Variable Selection</h2>
@@ -355,7 +318,7 @@ Note
 <h3 data-number="9.2.1" class="anchored" data-anchor-id="coefficients-of-determination"><span class="header-section-number">9.2.1</span> Coefficients of determination</h3>
 <p>Recall that <span class="math display">\[R^2=\frac{SSModel}{SST}=1-\frac{SSE}{SST}.\]</span> We know that <span class="math inline">\(R^2\)</span> increases as <span class="math inline">\(p\)</span> increases, so we cannot choose the model with the largest <span class="math inline">\(R^2\)</span>. However, we could add variables one at a time until the marginal increase in <span class="math inline">\(R^2\)</span> is small.</p>
 <div id="exm-8-1-1" class="theorem example">
-<p><span class="theorem-title"><strong>Example 9.1</strong></span> Recall example <a href="Unit_5.html#exm-6-4-1" class="quarto-xref">Example&nbsp;<span>6.6</span></a>. Investigate the <span class="math inline">\(R^2\)</span> curve through adding the variables one at a time.</p>
+<p><span class="theorem-title"><strong>Example 9.1 </strong></span>Recall example <a href="Unit_5.html#exm-6-4-1">Example&nbsp;<span>6.6</span></a>. Investigate the <span class="math inline">\(R^2\)</span> curve through adding the variables one at a time.</p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>custom_palette <span class="ot">=</span> <span class="fu">c</span>(</span>
@@ -388,11 +351,7 @@ Note
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(r2,<span class="at">type=</span><span class="st">'l'</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">ylab=</span><span class="st">"R2"</span>,<span class="at">xlab=</span><span class="st">"# variables"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_8_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>var_list[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -413,11 +372,7 @@ Note
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(r2,<span class="at">type=</span><span class="st">'l'</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">ylab=</span><span class="st">"R2"</span>,<span class="at">xlab=</span><span class="st">"# variables"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_8_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>var_list[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -438,7 +393,7 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 <p>Observe that if <span class="math inline">\(k = p\)</span> then <span class="math display">\[C_k = C_{p} = dfE_C - [n - 2p] = p = k.\]</span></p>
 <p>Let <span class="math inline">\(\operatorname{Bias}={\textrm{E}}\left[\hat Y_i\right]-{\textrm{E}}\left[Y_i\right]\)</span> where <span class="math inline">\(\hat Y_i\)</span> are generated from the reduced model. It can be shown that <span class="math display">\[E\left[C_k \mid \operatorname{Bias}=0\right]=k.\]</span> That is, if the regression model based on the subset of <span class="math inline">\(k-1\)</span> predictors is unbiased, then we expect <span class="math inline">\(C_k\)</span> to be roughly <span class="math inline">\(k\)</span>. In addition, if there is bias, then <span class="math inline">\(E[C_k ]&gt;k\)</span>. Therefore, it is suggested that from all possible models, we choose the model with <span class="math inline">\(C_k\)</span> close to <span class="math inline">\(k\)</span> <strong>and</strong> <span class="math inline">\(C_k \leq k\)</span>. This is a littble bit subjective: For example, the smallest <span class="math inline">\(C_k\)</span> is <span class="math inline">\(C_4 = 4.1\)</span> and the next smallest is <span class="math inline">\(C_5 = 4.7\)</span>. <span class="math inline">\(C_4\)</span> is smallest but <span class="math inline">\(C_4&gt;4\)</span> – the model may be biased. Now, <span class="math inline">\(C_5\)</span> is the second smallest, <span class="math inline">\(C_5&lt;5\)</span> implies the model is likely not biased.</p>
 <div id="exm-8-1-2" class="theorem example">
-<p><span class="theorem-title"><strong>Example 9.2</strong></span> Recall example <a href="Unit_5.html#exm-6-4-1" class="quarto-xref">Example&nbsp;<span>6.6</span></a>. Investigate the Mallows <span class="math inline">\(C_k\)</span> of the models considered in <a href="#exm-8-1-1" class="quarto-xref">Example&nbsp;<span>9.9</span></a>. In addition, compare the <code>model_1</code> and <code>model_2</code> below, using <code>full_model</code> as the complete model.</p>
+<p><span class="theorem-title"><strong>Example 9.2 </strong></span>Recall example <a href="Unit_5.html#exm-6-4-1">Example&nbsp;<span>6.6</span></a>. Investigate the Mallows <span class="math inline">\(C_k\)</span> of the models considered in <a href="#exm-8-1-1">Example&nbsp;<span>9.9</span></a>. In addition, compare the <code>model_1</code> and <code>model_2</code> below, using <code>full_model</code> as the complete model.</p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mallows C</span></span>
@@ -462,11 +417,11 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_mallows_cp</span>(model_1,full_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 17157</code></pre>
+<pre><code>[1] 17131</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>olsrr<span class="sc">::</span><span class="fu">ols_mallows_cp</span>(model_2,full_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3577.586</code></pre>
+<pre><code>[1] 3505.586</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(var_list)){</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  vars<span class="ot">=</span><span class="fu">c</span>(var_list[<span class="dv">1</span><span class="sc">:</span>i],<span class="st">"Sale_price"</span>)</span>
@@ -475,21 +430,21 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    olsrr<span class="sc">::</span><span class="fu">ols_mallows_cp</span>(model,full_model),<span class="at">sep=</span><span class="st">""</span>))</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "k1 mallows C_k 40574.5008352943"
-[1] "k2 mallows C_k 35626.028670199"
-[1] "k3 mallows C_k 31187.8465791986"
-[1] "k4 mallows C_k 30272.8161115604"
-[1] "k5 mallows C_k 14817.9666340636"
-[1] "k6 mallows C_k 6239.00700048942"
-[1] "k7 mallows C_k 5688.03575517511"
-[1] "k8 mallows C_k 4370.06818957911"
-[1] "k9 mallows C_k 4111.89603591026"
-[1] "k10 mallows C_k 3694.28930435529"</code></pre>
+<pre><code>[1] "k1 mallows C_k 40548.5008352938"
+[1] "k2 mallows C_k 35586.0286701987"
+[1] "k3 mallows C_k 31143.8465791983"
+[1] "k4 mallows C_k 30228.81611156"
+[1] "k5 mallows C_k 14773.9666340633"
+[1] "k6 mallows C_k 6191.00700048948"
+[1] "k7 mallows C_k 5624.03575517497"
+[1] "k8 mallows C_k 4298.06818957892"
+[1] "k9 mallows C_k 4039.89603591008"
+[1] "k10 mallows C_k 3622.28930435513"</code></pre>
 </div>
 </div>
 <p>If every potential model has a high value for Mallows <span class="math inline">\(C_k\)</span>, this is an indication that some important predictor variables are likely missing from each model. Therefore, we may wish to revaluate the real estate model.</p>
 <div id="exm-8-2-1" class="theorem example">
-<p><span class="theorem-title"><strong>Example 9.3</strong></span> Use the NFL data from the textbook - Consider the following models provided below. Select the best model from <code>model</code>, <code>model_1</code> and <code>model_2</code> given below, using each of the coefficient of determination criteria and Mallows <span class="math inline">\(C_k\)</span>.</p>
+<p><span class="theorem-title"><strong>Example 9.3 </strong></span>Use the NFL data from the textbook - Consider the following models provided below. Select the best model from <code>model</code>, <code>model_1</code> and <code>model_2</code> given below, using each of the coefficient of determination criteria and Mallows <span class="math inline">\(C_k\)</span>.</p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">=</span>MPV<span class="sc">::</span>table.b1</span>
@@ -533,11 +488,7 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 </div>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_8_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>RushDiff<span class="ot">=</span>(df<span class="sc">$</span>RushY<span class="sc">-</span>df<span class="sc">$</span>ORY)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -610,7 +561,7 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 <li><span class="math inline">\(BIC\)</span> can be computed for other models, but should only be compared within model classes</li>
 </ul>
 <div id="exm-8-2-2" class="theorem example">
-<p><span class="theorem-title"><strong>Example 9.4</strong></span> Recall example <a href="Unit_5.html#exm-6-4-1" class="quarto-xref">Example&nbsp;<span>6.6</span></a>. Investigate the AIC and BIC of the models considered in <a href="#exm-8-1-1" class="quarto-xref">Example&nbsp;<span>9.9</span></a>. In addition, compare the <code>model_1</code>, <code>model_2</code> and the <code>full_model</code> using AIC and BIC.</p>
+<p><span class="theorem-title"><strong>Example 9.4 </strong></span>Recall example <a href="Unit_5.html#exm-6-4-1">Example&nbsp;<span>6.6</span></a>. Investigate the AIC and BIC of the models considered in <a href="#exm-8-1-1">Example&nbsp;<span>9.9</span></a>. In addition, compare the <code>model_1</code>, <code>model_2</code> and the <code>full_model</code> using AIC and BIC.</p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mallows C</span></span>
@@ -651,10 +602,10 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 <span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>               <span class="fu">AIC</span>(model),<span class="at">sep=</span><span class="st">""</span>))</span>
 <span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "k1 AIC 612758.302056695"
+<pre><code>[1] "k1 AIC 612758.302056694"
 [1] "k2 AIC 610831.898564347"
 [1] "k3 AIC 608957.605436705"
-[1] "k4 AIC 608552.940741353"
+[1] "k4 AIC 608552.940741352"
 [1] "k5 AIC 600431.017183595"
 [1] "k6 AIC 594395.93413908"
 [1] "k7 AIC 593955.469235904"
@@ -689,14 +640,14 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 [1] "k5 AIC 600666.0360591"
 [1] "k6 AIC 594655.265312051"
 [1] "k7 AIC 594287.737301273"
-[1] "k8 AIC 593233.518316998"
+[1] "k8 AIC 593233.518316997"
 [1] "k9 AIC 593021.210084183"
 [1] "k10 AIC 592668.287169261"</code></pre>
 </div>
 </div>
 <p>We would select <code>full_model</code> as the final model, since it has the lowest values of both AIC and BIC.</p>
 <div id="exm-8-3-2" class="theorem example">
-<p><span class="theorem-title"><strong>Example 9.5</strong></span> Use the NFL data from the textbook - Consider the following models provided below. Select the best model from <code>model</code>, <code>model_1</code> and <code>model_2</code> given below, using each of AIC and BIC.</p>
+<p><span class="theorem-title"><strong>Example 9.5 </strong></span>Use the NFL data from the textbook - Consider the following models provided below. Select the best model from <code>model</code>, <code>model_1</code> and <code>model_2</code> given below, using each of AIC and BIC.</p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>model<span class="ot">=</span><span class="fu">lm</span>(Wins<span class="sc">~</span>PassY<span class="sc">+</span>PuntA<span class="sc">+</span>FGP<span class="sc">+</span>TurnD<span class="sc">+</span>PenY<span class="sc">+</span>OPY<span class="sc">+</span>RushDiff,<span class="at">data=</span>df)</span>
@@ -755,11 +706,7 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 <span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
 <span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(data,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_8_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># complexity of the model </span></span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>complexity<span class="ot">=</span><span class="dv">9</span></span>
@@ -798,11 +745,7 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 <span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Linear vs. Polynomial Regression (Degree 9)"</span>,</span>
 <span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X"</span>, <span class="at">y =</span> <span class="st">"Y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_8_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate new data from the same process</span></span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">=</span> <span class="dv">500</span></span>
@@ -830,7 +773,7 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 </div>
 <p>Above, we fit two models to the data. One that allows for polynomial functions of degree at most 9 (not just linear functions), and one that only allows linear functions. It is clear that the polynomial model has a lower error on the data set at hand. However, when we generate new data from the same process, the polynomial model has a much higher error. This is an example of overfitting - the complex model does not generalize well beyond the current data set.</p>
 <div id="exm-8-3-3" class="theorem example">
-<p><span class="theorem-title"><strong>Example 9.6</strong></span> Use the NFL data from the textbook - Perform all subsets regression with each of the metrics described above.</p>
+<p><span class="theorem-title"><strong>Example 9.6 </strong></span>Use the NFL data from the textbook - Perform all subsets regression with each of the metrics described above.</p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages('leaps')</span></span>
@@ -841,35 +784,19 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 <span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'r2'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_8_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'adjr2'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_8_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'Cp'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_8_files/figure-html/unnamed-chunk-9-3.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-9-3.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'bic'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_8_files/figure-html/unnamed-chunk-9-4.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-9-4.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>The <code>leaps</code> package allows us to do all subsets regression. We see that (with the exception of the <span class="math inline">\(R\)</span>-squared) the best model under all criterion contains passing yards, rushing yard differential, and opponent passing yards.</p>
@@ -894,35 +821,19 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 <span id="cb79-17"><a href="#cb79-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb79-18"><a href="#cb79-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'r2'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_8_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'adjr2'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_8_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'Cp'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_8_files/figure-html/unnamed-chunk-10-3.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-10-3.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(all,<span class="at">scale=</span><span class="st">'bic'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_8_files/figure-html/unnamed-chunk-10-4.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-10-4.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>The selected models appear fairly sparse!</p>
@@ -935,7 +846,7 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 <li>Choose <span class="math inline">\(\alpha_{entry}\)</span>, which is the significance level for a regressor to enter the model. Set the current model to be <span class="math inline">\(Y = \beta_0 + \epsilon\)</span>.</li>
 <li>Among all regressors <span class="math inline">\(X_i\)</span> not in the current model, test <span class="math inline">\(H_0: X_i\)</span> not entered versus <span class="math inline">\(H_a: X_i\)</span> entered.</li>
 <li>Choose the covariate with smallest <span class="math inline">\(p\)</span>-value, i.e.&nbsp;the most likely <span class="math inline">\(X_i\)</span> to be entered. Say the <span class="math inline">\(p\)</span>-value for testing <span class="math inline">\(H_0: \beta_1 =0\)</span> is the smallest.</li>
-<li>If the chosen <span class="math inline">\(p\)</span>-value is <span class="math inline">\(\geq  \alpha_{entry}\)</span>, then <span class="math inline">\(X_1\)</span> is not entered, and the current model is chosen as the final model and the process terminates. Otherwise, <span class="math inline">\(X_1\)</span> is entered and the new current model is set to the current model, with the addition of <span class="math inline">\(X_1\)</span>.</li>
+<li>If the chosen <span class="math inline">\(p\)</span>-value is <span class="math inline">\(\geq \alpha_{entry}\)</span>, then <span class="math inline">\(X_1\)</span> is not entered, and the current model is chosen as the final model and the process terminates. Otherwise, <span class="math inline">\(X_1\)</span> is entered and the new current model is set to the current model, with the addition of <span class="math inline">\(X_1\)</span>.</li>
 <li>Return to step 2.</li>
 </ol>
 <!-- - Now $X_1$ is in the model, then among all the models with 2 explanatory -->
@@ -953,10 +864,10 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 <!-- \beta_2 X_2 + \epsilon$ and continue to the next step -->
 <p>Note that once an explanatory variable is entered, it will never leave the model.</p>
 <div id="exm-8-4-1" class="theorem example">
-<p><span class="theorem-title"><strong>Example 9.7</strong></span> Suppose that we have 3 explanatory variables and <span class="math inline">\(\alpha_{entry}\)</span> is chosen to be 0.05. The following is how we would proceed.</p>
+<p><span class="theorem-title"><strong>Example 9.7 </strong></span>Suppose that we have 3 explanatory variables and <span class="math inline">\(\alpha_{entry}\)</span> is chosen to be 0.05. The following is how we would proceed.</p>
 </div>
 <p>Iteration 1:</p>
-<table class="caption-top table">
+<table class="table">
 <thead>
 <tr class="header">
 <th>Model</th>
@@ -984,7 +895,7 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 </table>
 <p>Since 0.00033 is the smallest <span class="math inline">\(p\)</span>-value and it is less than <span class="math inline">\(\alpha_{entry}\)</span>, the chosen model is <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \epsilon\)</span>, and we continue to the next iteration.</p>
 <p>Iteration 2:</p>
-<table class="caption-top table">
+<table class="table">
 <colgroup>
 <col style="width: 68%">
 <col style="width: 18%">
@@ -1012,7 +923,7 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 </table>
 <p>Since 0.01330 is the smallest <span class="math inline">\(p\)</span>-value and it is less than <span class="math inline">\(\alpha_{entry}\)</span>, the chosen model is <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon\)</span>, and we continue to the next iteration.</p>
 <p>Iteration 3:</p>
-<table class="caption-top table">
+<table class="table">
 <colgroup>
 <col style="width: 71%">
 <col style="width: 17%">
@@ -1044,15 +955,15 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 <li>Choose: <span class="math inline">\(\alpha_{stay}\)</span>, which is the significance level for an explanatory variable to <strong>stay</strong> in the model. Set the current model to be <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \ldots + \beta_{p-1} X_{p-1} + \epsilon\)</span>.</li>
 <li>Test <span class="math inline">\(H_0: X_i\)</span> eliminated versus <span class="math inline">\(H_a: X_i\)</span> not eliminated, i.e.&nbsp;<span class="math inline">\(H_0: \beta_i =0\)</span> versus <span class="math inline">\(H_a: \beta_i \ne 0\)</span> with respect to the current model.</li>
 <li>Choose the regressor with the largest <span class="math inline">\(p\)</span>-value – i.e., the most likely <span class="math inline">\(X_i\)</span> to be eliminated. Say <span class="math inline">\(p\)</span>-value for testing <span class="math inline">\(H_0: \beta_p =0\)</span> is the largest.</li>
-<li>If the chosen <span class="math inline">\(p\)</span>-value is <span class="math inline">\(&lt;  \alpha_{stay}\)</span>, then <span class="math inline">\(X_p\)</span> is not eliminated, and the chosen model is the current model and the process terminates. Otherwise, <span class="math inline">\(X_p\)</span> is eliminated and the current model is set to be the old current model, with <span class="math inline">\(X_p\)</span> removed.</li>
+<li>If the chosen <span class="math inline">\(p\)</span>-value is <span class="math inline">\(&lt; \alpha_{stay}\)</span>, then <span class="math inline">\(X_p\)</span> is not eliminated, and the chosen model is the current model and the process terminates. Otherwise, <span class="math inline">\(X_p\)</span> is eliminated and the current model is set to be the old current model, with <span class="math inline">\(X_p\)</span> removed.</li>
 <li>If there are no regressors in the current model, terminate. Otherwise, go back to step 2.</li>
 </ol>
 <div id="exm-8-4-2" class="theorem example">
-<p><span class="theorem-title"><strong>Example 9.8</strong></span> Suppose that we have 3 explanatory variables and <span class="math inline">\(\alpha_{stay}\)</span> is chosen to be 0.05. The following is how we would proceed.</p>
+<p><span class="theorem-title"><strong>Example 9.8 </strong></span>Suppose that we have 3 explanatory variables and <span class="math inline">\(\alpha_{stay}\)</span> is chosen to be 0.05. The following is how we would proceed.</p>
 </div>
 <p>The current model is <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \epsilon\)</span>.</p>
 <p>Iteration 1:</p>
-<table class="caption-top table">
+<table class="table">
 <thead>
 <tr class="header">
 <th><span class="math inline">\(H_a:\)</span></th>
@@ -1077,7 +988,7 @@ C_k = \frac{SSE_R}{MSE_C} - (n - 2k)
 <p>Since 0.36145 is the largest <span class="math inline">\(p\)</span>-value and it is greater than <span class="math inline">\(\alpha_{stay}\)</span>, the current model is set to be <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon\)</span>, and we continue to the next iteration.</p>
 <p>Iteration 2:</p>
 <p>Model is <span class="math inline">\(Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon\)</span>.</p>
-<table class="caption-top table">
+<table class="table">
 <thead>
 <tr class="header">
 <th><span class="math inline">\(H_a:\)</span></th>
@@ -1121,14 +1032,14 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>One way to avoid the infinite loop is to choose <span class="math inline">\(\alpha_{stay} \neq  \alpha_{entry}\)</span>.</li>
-<li>Some books suggest “easy to enter” and “tough to eliminate” strategy for selecting <span class="math inline">\(\alpha_{stay},  \alpha_{entry}\)</span> but there is no strict rule.</li>
+<li>One way to avoid the infinite loop is to choose <span class="math inline">\(\alpha_{stay} \neq \alpha_{entry}\)</span>.</li>
+<li>Some books suggest “easy to enter” and “tough to eliminate” strategy for selecting <span class="math inline">\(\alpha_{stay}, \alpha_{entry}\)</span> but there is no strict rule.</li>
 <li><code>R</code> is using the AIC criterion for entering and eliminating, rather than the <span class="math inline">\(F\)</span> test. This is also acceptable.</li>
 </ol>
 </div>
 </div>
 <div id="exm-8-1-1" class="theorem example">
-<p><span class="theorem-title"><strong>Example 9.9</strong></span> Recall the real estate example - <a href="Unit_5.html#exm-6-4-1" class="quarto-xref">Example&nbsp;<span>6.6</span></a>. Run forward selection, backward selection and stepwise regression using AIC as the criterion, including all regressors. (AIC is done automatically in R.)</p>
+<p><span class="theorem-title"><strong>Example 9.9 </strong></span>Recall the real estate example - <a href="Unit_5.html#exm-6-4-1">Example&nbsp;<span>6.6</span></a>. Run forward selection, backward selection and stepwise regression using AIC as the criterion, including all regressors. (AIC is done automatically in R.)</p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ########### Automated methods ###########</span></span>
@@ -1267,7 +1178,7 @@ Note
 </div>
 <p>These methods retain many more variables. It is interesting, considering all subsets contained very few.</p>
 <div id="exm-8-3-4" class="theorem example">
-<p><span class="theorem-title"><strong>Example 9.10</strong></span> Use the NFL data from the textbook - Run forward selection and backward selection including all regressors using the <span class="math inline">\(F\)</span> statistic criterion.</p>
+<p><span class="theorem-title"><strong>Example 9.10 </strong></span>Use the NFL data from the textbook - Run forward selection and backward selection including all regressors using the <span class="math inline">\(F\)</span> statistic criterion.</p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="do">############ Forward selection by F value</span></span>
@@ -1487,7 +1398,7 @@ Note
 </div>
 </div>
 <div id="exr-8-3-4" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 9.1</strong></span> Use the NFL data from the textbook - modify the above code to perform stepwise regression, including all regressors using the <span class="math inline">\(F\)</span> statistic criterion.</p>
+<p><span class="theorem-title"><strong>Exercise 9.1 </strong></span>Use the NFL data from the textbook - modify the above code to perform stepwise regression, including all regressors using the <span class="math inline">\(F\)</span> statistic criterion.</p>
 </div>
 </section>
 </section>
@@ -1507,7 +1418,7 @@ Note
 </ol>
 <p>To highlight the choice of <span class="math inline">\(k\)</span>, we say <span class="math inline">\(k\)</span>-fold Cross Validation – Each of the <span class="math inline">\(k\)</span> subsets are known as folds. What do we choose for <span class="math inline">\(k\)</span>? LOOCV (Leave One Out Cross Validation) is a popular technique. Here, <span class="math inline">\(k=n\)</span>. This is where each run, one observation is left out of the model. This gives a low bias, but high variation estimate of the prediction error. It also has a high run time. As a result, often, <span class="math inline">\(k\)</span> is taken to be 5 or 10. Taking lower values of <span class="math inline">\(k\)</span> gives a result similar to that of splitting the data into training and test sets, while higher values of <span class="math inline">\(k\)</span> gives a result similar to LOOCV. The choice of the number of folds in cross validation is a bias-variance tradeoff: too few folds may result in high bias, while too many folds may result in high variance. (This is why <span class="math inline">\(k\)</span> is taken between 1 and <span class="math inline">\(n\)</span>.)</p>
 <div id="exm-8-5-1" class="theorem example">
-<p><span class="theorem-title"><strong>Example 9.11</strong></span> Using the real estate data, run cross validation in a forward selection manner. That is, run the cross validation procedure for the model with the first variable, the first and the second variable, the first three variables etc. Which model has the lowest error?</p>
+<p><span class="theorem-title"><strong>Example 9.11 </strong></span>Using the real estate data, run cross validation in a forward selection manner. That is, run the cross validation procedure for the model with the first variable, the first and the second variable, the first three variables etc. Which model has the lowest error?</p>
 </div>
 <p>The <code>caret</code> package can be used to perform 5-fold CV.</p>
 <div class="cell">
@@ -1515,7 +1426,7 @@ Note
 <span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages('caret')</span></span>
 <span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'caret' was built under R version 4.4.1</code></pre>
+<pre><code>Warning: package 'caret' was built under R version 4.2.3</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: lattice</code></pre>
@@ -1524,28 +1435,43 @@ Note
 <span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>ctrl <span class="ot">=</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>)</span>
 <span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a><span class="co">#fit a regression model and use k-fold CV to evaluate performance</span></span>
-<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">train</span>(Sale_price<span class="sc">~</span>., <span class="at">data =</span> df2, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
-<span id="cb106-6"><a href="#cb106-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb106-7"><a href="#cb106-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb106-8"><a href="#cb106-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(var_list)){</span>
-<span id="cb106-9"><a href="#cb106-9" aria-hidden="true" tabindex="-1"></a>  vars<span class="ot">=</span><span class="fu">c</span>(var_list[<span class="dv">1</span><span class="sc">:</span>i],<span class="st">"Sale_price"</span>)</span>
-<span id="cb106-10"><a href="#cb106-10" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">=</span> <span class="fu">train</span>(Sale_price<span class="sc">~</span>., <span class="at">data =</span> df2[,vars], <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
-<span id="cb106-11"><a href="#cb106-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"k"</span> ,i,<span class="st">" CV Result "</span>, model<span class="sc">$</span>results<span class="sc">$</span>RMSE,<span class="at">sep=</span><span class="st">""</span>))</span>
-<span id="cb106-12"><a href="#cb106-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "k1 CV Result 66912.7355323835"
-[1] "k2 CV Result 64288.4426359391"
-[1] "k3 CV Result 61819.6176427862"
-[1] "k4 CV Result 61336.9593108534"
-[1] "k5 CV Result 52061.7475798043"
-[1] "k6 CV Result 46100.1776666704"
-[1] "k7 CV Result 45683.6103871801"
-[1] "k8 CV Result 44988.2437790467"
-[1] "k9 CV Result 44668.1058505921"
-[1] "k10 CV Result 44282.8184779539"</code></pre>
+<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">train</span>(Sale_price<span class="sc">~</span>., <span class="at">data =</span> df2, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co">#view summary of k-fold CV               </span></span>
-<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(var_list)){</span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>  vars<span class="ot">=</span><span class="fu">c</span>(var_list[<span class="dv">1</span><span class="sc">:</span>i],<span class="st">"Sale_price"</span>)</span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">=</span> <span class="fu">train</span>(Sale_price<span class="sc">~</span>., <span class="at">data =</span> df2[,vars], <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
+<span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"k"</span> ,i,<span class="st">" CV Result "</span>, model<span class="sc">$</span>results<span class="sc">$</span>RMSE,<span class="at">sep=</span><span class="st">""</span>))</span>
+<span id="cb109-5"><a href="#cb109-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "k1 CV Result 66912.7355323838"
+[1] "k2 CV Result 64288.4426359389"
+[1] "k3 CV Result 61819.6176427859"
+[1] "k4 CV Result 61336.9593108528"
+[1] "k5 CV Result 52061.7475798042"
+[1] "k6 CV Result 46100.1776666706"
+[1] "k7 CV Result 45683.6103871796"
+[1] "k8 CV Result 44988.2437790465"
+[1] "k9 CV Result 44668.105850592"
+[1] "k10 CV Result 44282.8184779538"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co">#view summary of k-fold CV               </span></span>
+<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear Regression 
 
@@ -1562,22 +1488,38 @@ Resampling results:
 
 Tuning parameter 'intercept' was held constant at a value of TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We see that all of the variables minimize the prediction error. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We see that all of the variables minimize the prediction error. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="exm-8-5-2" class="theorem example">
-<p><span class="theorem-title"><strong>Example 9.12</strong></span> Use the NFL data from the textbook. 1. Compare the model <code>Wins~.</code> to the model <code>Wins~PassY+PuntA+FGP+TurnD+PenY+OPY+RushDiff</code>. 2. Run cross validation in a forward selection manner. That is, run the cross validation procedure for the model with the first variable, the first and the second variable, the first three variables etc. Which model has the lowest error? 3. Run cross validation for all subsets. Which model has the lowest error? Does it match the result in step 2?</p>
+<p><span class="theorem-title"><strong>Example 9.12 </strong></span>Use the NFL data from the textbook. 1. Compare the model <code>Wins~.</code> to the model <code>Wins~PassY+PuntA+FGP+TurnD+PenY+OPY+RushDiff</code>. 2. Run cross validation in a forward selection manner. That is, run the cross validation procedure for the model with the first variable, the first and the second variable, the first three variables etc. Which model has the lowest error? 3. Run cross validation for all subsets. Which model has the lowest error? Does it match the result in step 2?</p>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="do">########### Cross Validation Regression ###########</span></span>
-<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1251</span>)</span>
-<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a><span class="co">#specify the cross-validation method</span></span>
-<span id="cb111-6"><a href="#cb111-6" aria-hidden="true" tabindex="-1"></a>ctrl <span class="ot">=</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>)</span>
-<span id="cb111-7"><a href="#cb111-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb111-8"><a href="#cb111-8" aria-hidden="true" tabindex="-1"></a><span class="co">#fit a regression model and use k-fold CV to evaluate performance</span></span>
-<span id="cb111-9"><a href="#cb111-9" aria-hidden="true" tabindex="-1"></a>model_cv_1 <span class="ot">=</span> <span class="fu">train</span>(Wins<span class="sc">~</span>., <span class="at">data =</span> df, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
-<span id="cb111-10"><a href="#cb111-10" aria-hidden="true" tabindex="-1"></a>model_cv_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="do">########### Cross Validation Regression ###########</span></span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1251</span>)</span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a><span class="co">#specify the cross-validation method</span></span>
+<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a>ctrl <span class="ot">=</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>)</span>
+<span id="cb114-7"><a href="#cb114-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-8"><a href="#cb114-8" aria-hidden="true" tabindex="-1"></a><span class="co">#fit a regression model and use k-fold CV to evaluate performance</span></span>
+<span id="cb114-9"><a href="#cb114-9" aria-hidden="true" tabindex="-1"></a>model_cv_1 <span class="ot">=</span> <span class="fu">train</span>(Wins<span class="sc">~</span>., <span class="at">data =</span> df, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>model_cv_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear Regression 
 
@@ -1594,8 +1536,8 @@ Resampling results:
 
 Tuning parameter 'intercept' was held constant at a value of TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>model_cv_2 <span class="ot">=</span> <span class="fu">train</span>(Wins<span class="sc">~</span>PassY<span class="sc">+</span>PuntA<span class="sc">+</span>FGP<span class="sc">+</span>TurnD<span class="sc">+</span>PenY<span class="sc">+</span>OPY<span class="sc">+</span>RushDiff, <span class="at">data =</span> df, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
-<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>model_cv_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>model_cv_2 <span class="ot">=</span> <span class="fu">train</span>(Wins<span class="sc">~</span>PassY<span class="sc">+</span>PuntA<span class="sc">+</span>FGP<span class="sc">+</span>TurnD<span class="sc">+</span>PenY<span class="sc">+</span>OPY<span class="sc">+</span>RushDiff, <span class="at">data =</span> df, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>model_cv_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear Regression 
 
@@ -1612,13 +1554,13 @@ Resampling results:
 
 Tuning parameter 'intercept' was held constant at a value of TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(df)){</span>
-<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># reg=sample(2:10,sample(1:9,1))</span></span>
-<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>  vars<span class="ot">=</span><span class="fu">c</span>(<span class="fu">names</span>(df)[<span class="dv">2</span><span class="sc">:</span>i],<span class="st">'Wins'</span>)</span>
-<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">=</span> <span class="fu">train</span>(Wins<span class="sc">~</span>., <span class="at">data =</span> df[,vars], <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
-<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"k="</span> ,i<span class="dv">-1</span>,<span class="st">" vars "</span>,<span class="fu">paste</span>(vars,<span class="at">collapse=</span><span class="st">' '</span>),<span class="st">" CV Result "</span>,</span>
-<span id="cb115-6"><a href="#cb115-6" aria-hidden="true" tabindex="-1"></a>               <span class="fu">round</span>(model<span class="sc">$</span>results<span class="sc">$</span>RMSE,<span class="dv">1</span>),<span class="at">sep=</span><span class="st">""</span>))</span>
-<span id="cb115-7"><a href="#cb115-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(df)){</span>
+<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># reg=sample(2:10,sample(1:9,1))</span></span>
+<span id="cb120-3"><a href="#cb120-3" aria-hidden="true" tabindex="-1"></a>  vars<span class="ot">=</span><span class="fu">c</span>(<span class="fu">names</span>(df)[<span class="dv">2</span><span class="sc">:</span>i],<span class="st">'Wins'</span>)</span>
+<span id="cb120-4"><a href="#cb120-4" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">=</span> <span class="fu">train</span>(Wins<span class="sc">~</span>., <span class="at">data =</span> df[,vars], <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
+<span id="cb120-5"><a href="#cb120-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"k="</span> ,i<span class="dv">-1</span>,<span class="st">" vars "</span>,<span class="fu">paste</span>(vars,<span class="at">collapse=</span><span class="st">' '</span>),<span class="st">" CV Result "</span>,</span>
+<span id="cb120-6"><a href="#cb120-6" aria-hidden="true" tabindex="-1"></a>               <span class="fu">round</span>(model<span class="sc">$</span>results<span class="sc">$</span>RMSE,<span class="dv">1</span>),<span class="at">sep=</span><span class="st">""</span>))</span>
+<span id="cb120-7"><a href="#cb120-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "k=1 vars RushY Wins CV Result 2.9"
 [1] "k=2 vars RushY PassY Wins CV Result 2.3"
@@ -1628,46 +1570,1980 @@ Tuning parameter 'intercept' was held constant at a value of TRUE</code></pre>
 [1] "k=6 vars RushY PassY PuntA FGP TurnD PenY Wins CV Result 2.5"
 [1] "k=7 vars RushY PassY PuntA FGP TurnD PenY PerR Wins CV Result 2.5"
 [1] "k=8 vars RushY PassY PuntA FGP TurnD PenY PerR ORY Wins CV Result 2.5"
-[1] "k=9 vars RushY PassY PuntA FGP TurnD PenY PerR ORY OPY Wins CV Result 2"
-[1] "k=10 vars RushY PassY PuntA FGP TurnD PenY PerR ORY OPY RushDiff Wins CV Result 2.5"</code></pre>
+[1] "k=9 vars RushY PassY PuntA FGP TurnD PenY PerR ORY OPY Wins CV Result 2"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select model k=9 vars</span></span>
-<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb117-4"><a href="#cb117-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="fu">ncol</span>(df)<span class="sc">-</span><span class="dv">1</span></span>
-<span id="cb117-5"><a href="#cb117-5" aria-hidden="true" tabindex="-1"></a>l <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">list</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>), p)</span>
-<span id="cb117-6"><a href="#cb117-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb117-7"><a href="#cb117-7" aria-hidden="true" tabindex="-1"></a>models<span class="ot">=</span><span class="fu">expand.grid</span>(l); <span class="fu">dim</span>(models)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "k=10 vars RushY PassY PuntA FGP TurnD PenY PerR ORY OPY RushDiff Wins CV Result 2.5"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select model k=9 vars</span></span>
+<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb124-4"><a href="#cb124-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="fu">ncol</span>(df)<span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb124-5"><a href="#cb124-5" aria-hidden="true" tabindex="-1"></a>l <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">list</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>), p)</span>
+<span id="cb124-6"><a href="#cb124-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-7"><a href="#cb124-7" aria-hidden="true" tabindex="-1"></a>models<span class="ot">=</span><span class="fu">expand.grid</span>(l); <span class="fu">dim</span>(models)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1024   10</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>cv<span class="ot">=</span>RMSE<span class="ot">=</span><span class="fu">c</span>()</span>
-<span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nrow</span>(models)){</span>
-<span id="cb119-3"><a href="#cb119-3" aria-hidden="true" tabindex="-1"></a>  reg<span class="ot">=</span>(<span class="dv">2</span><span class="sc">:</span>(p<span class="sc">+</span><span class="dv">1</span>))[models[i,]<span class="sc">==</span><span class="dv">1</span>]</span>
-<span id="cb119-4"><a href="#cb119-4" aria-hidden="true" tabindex="-1"></a>  vars<span class="ot">=</span><span class="fu">c</span>(<span class="fu">names</span>(df)[reg],<span class="st">'Wins'</span>)</span>
-<span id="cb119-5"><a href="#cb119-5" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">=</span> <span class="fu">train</span>(Wins<span class="sc">~</span>., <span class="at">data =</span> df[,vars], <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
-<span id="cb119-6"><a href="#cb119-6" aria-hidden="true" tabindex="-1"></a>  RMSE<span class="ot">=</span><span class="fu">c</span>(RMSE,model<span class="sc">$</span>results<span class="sc">$</span>RMSE)</span>
-<span id="cb119-7"><a href="#cb119-7" aria-hidden="true" tabindex="-1"></a>  cv<span class="ot">=</span><span class="fu">c</span>(cv,<span class="fu">list</span>(model))</span>
-<span id="cb119-8"><a href="#cb119-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># print(paste0("k=" ,k," vars ",paste(vars,collapse=' ')," CV Result ",</span></span>
-<span id="cb119-9"><a href="#cb119-9" aria-hidden="true" tabindex="-1"></a>               <span class="co"># round(model$results$RMSE,1),sep=""))</span></span>
-<span id="cb119-10"><a href="#cb119-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb119-11"><a href="#cb119-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb119-12"><a href="#cb119-12" aria-hidden="true" tabindex="-1"></a>bottom_10<span class="ot">=</span><span class="fu">order</span>(RMSE)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
-<span id="cb119-13"><a href="#cb119-13" aria-hidden="true" tabindex="-1"></a>RMSE[bottom_10]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>cv<span class="ot">=</span>RMSE<span class="ot">=</span><span class="fu">c</span>()</span>
+<span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nrow</span>(models)){</span>
+<span id="cb126-3"><a href="#cb126-3" aria-hidden="true" tabindex="-1"></a>  reg<span class="ot">=</span>(<span class="dv">2</span><span class="sc">:</span>(p<span class="sc">+</span><span class="dv">1</span>))[models[i,]<span class="sc">==</span><span class="dv">1</span>]</span>
+<span id="cb126-4"><a href="#cb126-4" aria-hidden="true" tabindex="-1"></a>  vars<span class="ot">=</span><span class="fu">c</span>(<span class="fu">names</span>(df)[reg],<span class="st">'Wins'</span>)</span>
+<span id="cb126-5"><a href="#cb126-5" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">=</span> <span class="fu">train</span>(Wins<span class="sc">~</span>., <span class="at">data =</span> df[,vars], <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
+<span id="cb126-6"><a href="#cb126-6" aria-hidden="true" tabindex="-1"></a>  RMSE<span class="ot">=</span><span class="fu">c</span>(RMSE,model<span class="sc">$</span>results<span class="sc">$</span>RMSE)</span>
+<span id="cb126-7"><a href="#cb126-7" aria-hidden="true" tabindex="-1"></a>  cv<span class="ot">=</span><span class="fu">c</span>(cv,<span class="fu">list</span>(model))</span>
+<span id="cb126-8"><a href="#cb126-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># print(paste0("k=" ,k," vars ",paste(vars,collapse=' ')," CV Result ",</span></span>
+<span id="cb126-9"><a href="#cb126-9" aria-hidden="true" tabindex="-1"></a>               <span class="co"># round(model$results$RMSE,1),sep=""))</span></span>
+<span id="cb126-10"><a href="#cb126-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading
+
+Warning in predict.lm(modelFit, newdata): prediction from a rank-deficient fit
+may be misleading</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>bottom_10<span class="ot">=</span><span class="fu">order</span>(RMSE)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>RMSE[bottom_10]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 1.514831 1.553680 1.561540 1.565194 1.604034 1.629024 1.634625 1.647743
  [9] 1.657872 1.658021</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sort</span>(RMSE))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">sort</span>(RMSE))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Unit_8_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<p><img src="Unit_8_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
-</div>
-<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>m<span class="ot">=</span><span class="fu">which.min</span>(RMSE)</span>
-<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>cv[<span class="fu">which.min</span>(RMSE)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a>m<span class="ot">=</span><span class="fu">which.min</span>(RMSE)</span>
+<span id="cb131-2"><a href="#cb131-2" aria-hidden="true" tabindex="-1"></a>cv[<span class="fu">which.min</span>(RMSE)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[1]]
 Linear Regression 
@@ -1685,20 +3561,20 @@ Resampling results:
 
 Tuning parameter 'intercept' was held constant at a value of TRUE</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>df[<span class="dv">1</span>,(<span class="dv">2</span><span class="sc">:</span>(p<span class="sc">+</span><span class="dv">1</span>))[<span class="fu">unlist</span>(models[m,])<span class="sc">==</span><span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>df[<span class="dv">1</span>,(<span class="dv">2</span><span class="sc">:</span>(p<span class="sc">+</span><span class="dv">1</span>))[<span class="fu">unlist</span>(models[m,])<span class="sc">==</span><span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  RushY PuntA PerR  OPY RushDiff
 1  2113  38.9 59.7 1917      -92</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">train</span>(Wins<span class="sc">~</span> PassY<span class="sc">+</span>PuntA<span class="sc">+</span>TurnD<span class="sc">+</span>PerR<span class="sc">++</span>OPY<span class="sc">+</span>RushDiff, <span class="at">data =</span> df, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
-<span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a>RMSE<span class="ot">=</span><span class="fu">c</span>(RMSE,model<span class="sc">$</span>results<span class="sc">$</span>RMSE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">=</span> <span class="fu">train</span>(Wins<span class="sc">~</span> PassY<span class="sc">+</span>PuntA<span class="sc">+</span>TurnD<span class="sc">+</span>PerR<span class="sc">++</span>OPY<span class="sc">+</span>RushDiff, <span class="at">data =</span> df, <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">trControl =</span> ctrl)</span>
+<span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>RMSE<span class="ot">=</span><span class="fu">c</span>(RMSE,model<span class="sc">$</span>results<span class="sc">$</span>RMSE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="homework-questions" class="level2" data-number="9.7">
 <h2 data-number="9.7" class="anchored" data-anchor-id="homework-questions"><span class="header-section-number">9.7</span> Homework questions</h2>
 <p>Complete the Chapter 10 questions from the textbook.</p>
 <div id="exr-8-6-1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 9.2</strong></span> Load car mileage data from <a href="Unit_2.html#exm-3-4-4" class="quarto-xref">Example&nbsp;<span>3.8</span></a> and run <span class="math inline">\(10\)</span>-fold cross validation on all subset models. Which model is the best?</p>
+<p><span class="theorem-title"><strong>Exercise 9.2 </strong></span>Load car mileage data from <a href="Unit_2.html#exm-3-4-4">Example&nbsp;<span>3.8</span></a> and run <span class="math inline">\(10\)</span>-fold cross validation on all subset models. Which model is the best?</p>
 </div>
 
 
@@ -1740,7 +3616,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const onCopySuccess = function(e) {
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1772,50 +3659,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
   });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+  function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
+      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1825,17 +3673,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start',
+      placement: 'bottom-start'
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1847,130 +3686,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
-        }
-        return container.innerHTML
-      } else {
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(note);
-        }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
-    }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
-        }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
+      return note.innerHTML;
     });
   }
       let selectedAnnoteEl;
@@ -2014,7 +3730,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
-            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -2040,32 +3755,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -2127,18 +3816,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Unit_7.html" class="pagination-link" aria-label="Multicollinearity">
+      <a href="./Unit_7.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Multicollinearity</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Unit_9.html" class="pagination-link" aria-label="Robust Regression">
+      <a href="./Unit_9.html" class="pagination-link">
         <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Robust Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-
 
 
 
