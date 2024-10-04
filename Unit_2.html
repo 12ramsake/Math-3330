@@ -1228,13 +1228,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>p.val<span class="ot">=</span><span class="dv">1</span><span class="sc">-</span><span class="fu">pf</span>(Fv,dfm,dfe)</span>
 <span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a><span class="co"># ANOVA Table:</span></span>
-<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>ANOVA_Table<span class="ot">=</span><span class="fu">rbind</span>(<span class="fu">c</span>(SSM,dfe,MSM,Fv,p.val),<span class="fu">c</span>(SSE,dfe,MSE,<span class="cn">NA</span>,<span class="cn">NA</span>),<span class="fu">c</span>(SST,n<span class="dv">-1</span>,<span class="cn">NA</span>,<span class="cn">NA</span>,<span class="cn">NA</span>))</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>ANOVA_Table<span class="ot">=</span><span class="fu">rbind</span>(<span class="fu">c</span>(SSM,dfm,MSM,Fv,p.val),<span class="fu">c</span>(SSE,dfe,MSE,<span class="cn">NA</span>,<span class="cn">NA</span>),<span class="fu">c</span>(SST,n<span class="dv">-1</span>,<span class="cn">NA</span>,<span class="cn">NA</span>,<span class="cn">NA</span>))</span>
 <span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(ANOVA_Table)<span class="ot">=</span><span class="fu">c</span>(<span class="st">"Model"</span>,<span class="st">"Error"</span>,<span class="st">"Total"</span>)</span>
 <span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ANOVA_Table)<span class="ot">=</span><span class="fu">c</span>(<span class="st">"SS"</span>,<span class="st">"df"</span>,<span class="st">"MS"</span>,<span class="st">"F"</span>,<span class="st">"p-value"</span>)</span>
 <span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>ANOVA_Table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             SS df        MS        F      p-value
-Model  843.3252 18 843.32521 16.97164 0.0006434484
+Model  843.3252  1 843.32521 16.97164 0.0006434484
 Error  894.4248 18  49.69027       NA           NA
 Total 1737.7500 19        NA       NA           NA</code></pre>
 </div>
