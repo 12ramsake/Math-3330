@@ -602,7 +602,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>s<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="at">x=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,<span class="at">size=</span><span class="dv">4</span>,<span class="at">replace=</span><span class="cn">TRUE</span>,<span class="at">prob=</span><span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">10</span>,<span class="dv">10</span>))</span>
 <span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2 2 1 1</code></pre>
+<pre><code>[1] 4 3 4 3</code></pre>
 </div>
 </div>
 <p>We have seen other people’s functions but we can also make our own! Let’s see an example first:</p>
@@ -648,8 +648,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co">#random sample of size 10</span></span>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>,<span class="at">mean=</span><span class="dv">0</span>,<span class="at">sd=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] -2.0017930  0.6442382 -1.2144763  1.2955410 -2.1222351  0.4077583
- [7]  0.1424779  2.0781422  0.1277775  0.6822203</code></pre>
+<pre><code> [1]  0.7696722  0.7504839 -1.5116324  0.2701139  1.3644550  0.1806749
+ [7] -0.1859879 -0.8584721 -0.3877546 -1.6698454</code></pre>
 </div>
 </div>
 </section>
@@ -682,19 +682,19 @@ Call:
 lm(formula = y ~ x)
 
 Residuals:
-    Min      1Q  Median      3Q     Max 
--2.6619 -0.5674 -0.1535  0.7027  2.0773 
+     Min       1Q   Median       3Q      Max 
+-2.41474 -0.68762  0.06502  0.61149  2.44299 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)   8.9809     0.1440   62.38   &lt;2e-16 ***
-x             2.0615     0.1211   17.02   &lt;2e-16 ***
+(Intercept)  9.03865    0.13754   65.72   &lt;2e-16 ***
+x            2.14222    0.08607   24.89   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 0.9041 on 98 degrees of freedom
-Multiple R-squared:  0.7473,    Adjusted R-squared:  0.7447 
-F-statistic: 289.8 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 1.016 on 98 degrees of freedom
+Multiple R-squared:  0.8634,    Adjusted R-squared:  0.862 
+F-statistic: 619.4 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(lmm<span class="sc">$</span>coefficients[<span class="dv">1</span>],lmm<span class="sc">$</span>coefficients[<span class="dv">2</span>],<span class="at">col=</span><span class="st">"red"</span>,<span class="at">lty=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -854,17 +854,17 @@ When the computer runs through the code, it checks if the boolean value is <code
 <div class="cell">
 <div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">replicate</span>(<span class="dv">5</span>,<span class="fu">rnorm</span>(<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             [,1]        [,2]       [,3]       [,4]       [,5]
- [1,]  1.12387469 -0.06177116 -1.4130689  1.5523089  0.5781394
- [2,]  0.36868270 -1.74353959 -0.7984585 -1.4758157 -0.9531949
- [3,] -0.76728768 -0.02171264  0.8487699  0.3864425  1.1948828
- [4,] -1.19899465  0.77966682 -1.0455665 -0.5230344  0.2394783
- [5,]  0.11166856 -0.06962456 -0.5852132 -0.9175004 -0.2992575
- [6,] -1.46100179 -0.37960165 -0.5084489  0.5284885 -0.4809219
- [7,] -0.33385099 -1.39906461 -1.6122643 -1.7927296  0.1476680
- [8,]  0.87140102  0.20548499  0.9543161  0.8460978  1.0784719
- [9,] -1.32875304  1.64877172 -0.1293828 -0.8000064 -0.1928355
-[10,] -0.02943134 -0.11656164  2.0898483 -0.6708520 -0.6021934</code></pre>
+<pre><code>            [,1]        [,2]       [,3]        [,4]        [,5]
+ [1,] -1.9406307  0.36437905  0.7202440 -0.42037783  1.21130598
+ [2,]  0.1220605  0.03689723  0.2916417  0.70132758  0.30620468
+ [3,] -1.0757809  0.01361953 -0.4810812 -1.15923800  0.50109617
+ [4,] -0.7545356 -0.45827625 -1.5752986  0.01442699 -1.19948417
+ [5,] -0.2518515  1.01714093  0.8557706 -1.41702191  1.03112405
+ [6,] -0.7522424 -0.10576226 -1.3815775 -0.52673568 -0.56621632
+ [7,]  0.1907012  0.75786670 -1.1280932  0.61342568 -0.25444525
+ [8,] -0.7280727  1.78746072 -0.4092245  0.36055801  0.18972902
+ [9,]  1.0862526 -0.22031929 -0.5564923  0.49589472 -0.09001596
+[10,]  0.4723108  0.34648842  0.4643945 -0.15510971 -2.11435611</code></pre>
 </div>
 </div>
 <p>Similar functions include <code>sapply()</code> and <code>apply()</code>. <code>sapply(X,FUN,...)</code> applies the function that the parameter <code>FUN</code> is set to to individual elements of a vector. <code>apply(X,MARGIN,FUN,...)</code> applies <code>FUN</code> to the rows or columns depending on what <code>MARGIN</code> is set to, 1 for rows and 2 for columns.</p>
@@ -901,7 +901,7 @@ When the computer runs through the code, it checks if the boolean value is <code
 <span id="cb131-6"><a href="#cb131-6" aria-hidden="true" tabindex="-1"></a>intervals[,<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    lower     upper 
-0.3628653 0.6618865 </code></pre>
+0.3779637 0.6652101 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co">#we now check each interval to see if it contains the mean</span></span>
 <span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a>successes<span class="ot">&lt;-</span><span class="dv">0</span></span>
@@ -914,7 +914,7 @@ When the computer runs through the code, it checks if the boolean value is <code
 <span id="cb133-9"><a href="#cb133-9" aria-hidden="true" tabindex="-1"></a>coverage.prob<span class="ot">&lt;-</span>successes<span class="sc">/</span><span class="fu">ncol</span>(intervals)</span>
 <span id="cb133-10"><a href="#cb133-10" aria-hidden="true" tabindex="-1"></a>coverage.prob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9837</code></pre>
+<pre><code>[1] 0.982</code></pre>
 </div>
 </div>
 <p>Something more advanced…</p>
