@@ -290,10 +290,11 @@ window.Quarto = {
   <ul>
   <li><a href="#variance-stabilizing-transformations" id="toc-variance-stabilizing-transformations" class="nav-link active" data-scroll-target="#variance-stabilizing-transformations"><span class="header-section-number">5.1</span> Variance-stabilizing transformations</a>
   <ul class="collapse">
-  <li><a href="#linearizing-the-model" id="toc-linearizing-the-model" class="nav-link" data-scroll-target="#linearizing-the-model"><span class="header-section-number">5.1.1</span> Linearizing the model</a></li>
-  <li><a href="#box-cox-transformations" id="toc-box-cox-transformations" class="nav-link" data-scroll-target="#box-cox-transformations"><span class="header-section-number">5.1.2</span> Box Cox Transformations</a></li>
-  <li><a href="#homework-stop" id="toc-homework-stop" class="nav-link" data-scroll-target="#homework-stop"><span class="header-section-number">5.1.3</span> Homework stop</a></li>
+  <li><a href="#inverse-transformations" id="toc-inverse-transformations" class="nav-link" data-scroll-target="#inverse-transformations"><span class="header-section-number">5.1.1</span> Inverse transformations</a></li>
   </ul></li>
+  <li><a href="#linearizing-the-model" id="toc-linearizing-the-model" class="nav-link" data-scroll-target="#linearizing-the-model"><span class="header-section-number">5.2</span> Linearizing the model</a></li>
+  <li><a href="#box-cox-transformations" id="toc-box-cox-transformations" class="nav-link" data-scroll-target="#box-cox-transformations"><span class="header-section-number">5.3</span> Box Cox Transformations</a></li>
+  <li><a href="#homework-stop" id="toc-homework-stop" class="nav-link" data-scroll-target="#homework-stop"><span class="header-section-number">5.4</span> Homework stop</a></li>
   </ul>
 </nav>
     </div>
@@ -491,6 +492,8 @@ Caution
 <p>It is often necessary to convert any predicted values back to the original units. Applying the inverse transformation to predicted values gives an estimate of the median of the distribution of the (untransformed) response – instead of the mean. This implies that predictions are generally biased. Prediction and confidence intervals do not suffer this illness. They can be converted back to the original units via the inverse transformation and the interpretation will remain the same.</p>
 </div>
 </div>
+<section id="inverse-transformations" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="inverse-transformations"><span class="header-section-number">5.1.1</span> Inverse transformations</h3>
 <p>Let’s expand on this. It is a good time to recall that in general, for a real function <span class="math inline">\(f\)</span>, we have that <span class="math inline">\({\textrm{E}}\left[f(X)\right]\neq f({\textrm{E}}\left[X\right])\)</span>. For instance, for many random variables <span class="math inline">\(Z\)</span>, we would have that <span class="math inline">\({\textrm{E}}\left[Z^2\right]\neq {\textrm{E}}\left[Z\right]^2\)</span>, <span class="math inline">\({\textrm{E}}\left[\log Z\right]\neq \log {\textrm{E}}\left[Z\right]\)</span> etc. .</p>
 <p>In a transformed regression model, we fit the following model: <span class="math display">\[f(Y)=X\beta+\epsilon.\]</span> If we are interested in predicting the value of <span class="math inline">\(Y\)</span> given <span class="math inline">\(z\)</span>, then it seems natural to take the predictions for <span class="math inline">\(f(Y)\)</span> given <span class="math inline">\(z\)</span>, which are given by <span class="math inline">\(\beta^\top z\)</span> and apply the inverse transformation <span class="math inline">\(f^{-1}\)</span>. For instance, to predict <span class="math inline">\(Y|Z=z\)</span>, we may compute: <span class="math inline">\(f^{-1}(\beta^\top z)\)</span>. It turns out, this prediction is biased, and we should use a different method instead.</p>
 <p>To see why it’s biased, observe that the predictions from the model <span class="math inline">\(f(Y)=X\beta+\epsilon\)</span> for a new set of covariates <span class="math inline">\(z\)</span> are given by <span class="math inline">\(\hat f(Y)=\hat\beta^\top z\approx{\textrm{E}}\left[f(Y)|Z=z\right]\)</span>. Now, we have that <span class="math display">\[f^{-1}(\hat\beta^\top z)\approx f^{-1}({\textrm{E}}\left[f(Y)|Z=z\right])\neq {\textrm{E}}\left[f^{-1}(f(Y))|Z=z\right]= {\textrm{E}}\left[\hat f(Y)|Z=z\right].\]</span></p>
@@ -1142,8 +1145,10 @@ F-statistic: 56.74 on 1 and 51 DF,  p-value: 7.862e-10</code></pre>
 </div>
 </div>
 </div>
-<section id="linearizing-the-model" class="level3" data-number="5.1.1">
-<h3 data-number="5.1.1" class="anchored" data-anchor-id="linearizing-the-model"><span class="header-section-number">5.1.1</span> Linearizing the model</h3>
+</section>
+</section>
+<section id="linearizing-the-model" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="linearizing-the-model"><span class="header-section-number">5.2</span> Linearizing the model</h2>
 <p>Moving on, we may suspect that the relationship between the regressors and the response is nonlinear, either through empirical evidence or theoretical justification. In some cases a nonlinear function can be linearized by using a suitable transformation. Such nonlinear models are called intrinsically linear. For example, consider the model <span class="math inline">\(Y=\beta_0e^{\beta_1 X}\epsilon\)</span>. Taking the log of both sides yields: <span class="math display">\[\log(Y)=\log(\beta_0)+\beta_1 X+\log(\epsilon).\]</span> Reparameterizing with <span class="math inline">\(Z=\log(Y)\)</span>, <span class="math inline">\(\alpha_0=\log(\beta_0)\)</span> and <span class="math inline">\(\eta=\log(\epsilon)\)</span>, we have that<br>
 <span class="math display">\[Z=\alpha_0+\beta_1 X+\eta.\]</span> If we are willing to assume that <span class="math inline">\(\eta\)</span> are symmetric about 0 with a constant variance, then we can run a linear regression with the model given above. To get estimates for the original units <span class="math inline">\(Y\)</span>, we can transform back as previously discussed. A model is linearizable if there exists some reparameterization which places the model in the form of the MLR.</p>
 <div id="exr-5-2-1" class="theorem exercise">
@@ -1334,8 +1339,8 @@ F-statistic:  1128 on 1 and 23 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
-<section id="box-cox-transformations" class="level3" data-number="5.1.2">
-<h3 data-number="5.1.2" class="anchored" data-anchor-id="box-cox-transformations"><span class="header-section-number">5.1.2</span> Box Cox Transformations</h3>
+<section id="box-cox-transformations" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="box-cox-transformations"><span class="header-section-number">5.3</span> Box Cox Transformations</h2>
 <p>One technique is to use the data to estimate which transformation is best, a popular instance is the Box-Cox transformation. Consider the class of transformations: <span class="math inline">\(\{y^\lambda\colon \lambda\in\mathbb{R}\}\)</span>. The regression model and <span class="math inline">\(\lambda\)</span> can be estimated simultaneously using the method of maximum likelihood. Recall that we used the method of least squares to estimate the model parameters - maximum likelihood is an alternative estimation strategy. Think of <span class="math inline">\(\lambda\)</span> like an extra model parameter, on top of <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\sigma\)</span> that we need to estimate.</p>
 <p>Let <span class="math display">\[\begin{align*}
     \tilde y&amp;=\log^{-1}(1/n\sum_{i=1}^n\log y_i)\\
@@ -1485,9 +1490,9 @@ F-statistic: 489.7 on 1 and 23 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bc</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="homework-stop" class="level3" data-number="5.1.3">
-<h3 data-number="5.1.3" class="anchored" data-anchor-id="homework-stop"><span class="header-section-number">5.1.3</span> Homework stop</h3>
-<p>Complete the assigned Chapter 5 questions.</p>
+<section id="homework-stop" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="homework-stop"><span class="header-section-number">5.4</span> Homework stop</h2>
+<p>Complete the assigned Chapter 5 questions and complete assignment 2.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -1495,7 +1500,6 @@ F-statistic: 489.7 on 1 and 23 DF,  p-value: &lt; 2.2e-16</code></pre>
 Miller, Don M. 1984. <span>“Reducing Transformation Bias in Curve Fitting.”</span> <em>The American Statistician</em> 38 (2): 124–26. <a href="http://www.jstor.org/stable/2683247">http://www.jstor.org/stable/2683247</a>.
 </div>
 </div>
-</section>
 </section>
 
 </main> <!-- /main -->
