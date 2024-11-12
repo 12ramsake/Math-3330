@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.5.53">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Math 3330: Regression Notes - 5&nbsp; Transformations</title>
+<title>5&nbsp; Transformations – Math 3330: Regression Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -58,6 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -100,7 +101,13 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -109,13 +116,42 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -125,12 +161,12 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Unit_4.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transformations</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Unit_4.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transformations</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -140,7 +176,7 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Math 3330: Regression Notes</a> 
@@ -227,9 +263,9 @@ div.csl-indent {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -245,7 +281,7 @@ div.csl-indent {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -280,7 +316,9 @@ div.csl-indent {
   </div>
   
 
+
 </header>
+
 
 <section id="variance-stabilizing-transformations" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="variance-stabilizing-transformations"><span class="header-section-number">5.1</span> Variance-stabilizing transformations</h2>
@@ -299,7 +337,11 @@ div.csl-indent {
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>Y<span class="ot">=</span><span class="dv">20</span><span class="sc">*</span><span class="fu">rpois</span>(n,X)<span class="sc">+</span><span class="dv">2</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X,Y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-1-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -330,7 +372,11 @@ F-statistic: 580.9 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice the fan shape in the residuals against the fitted values?</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model<span class="sc">$</span>fitted.values,model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's perform the transformations</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -338,13 +384,21 @@ F-statistic: 580.9 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model2<span class="sc">$</span>fitted.values,model2<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-2-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-2-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>model2<span class="ot">=</span><span class="fu">lm</span>(<span class="fu">log</span>(Y)<span class="sc">~</span>X)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model2<span class="sc">$</span>fitted.values,model2<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-2-3.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-2-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>However, these transformations do not always work. Suppose we have that <span class="math inline">\(Y\sim\mathcal{N}(X,4*X^2).\)</span> We then have that <span class="math inline">\(\sigma=2*X=2*{\textrm{E}}\left[Y|X\right]\)</span>. Notice how the spread of the points is increasing with <span class="math inline">\(X\)</span>? This is a symptom of non-homogeneous variance. However, the proposed transformations do not work.</p>
@@ -355,7 +409,11 @@ F-statistic: 580.9 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X,Y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-3-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Performing a regression analysis yields: </span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>model<span class="ot">=</span><span class="fu">lm</span>(Y<span class="sc">~</span>X)</span>
@@ -385,7 +443,11 @@ F-statistic: 3.867 on 1 and 998 DF,  p-value: 0.04953</code></pre>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice the fan shape in the residuals against the fitted values?</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model<span class="sc">$</span>fitted.values,model<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-3-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-3-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's perform the transformation</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -397,7 +459,11 @@ F-statistic: 3.867 on 1 and 998 DF,  p-value: 0.04953</code></pre>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice the fan shape in the residuals against the fitted values?</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model2<span class="sc">$</span>fitted.values,model2<span class="sc">$</span>residuals)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-3-3.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-3-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Performing a regression analysis yields: </span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>model2<span class="ot">=</span><span class="fu">lm</span>(<span class="fu">log</span>(Y<span class="sc">+</span><span class="dv">3000</span>)<span class="sc">~</span>X)</span>
@@ -405,7 +471,11 @@ F-statistic: 3.867 on 1 and 998 DF,  p-value: 0.04953</code></pre>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice the fan shape in the residuals against the fitted values?</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model2<span class="sc">$</span>fitted.values,model2<span class="sc">$</span>residuals,<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-3-4.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-3-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>In general, a good transformation to correct violated assumptions can improve estimates and test accuracy.</p>
@@ -430,7 +500,7 @@ Caution
 <p>The solution to this problem is to adjust for the bias. For the log transform, we can multiply the resulting inverse transformed predictions by <span class="math inline">\(\exp(\hat\sigma^2/2)\)</span>. For the square root transformation, we add <span class="math inline">\(\hat\sigma^2\)</span> to the resulting inverse transformed predictions. See <span class="citation" data-cites="Miller1984">(<a href="references.html#ref-Miller1984" role="doc-biblioref">Miller 1984</a>)</span> for more information.</p>
 <p>One can also use confidence and prediction intervals to predict the value of <span class="math inline">\(Y\)</span> given <span class="math inline">\(z\)</span>. Confidence or prediction intervals may be directly converted from one metric to another – such interval estimates are percentiles of a distribution which are unaffected by the transformation. They can be converted back to the original units via the inverse transformation and the interpretation will remain the same. Optimal intervals are intervals with the shortest average interval length for a given confidence level, under a given set of assumptions. However, it may be that the resulting intervals may not be “optimal”. One way to get a prediction in the original units, is to apply the inverse transformation to the prediction interval computed from the transformed model and take the midpoint of that interval. This does not always work well - and should be checked against the original data.</p>
 <div id="exm-5-1-1" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.1 </strong></span>Let’s simulate what happens when, given the day <span class="math inline">\(t\in [100]\)</span>, we try to estimate the mean stock price <span class="math inline">\(P_t\)</span> for some stock (maybe ?Gamestop?) in a model which regresses the logged rate of return against the day. Note that the logged returns at time <span class="math inline">\(t\)</span> are given by: <span class="math inline">\(L=\log\left(\frac{P_t}{P_{t-1}}\right)\)</span>.</p>
+<p><span class="theorem-title"><strong>Example 5.1</strong></span> Let’s simulate what happens when, given the day <span class="math inline">\(t\in [100]\)</span>, we try to estimate the mean stock price <span class="math inline">\(P_t\)</span> for some stock (maybe ?Gamestop?) in a model which regresses the logged rate of return against the day. Note that the logged returns at time <span class="math inline">\(t\)</span> are given by: <span class="math inline">\(L=\log\left(\frac{P_t}{P_{t-1}}\right)\)</span>.</p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2352</span>)</span>
@@ -444,7 +514,11 @@ Caution
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">c</span>(<span class="dv">0</span>,day), stock_prices,<span class="at">type=</span><span class="st">'l'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-4-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -465,7 +539,11 @@ Caution
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice that the pattern is not great... but we can regress on the transformed response</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-6-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fitting the model </span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -518,7 +596,11 @@ F-statistic: 0.05506 on 1 and 98 DF,  p-value: 0.815</code></pre>
 <span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>,<span class="at">legend=</span><span class="fu">c</span>(<span class="st">"obs. rolling avg"</span>,<span class="st">"inverse predictions"</span>,<span class="st">"Pred int 95%"</span>,<span class="st">"Bias Correct"</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="at">col=</span><span class="fu">c</span>(<span class="st">'black'</span>,<span class="st">'red'</span>,<span class="st">'green'</span>),<span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-6-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-6-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>A second example…</p>
@@ -565,7 +647,11 @@ F-statistic:  50.5 on 1 and 98 DF,  p-value: 1.937e-10</code></pre>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>zb<span class="ot">=</span>zoo<span class="sc">::</span><span class="fu">zoo</span>(<span class="at">x=</span>df<span class="sc">$</span>Y,df<span class="sc">$</span>X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-7-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>rm<span class="ot">=</span>zoo<span class="sc">::</span><span class="fu">rollmean</span>(zb,<span class="dv">25</span>)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -607,7 +693,11 @@ F-statistic:  50.5 on 1 and 98 DF,  p-value: 1.937e-10</code></pre>
 <span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>,<span class="at">legend=</span><span class="fu">c</span>(<span class="st">"obs. rolling avg"</span>,<span class="st">"inverse predictions"</span>,<span class="st">"Pred int 95%"</span>,<span class="st">"Pred int 80%"</span>,<span class="st">"Bias cor."</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">2</span>),<span class="at">col=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">7</span>,<span class="dv">6</span>),<span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-7-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-7-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -621,7 +711,11 @@ F-statistic:  50.5 on 1 and 98 DF,  p-value: 1.937e-10</code></pre>
 <span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>Y<span class="ot">=</span>sq<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(X,Y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-8-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="st">"X"</span><span class="ot">=</span>X,<span class="st">"Y"</span><span class="ot">=</span>Y))</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>df<span class="ot">=</span>df[<span class="fu">order</span>(X),]</span>
@@ -675,7 +769,11 @@ F-statistic:  1148 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">attributes</span>(rm)<span class="sc">$</span>index,rm,<span class="at">col=</span><span class="dv">3</span>,<span class="at">lty=</span><span class="dv">3</span>,<span class="at">lwd=</span><span class="dv">3</span>)</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>,<span class="at">legend=</span><span class="fu">c</span>(<span class="st">"obs. rolling avg"</span>,<span class="st">"inverse predictions"</span>,<span class="st">"Pred int 95%"</span>,<span class="st">"Bias Core."</span>), <span class="at">lty=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">2</span>),<span class="at">col=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>),<span class="at">lwd=</span><span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-8-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-8-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We see that the bias correction is the best performing method. However, this involves working out the bias for each transformation. For a complicated transformation, this may be quite difficult. For common transformations, this has already been completed for us.</p>
@@ -710,7 +808,7 @@ F-statistic:  1148 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 <!-- ``` -->
 <p>Let’s do an example with some real data. The following example is taken from the textbook:</p>
 <div id="exm-5-1-2" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.2 </strong></span>An electric utility is interested in developing a model relating peak - hour demand <span class="math inline">\(Y\)</span> to total energy usage during the month <span class="math inline">\(X\)</span>. This is an important planning problem because while most customers pay directly for energy usage (in kilowatt - hours), the generation system must be large enough to meet the maximum demand imposed. Data for 53 residential customers for the month of August is given below.</p>
+<p><span class="theorem-title"><strong>Example 5.2</strong></span> An electric utility is interested in developing a model relating peak - hour demand <span class="math inline">\(Y\)</span> to total energy usage during the month <span class="math inline">\(X\)</span>. This is an important planning problem because while most customers pay directly for energy usage (in kilowatt - hours), the generation system must be large enough to meet the maximum demand imposed. Data for 53 residential customers for the month of August is given below.</p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Electric Utility Data</span></span>
@@ -787,7 +885,11 @@ F-statistic:  1148 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df[,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-9-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -801,7 +903,11 @@ F-statistic:  1148 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-9-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-9-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model </span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -844,16 +950,28 @@ F-statistic: 121.7 on 1 and 51 DF,  p-value: 4.106e-15</code></pre>
 <span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(student_res,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
 <span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-9-3.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-9-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(student_res,<span class="at">breaks=</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-9-4.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-9-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model<span class="sc">$</span>fitted.values,student_res,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-9-5.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-9-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We see that the residual variance increases with the mean of <span class="math inline">\(Y\)</span>. This is easily seen by the fan shape of the residuals in the plot of the residuals against the fitted values.</p>
@@ -897,26 +1015,46 @@ F-statistic: 94.08 on 1 and 51 DF,  p-value: 3.614e-13</code></pre>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(student_res2,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
 <span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-10-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(student_res2,<span class="at">breaks=</span><span class="dv">10</span>,<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-10-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-10-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(student_res2[<span class="sc">-</span><span class="fu">which.max</span>(<span class="fu">abs</span>(student_res2))],<span class="at">breaks=</span><span class="dv">10</span>,<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-10-3.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-10-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model2<span class="sc">$</span>fitted.values,student_res2,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-10-4.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-10-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># There is one large outlier skewing the previous plot. Let's rescale and remove. </span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model2<span class="sc">$</span>fitted.values,student_res2,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>))</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-10-5.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-10-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare!</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
@@ -925,7 +1063,11 @@ F-statistic: 94.08 on 1 and 51 DF,  p-value: 3.614e-13</code></pre>
 <span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model2<span class="sc">$</span>fitted.values,student_res2,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>))</span>
 <span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/5-10-6.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/5-10-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We see that the transformation has solved the problem. Note that sometimes, even though the square-root transformation may be more suitable, the analyst may opt for the logarithm transform. This is because the log transformation gives a nicer interpretation to the coefficients. In this case, that is not working well, see below:</p>
@@ -971,20 +1113,36 @@ F-statistic: 56.74 on 1 and 51 DF,  p-value: 7.862e-10</code></pre>
 <span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(student_res3,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
 <span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(student_res3,<span class="at">breaks=</span><span class="dv">10</span>,<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(student_res3[<span class="sc">-</span><span class="fu">which.max</span>(<span class="fu">abs</span>(student_res3))],<span class="at">breaks=</span><span class="dv">10</span>,<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-1-3.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-1-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model3<span class="sc">$</span>fitted.values,student_res3,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">3</span>))</span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-1-4.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-1-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -994,10 +1152,10 @@ F-statistic: 56.74 on 1 and 51 DF,  p-value: 7.862e-10</code></pre>
 <p>Moving on, we may suspect that the relationship between the regressors and the response is nonlinear, either through empirical evidence or theoretical justification. In some cases a nonlinear function can be linearized by using a suitable transformation. Such nonlinear models are called intrinsically linear. For example, consider the model <span class="math inline">\(Y=\beta_0e^{\beta_1 X}\epsilon\)</span>. Taking the log of both sides yields: <span class="math display">\[\log(Y)=\log(\beta_0)+\beta_1 X+\log(\epsilon).\]</span> Reparameterizing with <span class="math inline">\(Z=\log(Y)\)</span>, <span class="math inline">\(\alpha_0=\log(\beta_0)\)</span> and <span class="math inline">\(\eta=\log(\epsilon)\)</span>, we have that<br>
 <span class="math display">\[Z=\alpha_0+\beta_1 X+\eta.\]</span> If we are willing to assume that <span class="math inline">\(\eta\)</span> are symmetric about 0 with a constant variance, then we can run a linear regression with the model given above. To get estimates for the original units <span class="math inline">\(Y\)</span>, we can transform back as previously discussed. A model is linearizable if there exists some reparameterization which places the model in the form of the MLR.</p>
 <div id="exr-5-2-1" class="theorem exercise">
-<p><span class="theorem-title"><strong>Exercise 5.1 </strong></span>Show the following models are linearizable - that is, find the linear reparameterization of the following models: 1. <span class="math inline">\(Y=\beta_0 X^\beta_1\)</span> 2. <span class="math inline">\(Y=\beta_0 X^{\beta_1X}\)</span> 3. <span class="math inline">\(Y=\beta_0+ \log X\)</span> 4. <span class="math inline">\(Y=X/(\beta_0 X-\beta_1)\)</span></p>
+<p><span class="theorem-title"><strong>Exercise 5.1</strong></span> Show the following models are linearizable - that is, find the linear reparameterization of the following models: 1. <span class="math inline">\(Y=\beta_0 X^\beta_1\)</span> 2. <span class="math inline">\(Y=\beta_0 X^{\beta_1X}\)</span> 3. <span class="math inline">\(Y=\beta_0+ \log X\)</span> 4. <span class="math inline">\(Y=X/(\beta_0 X-\beta_1)\)</span></p>
 </div>
 <div id="exm-5-2-1" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.3 </strong></span>A research engineer is investigating the use of a windmill to generate electricity. He has collected data on the DC output from his windmill and the corresponding wind velocity. See below. Find a well-fitting regression model for this data.</p>
+<p><span class="theorem-title"><strong>Example 5.3</strong></span> A research engineer is investigating the use of a windmill to generate electricity. He has collected data on the DC output from his windmill and the corresponding wind velocity. See below. Find a well-fitting regression model for this data.</p>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="do">########### Windmill data</span></span>
@@ -1021,7 +1179,11 @@ F-statistic: 56.74 on 1 and 51 DF,  p-value: 7.862e-10</code></pre>
 <span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
 <span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df_wind)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df_wind)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1035,7 +1197,11 @@ F-statistic: 56.74 on 1 and 51 DF,  p-value: 7.862e-10</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df_wind,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>model<span class="ot">=</span><span class="fu">lm</span>(DCOutput<span class="sc">~</span>WindVelocity_mph, df_wind)</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1075,23 +1241,39 @@ F-statistic: 160.3 on 1 and 23 DF,  p-value: 7.546e-12</code></pre>
 <span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(student_res,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
 <span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-2-3.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-2-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(student_res,<span class="at">breaks=</span><span class="dv">10</span>,<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-2-4.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-2-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model<span class="sc">$</span>fitted.values,student_res,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-2-5.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-2-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The fit is not good. Looking at the scatterplot, we might initially consider using a quadratic model to account for the pictured curvature. However, the scatterplot suggests that as wind speed increases, DC output approaches an upper limit of approximately 2.5. This is also consistent with the theory of windmill operation. Since the quadratic model will eventually bend downward as wind speed increases, it would not be appropriate for these data. A more reasonable model for the windmill data that incorporates an upper asymptote would be based on <span class="math inline">\(1/X\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df_wind<span class="sc">$</span>DCOutput,<span class="dv">1</span><span class="sc">/</span>df_wind<span class="sc">$</span>WindVelocity_mph,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(df$DCOutput,log(df$WindVelocity_mph))</span></span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>df_wind<span class="sc">$</span>WindVelocity_mph_inv<span class="ot">=</span><span class="dv">1</span><span class="sc">/</span>df_wind<span class="sc">$</span>WindVelocity_mph</span>
@@ -1132,16 +1314,28 @@ F-statistic:  1128 on 1 and 23 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(student_res,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
 <span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(student_res,<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model2<span class="sc">$</span>fitted.values,student_res,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>))</span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-3-4.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-3-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1159,7 +1353,7 @@ F-statistic:  1128 on 1 and 23 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>We then fit the following model <span class="math display">\[y_\lambda=X\beta+\epsilon.\]</span></p>
 <p>Even though <span class="math inline">\(y^\lambda \neq y_\lambda\)</span>, we use <span class="math inline">\(y^\lambda\)</span> (or <span class="math inline">\(\log y\)</span> if <span class="math inline">\(\lambda=0\)</span>) as the final response - as it is more interpretable. It is entirely acceptable to use <span class="math inline">\(y_\lambda\)</span> as the response for the final model - this model will have a scale difference and an origin shift in comparison to the model using <span class="math inline">\(y^\lambda\)</span> (or <span class="math inline">\(\log y\)</span>). Usually the final <span class="math inline">\(\lambda\)</span> used in the model is rounded to a nice number for interpretation. A computational procedure is used for estimating <span class="math inline">\(\lambda\)</span>, which we will not cover here. In general, we can compute a confidence interval for <span class="math inline">\(\lambda\)</span>, and if it contains 1 then we may not need to transform.</p>
 <div id="exm-5-3-1" class="theorem example">
-<p><span class="theorem-title"><strong>Example 5.4 </strong></span>Let’s apply the Box-Cox transformation to the two previous examples.</p>
+<p><span class="theorem-title"><strong>Example 5.4</strong></span> Let’s apply the Box-Cox transformation to the two previous examples.</p>
 </div>
 <p>The R function <code>boxcox</code> from the <code>MASS</code> package can be used to execute the Box-Cox transformation. It requires you to specify a grid of points for <span class="math inline">\(\lambda\)</span>, given below by <code>seq(-2, 2, 1/10)</code>. We can set the <code>plotit</code> parameter to <code>TRUE</code> in order to see if this grid is big enough. We should see a peak or mode in the log-likelihood function that is plotted. If we don’t, we can expand the grid on the side which has the largest value of the log-likelihood. Observe below that we need to include points higher than 2 on the grid, as the function is still increasing for at <span class="math inline">\(\lambda=2\)</span>:</p>
 <div class="cell">
@@ -1173,7 +1367,11 @@ F-statistic:  1128 on 1 and 23 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="fu">expression</span>(lambda), </span>
 <span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylab =</span> <span class="st">"log-Likelihood"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bc</span></span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1186,7 +1384,11 @@ F-statistic:  1128 on 1 and 23 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">xlab =</span> <span class="fu">expression</span>(lambda), </span>
 <span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">ylab =</span> <span class="st">"log-Likelihood"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bc</span></span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1229,23 +1431,39 @@ F-statistic: 489.7 on 1 and 23 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df_wind<span class="sc">$</span>WindVelocity_mph,df_wind<span class="sc">$</span>DCOutput<span class="sc">^</span><span class="dv">2</span>,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>student_res<span class="ot">=</span><span class="fu">rstudent</span>(model3)</span>
 <span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>MSE<span class="ot">=</span>summ3<span class="sc">$</span>sigma<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(student_res,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>)</span>
 <span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>,<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(student_res,<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(model3<span class="sc">$</span>fitted.values,student_res,<span class="at">pch=</span><span class="dv">22</span>,<span class="at">bg=</span><span class="dv">1</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>))</span>
 <span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The fit is not bad. The <span class="math inline">\(R^2\)</span> is very high. There is a pattern in the QQplot and a slight pattern in the residuals plot. For knowing nothing about wind velocity, it is not bad.</p>
@@ -1263,7 +1481,11 @@ F-statistic: 489.7 on 1 and 23 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span id="cb95-10"><a href="#cb95-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">ylab =</span> <span class="st">"log-Likelihood"</span>) </span>
 <span id="cb95-11"><a href="#cb95-11" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Unit_4_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="Unit_4_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 <div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bc</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1273,7 +1495,7 @@ F-statistic: 489.7 on 1 and 23 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Complete the assigned Chapter 5 questions and complete assignment 2.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-Miller1984" class="csl-entry" role="listitem">
 Miller, Don M. 1984. <span>“Reducing Transformation Bias in Curve Fitting.”</span> <em>The American Statistician</em> 38 (2): 124–26. <a href="http://www.jstor.org/stable/2683247">http://www.jstor.org/stable/2683247</a>.
 </div>
@@ -1316,18 +1538,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1359,11 +1570,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1373,8 +1623,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1386,7 +1645,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1430,6 +1812,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1455,6 +1838,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1516,17 +1925,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Unit_3.html" class="pagination-link">
+      <a href="./Unit_3.html" class="pagination-link" aria-label="Residual analysis">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Residual analysis</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Unit_5.html" class="pagination-link">
+      <a href="./Unit_5.html" class="pagination-link" aria-label="Indicator Variables">
         <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Indicator Variables</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 
